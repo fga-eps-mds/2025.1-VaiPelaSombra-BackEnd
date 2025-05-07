@@ -49,7 +49,6 @@ const router = Router();
  *         updatedAt: 2023-05-01T10:00:00Z
  */
 
-
 /**
  * @swagger
  * /users:
@@ -60,7 +59,6 @@ const router = Router();
  *         description: A list of users
  */
 router.get('/', (req, res) => UserController.getAllUsers(req, res));
-
 
 /**
  * @swagger
@@ -142,7 +140,6 @@ router.get('/', (req, res) => UserController.getAllUsers(req, res));
  */
 router.get('/:id', (req, res) => UserController.getUserById(req, res));
 
-
 /**
  * @swagger
  * /users:
@@ -193,7 +190,6 @@ router.post('/', (req, res) => UserController.createUser(req, res));
  *               $ref: '#/components/schemas/User'
  */
 router.put('/:id', (req, res) => UserController.updateUser(req, res));
-
 
 /**
  * @swagger

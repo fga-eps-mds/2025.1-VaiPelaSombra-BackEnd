@@ -19,35 +19,35 @@ export const UserController = {
 
   createUser: (req: Request, res: Response): void => {
     const { name, email, age } = req.body;
-    
+
     if (!name || !email) {
       res.status(400).json({ message: 'Name and email are required' });
       return;
     }
-    
+
     const newUser = UserService.createUser({ name, email, age });
     res.status(201).json(newUser);
   },
 
   updateUser: (req: Request, res: Response): void => {
     const updatedUser = UserService.updateUser(req.params.id, req.body);
-    
+
     if (!updatedUser) {
       res.status(404).json({ message: 'User not found' });
       return;
     }
-    
+
     res.json(updatedUser);
   },
 
   deleteUser: (req: Request, res: Response): void => {
     const isDeleted = UserService.deleteUser(req.params.id);
-    
+
     if (!isDeleted) {
       res.status(404).json({ message: 'User not found' });
       return;
     }
-    
+
     res.status(204).send();
-  }
+  },
 };
