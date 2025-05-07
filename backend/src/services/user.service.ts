@@ -26,7 +26,7 @@ export const UserService = {
 
   getUserById: (id: string): User | undefined => {
     const users = readUsers();
-    return users.find(user => user.id === id);
+    return users.find((user) => user.id === id);
   },
 
   createUser: (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): User => {
@@ -35,7 +35,7 @@ export const UserService = {
       ...userData,
       id: Date.now().toString(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
     users.push(newUser);
     writeUsers(users);
@@ -44,16 +44,16 @@ export const UserService = {
 
   updateUser: (id: string, updateData: Partial<Omit<User, 'id'>>): User | undefined => {
     const users = readUsers();
-    const userIndex = users.findIndex(user => user.id === id);
-    
+    const userIndex = users.findIndex((user) => user.id === id);
+
     if (userIndex === -1) return undefined;
-    
+
     const updatedUser = {
       ...users[userIndex],
       ...updateData,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
-    
+
     users[userIndex] = updatedUser;
     writeUsers(users);
     return updatedUser;
@@ -62,11 +62,11 @@ export const UserService = {
   deleteUser: (id: string): boolean => {
     const users = readUsers();
     const initialLength = users.length;
-    const filteredUsers = users.filter(user => user.id !== id);
-    
+    const filteredUsers = users.filter((user) => user.id !== id);
+
     if (filteredUsers.length === initialLength) return false;
-    
+
     writeUsers(filteredUsers);
     return true;
-  }
+  },
 };

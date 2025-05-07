@@ -35,5 +35,4 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/example', exampleRouter);
 app.use('/users', userRouter);
 
-
 export default app;
