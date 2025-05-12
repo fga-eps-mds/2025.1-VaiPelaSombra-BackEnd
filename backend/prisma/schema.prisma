@@ -13,3 +13,5 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// TODO: CRIAR OS MODELOS AQUI TAMBÉM
