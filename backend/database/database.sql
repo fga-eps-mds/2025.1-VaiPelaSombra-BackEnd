@@ -2,7 +2,7 @@ CREATE DATABASE vai_pela_sombra;
 \c vai_pela_sombra
 
 -- TABELAS AUXILIARES
-
+-- TODO: Remodelar a tabela para a issue #13 Adicionar Interesses e Preferências de Usuário
 CREATE TABLE preferenciasViagem (
   idPreferenciasViagem SERIAL PRIMARY KEY,
   preferenciasViagem VARCHAR(100) NOT NULL
