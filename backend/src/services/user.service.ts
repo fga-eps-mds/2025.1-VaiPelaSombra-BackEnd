@@ -1,75 +1,47 @@
+import { PrismaClient } from '@prisma/client';
 import { User } from '../models/user.model';
-import fs from 'fs';
-import path from 'path';
 
-
-// TO DO: alterar a logica deste arquivo para em vez de utilizar o fs, utilizar um banco de dados no postgreSQL com prisma
-// 
-const dataPath = path.join(__dirname, '../../src/data/users.json');
-
-// Helper function to read users
-const readUsers = (): User[] => {
-  try {
-    const data = fs.readFileSync(dataPath, 'utf-8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-};
-
-// Helper function to write users
-const writeUsers = (users: User[]) => {
-  fs.writeFileSync(dataPath, JSON.stringify(users, null, 2), 'utf-8');
-};
+const prisma = new PrismaClient();
 
 export const UserService = {
-  getAllUsers: (): User[] => {
-    return readUsers();
+  getAllUsers: async (): Promise<User[]> => {
+    return await prisma.user.findMany() as User[];
   },
 
-  getUserById: (id: string): User | undefined => {
-    const users = readUsers();
-    return users.find((user) => user.id === id);
+  getUserById: async (id: string): Promise<User | null> => {
+    return await prisma.user.findUnique({
+      where: { id },
+    }) as User | null;
   },
 
-  createUser: (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): User => {
-    const users = readUsers();
-    const newUser: User = {
-      ...userData,
-      id: Date.now().toString(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    users.push(newUser);
-    writeUsers(users);
+  createUser: async (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> => {
+    const newUser = await prisma.user.create({
+      data: {
+        ...userData,
+      },
+    }) as User;
     return newUser;
   },
 
-  updateUser: (id: string, updateData: Partial<Omit<User, 'id'>>): User | undefined => {
-    const users = readUsers();
-    const userIndex = users.findIndex((user) => user.id === id);
-
-    if (userIndex === -1) return undefined;
-
-    const updatedUser = {
-      ...users[userIndex],
-      ...updateData,
-      updatedAt: new Date(),
-    };
-
-    users[userIndex] = updatedUser;
-    writeUsers(users);
+  updateUser: async (id: string, updateData: Partial<Omit<User, 'id'>>): Promise<User | null> => {
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: {
+        ...updateData,
+      },
+    }) as User | null;
     return updatedUser;
   },
+  
 
-  deleteUser: (id: string): boolean => {
-    const users = readUsers();
-    const initialLength = users.length;
-    const filteredUsers = users.filter((user) => user.id !== id);
-
-    if (filteredUsers.length === initialLength) return false;
-
-    writeUsers(filteredUsers);
-    return true;
+  deleteUser: async (id: string): Promise<boolean> => {
+    try {
+      await prisma.user.delete({
+        where: { id },
+      });
+      return true;
+    } catch (error) {
+      return false;
+    }
   },
 };
