@@ -34,5 +34,6 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/example', exampleRouter);
 app.use('/users', userRouter);
+app.use('/api/user-preferences', userRouter);
 
 export default app;
