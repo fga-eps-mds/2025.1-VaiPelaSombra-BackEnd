@@ -1,0 +1,25 @@
+# test.yml
+name: Test Backend
+
+on:
+  push:
+    branches: [ main, develop, criando-actions-backend ]
+  pull_request:
+    branches: [ main, develop, criando-actions-backend ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image
+        run: docker build -t backend-test -f ./backend/Dockerfile ./backend
+
+      - name: Run Tests inside container
+        run: docker run --rm backend-test npm run test
