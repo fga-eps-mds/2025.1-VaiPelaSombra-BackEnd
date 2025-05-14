@@ -30,7 +30,7 @@ enum TravelFrequency {
 
 model TravelPreferences {
   id              Int             @id @default(autoincrement())
-  userId          Int
+  userId          Int             @unique
   travelerType    TravelerType
   travelFrequency TravelFrequency
   averageBudget   Float
@@ -39,13 +39,13 @@ model TravelPreferences {
 }
 
 model User {
-  id              Int               @id @default(autoincrement())
-  name            String
-  email           String            @unique
-  password        String
-  createdAt       DateTime          @default(now())
-  profileBio      String?
-  profileImage    String?
+  id                Int                 @id @default(autoincrement())
+  name              String
+  email             String              @unique
+  password          String
+  createdAt         DateTime            @default(now())
+  profileBio        String?
+  profileImage      String?
   travelPreferences TravelPreferences[]
 }
 
@@ -64,4 +64,3 @@ model Prefer {
 
   @@id([travelPreferencesId, travelInterestsId])
 }
-

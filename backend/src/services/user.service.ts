@@ -1,6 +1,8 @@
 import { User } from '../models/user.model';
 import fs from 'fs';
 import path from 'path';
+import { prisma } from '../data/prismaClient';
+import { TravelPreferences } from '../generated/prisma';
 
 const dataPath = path.join(__dirname, '../../src/data/users.json');
 
@@ -10,7 +12,7 @@ const readUsers = (): User[] => {
     const data = fs.readFileSync(dataPath, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
-    return [];
+    return error;
   }
 };
 
@@ -68,5 +70,74 @@ export const UserService = {
 
     writeUsers(filteredUsers);
     return true;
+  },
+
+  async getUserTravelPreferencesByUserId(id: number) {
+    const userPreferences = await prisma.travelPreferences.findFirst({
+      where: {
+        userId: id,
+      },
+    });
+    return userPreferences;
+  },
+
+  async saveUserTravelPreferences(id: number, travelPreferences: TravelPreferences) {
+    const { averageBudget, travelerType, travelFrequency } = travelPreferences;
+
+    const savedUserPreferences = await prisma.travelPreferences.upsert({
+      where: {
+        userId: id,
+      },
+      update: {
+        averageBudget,
+        travelerType,
+        travelFrequency,
+      },
+      create: {
+        userId: id,
+        averageBudget,
+        travelerType,
+        travelFrequency,
+      },
+    });
+
+    console.log(savedUserPreferences);
+
+    return savedUserPreferences;
+  },
+
+  async getUserTravelInterestsByUserId(id: number) {
+    const userPreferences = await prisma.travelPreferences.findFirst({
+      where: { userId: id },
+      include: {
+        prefer: {
+          include: {
+            travelInterests: true,
+          },
+        },
+      },
+    });
+
+    const userInterests = userPreferences?.prefer.map((p) => p.travelInterests);
+    return userInterests;
+  },
+
+  async saveUserTravelInterests(id: number, travelInterestsIds: number[]) {
+    const userPreferences = await prisma.travelPreferences.findFirst({
+      where: { userId: id },
+    });
+    const userTravelInterests = travelInterestsIds.map((id) => ({
+      travelInterestsId: id,
+      travelPreferencesId: userPreferences?.id,
+    }));
+
+    await prisma.prefer.deleteMany({
+      where: { travelPreferencesId: userPreferences?.id },
+    });
+
+    const savedInterests = await prisma.prefer.createMany({
+      data: userTravelInterests,
+    });
+    return savedInterests;
   },
 };

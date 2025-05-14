@@ -50,4 +50,63 @@ export const UserController = {
 
     res.status(204).send();
   },
+
+  getUserTravelPreferencesByUserId: async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const userPreferences = await UserService.getUserTravelPreferencesByUserId(userId);
+      if (!userPreferences) {
+        res.status(404).json({ message: 'User travel preferences not found' });
+        return;
+      }
+      res.status(200).json(userPreferences);
+    } catch (error) {
+      res.status(500).json(error);
+      return;
+    }
+  },
+
+  saveUserTravelPreferences: async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { travelPreferences } = req.body;
+
+      const savedPreferences = await UserService.saveUserTravelPreferences(id, travelPreferences);
+      res.status(201).json(savedPreferences);
+    } catch (error) {
+      res.status(500).json(error);
+      return;
+    }
+  },
+
+  getUserTravelInterestsByUserId: async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const userInterests = await UserService.getUserTravelInterestsByUserId(id);
+      if (!userInterests) {
+        res.status(404).json({ message: 'User travel interests not found' });
+        return;
+      }
+      res.status(200).json(userInterests);
+    } catch (error) {
+      res.status(500).json(error);
+      return;
+    }
+  },
+
+  saveUserTravelInterests: async (req: Request, res: Response) => {
+    try {
+      const id = parseInt(req.params.id);
+      const { travelInterestsIds } = req.body;
+      if (travelInterestsIds.length === 0) {
+        res.status(400).json({ message: 'No travel interests provided' });
+        return;
+      }
+      const savedInterests = await UserService.saveUserTravelInterests(id, travelInterestsIds);
+      res.status(201).json(savedInterests);
+    } catch (error) {
+      res.status(500).json(error);
+      return;
+    }
+  },
 };

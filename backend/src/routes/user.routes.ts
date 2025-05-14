@@ -210,4 +210,11 @@ router.put('/:id', (req, res) => UserController.updateUser(req, res));
  */
 router.delete('/:id', (req, res) => UserController.deleteUser(req, res));
 
+router.get('/:id/preferences', UserController.getUserTravelPreferencesByUserId);
+router.post('/:id/preferences', UserController.saveUserTravelPreferences);
+router.put('/:id/preferences', UserController.saveUserTravelPreferences);
+
+router.get('/:id/interests', UserController.getUserTravelInterestsByUserId);
+router.post('/:id/interests', UserController.saveUserTravelInterests);
+router.put('/:id/interests', UserController.saveUserTravelInterests);
 export default router;
