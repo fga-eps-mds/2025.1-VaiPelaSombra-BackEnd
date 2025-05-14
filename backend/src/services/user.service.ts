@@ -2,9 +2,6 @@ import { User } from '../models/user.model';
 import fs from 'fs';
 import path from 'path';
 
-
-// TO DO: alterar a logica deste arquivo para em vez de utilizar o fs, utilizar um banco de dados no postgreSQL com prisma
-// 
 const dataPath = path.join(__dirname, '../../src/data/users.json');
 
 // Helper function to read users
