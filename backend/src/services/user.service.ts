@@ -10,10 +10,9 @@ const readUsers = (): User[] => {
     const data = fs.readFileSync(dataPath, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
-  console.error('Erro ao ler users:', error);
-  return [];
+    console.error('Erro ao ler users:', error);
+    return [];
   }
-
 };
 
 // Helper function to write users
