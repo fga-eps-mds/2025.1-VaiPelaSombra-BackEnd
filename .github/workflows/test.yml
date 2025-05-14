@@ -3,9 +3,9 @@ name: Test Backend
 
 on:
   push:
-    branches: [ main, develop, criando-actions-backend ]
+    branches: [ main, develop, adicionando-actions-backend  ]
   pull_request:
-    branches: [ main, develop, criando-actions-backend ]
+    branches: [ main, develop, adicionando-actions-backend  ]
 
 jobs:
   test:
