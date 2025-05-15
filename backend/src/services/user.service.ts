@@ -1,5 +1,7 @@
+import { PrismaClient } from '@prisma/client';
 import { User } from '../models/user.model';
-import { prisma, Prisma } from '../lib/prisma';
+
+const prisma = new PrismaClient();
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
