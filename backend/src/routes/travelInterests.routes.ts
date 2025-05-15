@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { travelInterestsController } from '../controllers/travelInterests.controller';
+import { TravelInterestsController } from '../controllers/travelInterests.controller';
 
 const router = Router();
 
-router.get('/', travelInterestsController.getAllTravelInterests);
+router.get('/', TravelInterestsController.getAllTravelInterests);
 
 export default router;

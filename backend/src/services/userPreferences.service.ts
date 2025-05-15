@@ -1,64 +1,36 @@
-import { UserPreferencesInput } from '../models/userPreferences.model';
 import { prisma } from '../data/prismaClient';
+import { TravelPreferences } from '../generated/prisma';
 
-export const saveUserPreferences = async (data: UserPreferencesInput) => {
-  const interessesRecords = await Promise.all(
-    data.interesses.map(async (nomeInteresse) => {
-      return prisma.interesseViagem.upsert({
-        where: { nomeInteresse },
-        update: {},
-        create: { nomeInteresse },
-      });
-    })
-  );
-
-  const preferencias = await prisma.preferenciasViagem.upsert({
-    where: { idUsuario: data.idUsuario },
-    update: {
-      preferenciasViagem: data.preferenciasViagem,
-      tipoViajante: data.tipoViajante,
-      frequenciaViagem: data.frequenciaViagem,
-      orcamentoMedio: data.orcamentoMedio,
-    },
-    create: {
-      idUsuario: data.idUsuario,
-      preferenciasViagem: data.preferenciasViagem,
-      tipoViajante: data.tipoViajante,
-      frequenciaViagem: data.frequenciaViagem,
-      orcamentoMedio: data.orcamentoMedio,
-    },
-  });
-
-  await prisma.prefere.deleteMany({
-    where: { idPreferencias: preferencias.idPreferencias },
-  });
-
-  await prisma.prefere.createMany({
-    data: interessesRecords.map((interesse) => ({
-      idPrerencias: preferencias.idPrerencias,
-      idInteresse: interesse.idInteresse,
-    })),
-  });
-
-  return preferencias;
-};
-
-export const getUserPreferences = async (idUsuario: number) => {
-  const preferencias = await prisma.preferenciasViagem.findUnique({
-    where: { idUsuario },
-    include: {
-      preferencias: {
-        include: {
-          interesse: true,
-        },
+export const UserPreferencesService = {
+  async getUserTravelPreferencesByUserId(id: number) {
+    const userPreferences = await prisma.travelPreferences.findFirst({
+      where: {
+        userId: id,
       },
-    },
-  });
+    });
+    return userPreferences;
+  },
 
-  if (!preferencias) return null;
+  async saveUserTravelPreferences(id: number, travelPreferences: TravelPreferences) {
+    const { averageBudget, travelerType, travelFrequency } = travelPreferences;
 
-  return {
-    ...preferencias,
-    interesses: preferencias.preferencias.map((p) => p.interesse),
-  };
+    const savedUserPreferences = await prisma.travelPreferences.upsert({
+      where: {
+        userId: id,
+      },
+      update: {
+        averageBudget,
+        travelerType,
+        travelFrequency,
+      },
+      create: {
+        userId: id,
+        averageBudget,
+        travelerType,
+        travelFrequency,
+      },
+    });
+
+    return savedUserPreferences;
+  },
 };
