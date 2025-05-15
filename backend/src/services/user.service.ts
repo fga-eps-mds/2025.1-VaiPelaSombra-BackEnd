@@ -1,8 +1,6 @@
 import { User } from '../models/user.model';
 import fs from 'fs';
 import path from 'path';
-import { prisma } from '../data/prismaClient';
-import { TravelPreferences } from '../generated/prisma';
 
 const dataPath = path.join(__dirname, '../../src/data/users.json');
 
