@@ -33,19 +33,23 @@ export const UserService = {
 
   updateUser: async (
     id: number,
-    updateData: Partial<Omit<User, 'id'>>
+    userData: Partial<Omit<User, 'id' | 'createdAt'>>
   ): Promise<User | null> => {
-    try {
-      return await prisma.user.update({
-        where: { id },
-        data: {
-          ...updateData,
-          updatedAt: new Date(),
-        },
-      });
-    } catch (error) {
-      return null; // Caso nao exista
-    }
+    return await prisma.user.update({
+      where: { id },
+      data: {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        profileBio: userData.profileBio,
+        profileImage: userData.profileImage,
+        travelPreferences: userData.travelPreferences
+          ? {
+              connect: { id: userData.travelPreferences },
+            }
+          : undefined,
+      },
+    });
   },
 
   deleteUser: async (id: number): Promise<boolean> => {
