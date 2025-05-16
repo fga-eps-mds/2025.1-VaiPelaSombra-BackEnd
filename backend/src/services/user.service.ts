@@ -1,5 +1,3 @@
-// backend/src/services/user.service.ts
-
 import { User } from '../models/user.model'; // Interface/Modelo User da sua aplicação
 import { PrismaClient, Prisma, TravelerType, TravelFrequency } from '../generated/prisma';
 
@@ -72,16 +70,11 @@ export const UserService = {
   },
 
   createUser: async (userData: CreateUserInput): Promise<User> => {
-    // IMPORTANTE: O hashing da senha deve acontecer *antes* que esta função seja chamada,
-    // ou ser adicionado aqui se este serviço for responsável por isso.
-    // Exemplo: const hashedPassword = await hashPasswordFunction(userData.password);
-    // Então use hashedPassword abaixo.
-
     const createdUser = await prisma.user.create({
       data: {
         name: userData.name,
         email: userData.email,
-        password: userData.password, // Armazene a senha (idealmente hasheada)
+        password: userData.password, // Certifique-se de hashear a senha antes
         profileBio: userData.profileBio,
         profileImage: userData.profileImage,
       },
