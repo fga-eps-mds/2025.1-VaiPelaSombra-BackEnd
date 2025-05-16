@@ -65,35 +65,23 @@ export const UserService = {
 
   updateUser: async (
     id: number,
-    updateData: Partial<Omit<User, 'id'>>
+    userData: Partial<Omit<User, 'id' | 'createdAt'>>
   ): Promise<User | null> => {
-    const dataToUpdate: Prisma.UserUpdateInput = {
-      name: userData.name,
-      email: userData.email,
-      ...(userData.password && { password: userData.password }), // Inclua a senha apenas se fornecida
-      profileBio: userData.profileBio,
-      profileImage: userData.profileImage,
-    };
-
-    // Não inclui mais lógica para atualizar travelPreferences
-
-    const updatedUser = await prisma.user.update({
+    return await prisma.user.update({
       where: { id },
-      data: dataToUpdate,
-      include: {
-        travelPreferences: {
-          include: {
-            prefer: {
-              include: {
-                travelInterests: true,
-              },
-            },
-          },
-        },
+      data: {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        profileBio: userData.profileBio,
+        profileImage: userData.profileImage,
+        travelPreferences: userData.travelPreferences
+          ? {
+              connect: { id: userData.travelPreferences },
+            }
+          : undefined,
       },
     });
-
-    return updatedUser as User | null;
   },
 
   deleteUser: async (id: number): Promise<boolean> => {
