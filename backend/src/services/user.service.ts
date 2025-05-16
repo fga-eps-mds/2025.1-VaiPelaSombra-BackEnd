@@ -35,56 +35,37 @@ export interface UpdateUserWithPreferencesInput {
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
-    const users = await prisma.user.findMany({
-      include: {
-        travelPreferences: {
-          include: {
-            prefer: {
-              include: {
-                travelInterests: true,
-              },
-            },
-          },
-        },
-      },
-    });
-    return users;
+    return await prisma.user.findMany();
   },
 
   getUserById: async (id: number): Promise<User | null> => {
-    const user = await prisma.user.findUnique({
+    return await prisma.user.findUnique({
       where: { id },
-      include: {
-        travelPreferences: {
-          include: {
-            prefer: {
-              include: {
-                travelInterests: true,
-              },
-            },
-          },
-        },
-      },
     });
-    return user as User | null; // Cast se necessário
   },
 
-  createUser: async (userData: CreateUserInput): Promise<User> => {
-    const createdUser = await prisma.user.create({
-      data: {
-        name: userData.name,
-        email: userData.email,
-        password: userData.password, // Certifique-se de hashear a senha antes
-        profileBio: userData.profileBio,
-        profileImage: userData.profileImage,
-      },
-    });
-    return createdUser as User; // Cast se necessário
-  },
+  createUser: async (
+  userData: Omit<User, 'id' | 'createdAt'>
+): Promise<User> => {
+  return await prisma.user.create({
+    data: {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      profileBio: userData.profileBio,
+      profileImage: userData.profileImage,
+      travelPreferences: userData.travelPreferences // Aqui é o ID da preferência (um número)
+        ? {
+            connect: { id: userData.travelPreferences }, // Conecta a UM ÚNICO ID
+          }
+        : undefined, // Ou para desconectar se for null: { disconnect: true } se aplicável
+    },
+  });
+},
 
   updateUser: async (
     id: number,
-    userData: Partial<UpdateUserWithPreferencesInput>
+    updateData: Partial<Omit<User, 'id'>>
   ): Promise<User | null> => {
     const dataToUpdate: Prisma.UserUpdateInput = {
       name: userData.name,
@@ -140,3 +121,4 @@ export const UserService = {
     }
   },
 };
+
