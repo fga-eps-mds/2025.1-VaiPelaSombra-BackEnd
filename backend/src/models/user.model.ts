@@ -1,8 +1,10 @@
 export interface User {
-  id: string;
-  name: string;
-  email: string;
-  age?: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+  id: number;              
+  name: string;                   
+  email: string;                  
+  password: string;                 
+  createdAt: Date;              
+  profileBio: string | null;      
+  profileImage: string | null;     
+  travelPreferences?: number | null; 
+};
