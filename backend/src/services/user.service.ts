@@ -6,24 +6,33 @@ export const UserService = {
     return await prisma.user.findMany();
   },
 
-  getUserById: async (id: string): Promise<User | null> => {
+  getUserById: async (id: number): Promise<User | null> => {
     return await prisma.user.findUnique({
       where: { id },
     });
   },
 
   createUser: async (
-    userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
-  ): Promise<User> => {
-    return await prisma.user.create({
-      data: {
-        ...userData,
-      },
-    });
-  },
+  userData: Omit<User, 'id' | 'createdAt'>
+): Promise<User> => {
+  return await prisma.user.create({
+    data: {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      profileBio: userData.profileBio,
+      profileImage: userData.profileImage,
+      travelPreferences: userData.travelPreferences // Aqui é o ID da preferência (um número)
+        ? {
+            connect: { id: userData.travelPreferences }, // Conecta a UM ÚNICO ID
+          }
+        : undefined, // Ou para desconectar se for null: { disconnect: true } se aplicável
+    },
+  });
+},
 
   updateUser: async (
-    id: string,
+    id: number,
     updateData: Partial<Omit<User, 'id'>>
   ): Promise<User | null> => {
     try {
@@ -39,7 +48,7 @@ export const UserService = {
     }
   },
 
-  deleteUser: async (id: string): Promise<boolean> => {
+  deleteUser: async (id: number): Promise<boolean> => {
     try {
       await prisma.user.delete({
         where: { id },
@@ -50,3 +59,4 @@ export const UserService = {
     }
   },
 };
+
