@@ -1,3 +1,4 @@
+
 import { TravelerType, TravelFrequency } from '../generated/prisma';
 
 interface TravelInterestModel {
@@ -11,20 +12,21 @@ interface PreferModel {
 
 interface TravelPreferencesModel {
   id: number;
-  userId: number;
-  travelerType: TravelerType;
-  travelFrequency: TravelFrequency;
+  userId: number; // This field is on the TravelPreferences model in Prisma
+  travelerType: TravelerType; // Use the actual ENUM type
+  travelFrequency: TravelFrequency; // Use the actual ENUM type
   averageBudget: number;
-  prefer: PreferModel[];
+  prefer: PreferModel[]; // Array of Prefer join records
+  // Add any other scalar fields from your TravelPreferences model
 }
 
 export interface User {
-  id: number;              
-  name: string;                   
-  email: string;                  
-  password: string;                 
-  createdAt: Date;              
-  profileBio: string | null;      
-  profileImage: string | null;     
-  travelPreferences?: number | null; 
-};
+  id: number;
+  name: string;
+  email: string;
+  password?: string; // Often excluded from client responses
+  createdAt: Date;
+  profileBio: string | null;
+  profileImage: string | null;
+  travelPreferences?: TravelPreferencesModel | null; // Correctly typed
+}
