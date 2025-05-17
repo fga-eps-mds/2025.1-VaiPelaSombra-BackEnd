@@ -3,22 +3,20 @@ export type TipoViajante = 'AVENTUREIRO' | 'CULTURAL' | 'RELAXAMENTO' | 'GASTRON
 export type FrequenciaViagem = 'BIMESTRAL' | 'TRIMESTRAL' | 'SEMESTRAL' | 'ANUAL';
 
 export interface UserPreferencesInput {
-  idUsuario: number;
-  preferenciasViagem: string;
-  tipoViajante: TipoViajante;
-  frequenciaViagem: FrequenciaViagem;
-  orcamentoMedio: number;
-  interesses: string[];
+  userId: number; // corresponde ao campo userId no Prisma
+  travelerType: TipoViajante;
+  travelFrequency: FrequenciaViagem;
+  averageBudget: number;
+  travelInterestsIds: number[]; // IDs dos interesses
 }
 
 export interface UserPreferences {
-  idUsuario: number;
-  preferenciasViagem: string;
-  tipoViajante: TipoViajante;
-  frequenciaViagem: FrequenciaViagem;
-  orcamentoMedio: number;
-  interesses: {
-    idInteresse: number;
-    nomeInteresse: string;
+  userId: number;
+  travelerType: TipoViajante;
+  travelFrequency: FrequenciaViagem;
+  averageBudget: number;
+  travelInterests: {
+    id: number;
+    name: string;
   }[];
 }
