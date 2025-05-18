@@ -12,6 +12,7 @@ import {
   TravelerType,
   TravelFrequency,
 } from '../generated/prisma';
+import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
@@ -47,9 +48,7 @@ export interface UpdateUserWithPreferencesInput {
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
-    // Asserção de tipo necessária se o seu modelo User não corresponder perfeitamente à estrutura do include.
-    // Considere usar Prisma.UserGetPayload para tipagem precisa.
-    return await prisma.user.findMany({
+    const users = await prisma.user.findMany({
       include: {
         travelPreferences: {
           include: {
@@ -61,7 +60,8 @@ export const UserService = {
           },
         },
       },
-    }) as User[]; // Cast (conversão de tipo) se o seu modelo User for ligeiramente diferente mas compatível
+    });
+    return users;
   },
 
   getUserById: async (id: number): Promise<User | null> => {
