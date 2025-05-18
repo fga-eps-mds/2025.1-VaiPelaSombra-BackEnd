@@ -9,7 +9,7 @@ export const UserController = {
   },
 
   getUserById: (req: Request, res: Response): void => {
-    const user = UserService.getUserById(req.params.id);
+    const user = UserService.getUserById(Number(req.params.id));
     if (!user) {
       res.status(404).json({ message: 'User not found' });
       return;
@@ -18,19 +18,19 @@ export const UserController = {
   },
 
   createUser: (req: Request, res: Response): void => {
-    const { name, email, age } = req.body;
+    const { name, email, password} = req.body;
 
     if (!name || !email) {
       res.status(400).json({ message: 'Name and email are required' });
       return;
     }
 
-    const newUser = UserService.createUser({ name, email, age });
+    const newUser = UserService.createUser({ name, email, password});
     res.status(201).json(newUser);
   },
 
   updateUser: (req: Request, res: Response): void => {
-    const updatedUser = UserService.updateUser(req.params.id, req.body);
+    const updatedUser = UserService.updateUser(Number(req.params.id), req.body);
 
     if (!updatedUser) {
       res.status(404).json({ message: 'User not found' });
@@ -41,7 +41,7 @@ export const UserController = {
   },
 
   deleteUser: (req: Request, res: Response): void => {
-    const isDeleted = UserService.deleteUser(req.params.id);
+    const isDeleted = UserService.deleteUser(Number(req.params.id));
 
     if (!isDeleted) {
       res.status(404).json({ message: 'User not found' });
