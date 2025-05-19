@@ -1,6 +1,6 @@
 import { PlanoViagem } from '../models/planoViagem.model';
 
-const planosViagem: PlanoViagem[] = [
+let planosViagem: PlanoViagem[] = [
   {
     id: 1,
     userId: 1,
@@ -22,10 +22,7 @@ export const PlanoViagemService = {
     return planosViagem.find((plano) => plano.userId === userId && plano.id === id);
   },
 
-  createPlanoViagem: (
-    userId: number,
-    newPlano: Omit<PlanoViagem, 'id' | 'createdAt' | 'updatedAt'>
-  ): PlanoViagem => {
+  createPlanoViagem: (userId: number, newPlano: Omit<PlanoViagem, 'id' | 'createdAt' | 'updatedAt'>): PlanoViagem => {
     const newId = planosViagem.length > 0 ? planosViagem[planosViagem.length - 1].id + 1 : 1;
     const plano = {
       ...newPlano,
