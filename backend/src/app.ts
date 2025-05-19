@@ -6,6 +6,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import exampleRouter from './routes/example';
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
+import planoViagemRouter from './routes/planoViagem.routes';
 
 const app = express();
 
@@ -37,5 +38,5 @@ app.use('/example', exampleRouter);
 app.use('/users', userRouter);
 app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
-
+app.use('/planos-viagem', planoViagemRouter);
 export default app;
