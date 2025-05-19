@@ -75,30 +75,6 @@ export const UserService = {
         password: userData.password, // Certifique-se de hashear a senha antes
         profileBio: userData.profileBio,
         profileImage: userData.profileImage,
-        // Crie um registro TravelPreferences em branco associado a este usuário
-        // conforme seu schema (User.travelPreferences é TravelPreferences?)
-        travelPreferences: {
-          create: {
-            // Forneça valores padrão para campos OBRIGATÓRIOS em TravelPreferences
-            // conforme seu schema (TravelerType e TravelFrequency não são opcionais)
-            travelerType: TravelerType.AVENTUREIRO, // Exemplo de padrão
-            travelFrequency: TravelFrequency.ANUAL,   // Exemplo de padrão
-            averageBudget: 0,                         // Exemplo de padrão
-            // 'prefer' será uma lista vazia inicialmente por padrão
-          },
-        },
-      },
-      include: {
-        // Inclua as preferências recém-criadas (em branco)
-        travelPreferences: {
-          include: {
-            prefer: {
-              include: {
-                travelInterests: true,
-              },
-            },
-          },
-        },
       },
     });
 
@@ -109,9 +85,6 @@ export const UserService = {
     id: number,
     userData: Partial<UpdateUserWithPreferencesInput>
   ): Promise<User | null> => {
-    // IMPORTANTE: Se a senha estiver sendo atualizada, ela deve ser hasheada antes deste ponto ou aqui.
-    // Exemplo: if (userData.password) userData.password = await hashPasswordFunction(userData.password);
-
     const dataToUpdate: Prisma.UserUpdateInput = {
       name: userData.name,
       email: userData.email,
@@ -120,60 +93,7 @@ export const UserService = {
       profileImage: userData.profileImage,
     };
 
-    // Verifique se a chave 'travelPreferencesData' foi explicitamente passada na entrada
-    if (userData.hasOwnProperty('travelPreferencesData')) {
-      const prefsData = userData.travelPreferencesData;
-
-      if (prefsData === null) {
-        // O usuário quer remover/deletar suas preferências
-        dataToUpdate.travelPreferences = {
-          // Como User.travelPreferences é opcional (TravelPreferences?),
-          // podemos deletar o registro relacionado.
-          delete: true,
-        };
-      } else if (prefsData) {
-        // O usuário quer criar ou atualizar suas preferências
-        dataToUpdate.travelPreferences = {
-          upsert: {
-            // 'upsert' é adequado para relações 1-para-1.
-            // Ele cria se o registro relacionado não existe, atualiza se existe.
-            create: {
-              travelerType: prefsData.travelerType,
-              travelFrequency: prefsData.travelFrequency,
-              averageBudget: prefsData.averageBudget,
-              prefer: prefsData.travelInterestsIds?.length
-                ? {
-                    create: prefsData.travelInterestsIds.map(
-                      (interestId) => ({
-                        travelInterests: { connect: { id: interestId } },
-                      })
-                    ),
-                  }
-                : undefined,
-            },
-            update: {
-              travelerType: prefsData.travelerType,
-              travelFrequency: prefsData.travelFrequency,
-              averageBudget: prefsData.averageBudget,
-              // Para 'prefer' (muitos-para-muitos através da tabela Prefer),
-              // 'set' pode ser complexo. Um padrão comum é deletar os links existentes
-              // e criar novos.
-              prefer: {
-                // Isto deletará todos os registros Prefer existentes para este TravelPreferences
-                // e então criará novos baseados em travelInterestsIds.
-                deleteMany: {}, // Limpe os links 'Prefer' antigos
-                create: prefsData.travelInterestsIds?.length
-                  ? prefsData.travelInterestsIds.map((interestId) => ({
-                      travelInterests: { connect: { id: interestId } },
-                    }))
-                  : [], // Se não houver IDs, crie um conjunto vazio de links
-              },
-            },
-          },
-        };
-      }
-      // Se userData.travelPreferencesData for undefined (chave não está em userData), as preferências não são tocadas.
-    }
+    // Não inclui mais lógica para atualizar travelPreferences
 
     const updatedUser = await prisma.user.update({
       where: { id },
@@ -190,7 +110,8 @@ export const UserService = {
         },
       },
     });
-    return updatedUser as User | null; // Cast se necessário
+
+    return updatedUser as User | null;
   },
 
   deleteUser: async (id: number): Promise<boolean> => {

@@ -28,6 +28,19 @@ export const PlanoViagemController = {
     res.status(201).json(plano);
   },
 
+  deletePlanoViagem: (req: Request, res: Response): void => {
+    const userId = parseInt(req.params.userId, 10);
+    const id = parseInt(req.params.id, 10);
+    const deleted = PlanoViagemService.deletePlanoViagem(userId, id);
+
+    if (!deleted) {
+      res.status(404).json({ message: 'Plano de viagem não encontrado para exclusão' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Plano de viagem excluído com sucesso' });
+  },
+
   updatePlanoViagem: (req: Request, res: Response): void => {
     const userId = parseInt(req.params.userId, 10);
     const id = parseInt(req.params.id, 10);
@@ -40,18 +53,5 @@ export const PlanoViagemController = {
     }
 
     res.status(200).json(updatedPlano);
-  },
-
-  deletePlanoViagem: (req: Request, res: Response): void => {
-    const userId = parseInt(req.params.userId, 10);
-    const id = parseInt(req.params.id, 10);
-    const deleted = PlanoViagemService.deletePlanoViagem(userId, id);
-
-    if (!deleted) {
-      res.status(404).json({ message: 'Plano de viagem não encontrado para exclusão' });
-      return;
-    }
-
-    res.status(200).json({ message: 'Plano de viagem excluído com sucesso' });
   },
 };

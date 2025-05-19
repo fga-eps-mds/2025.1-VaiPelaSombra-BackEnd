@@ -47,6 +47,7 @@ model User {
   profileBio        String?
   profileImage      String?
   travelPreferences TravelPreferences?
+  planosViagem      PlanoViagem[]
 }
 
 model TravelInterests {
