@@ -9,8 +9,7 @@ const readUsers = (): User[] => {
   try {
     const data = fs.readFileSync(dataPath, 'utf-8');
     return JSON.parse(data);
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Erro ao ler users:', error);
     return [];
   }
