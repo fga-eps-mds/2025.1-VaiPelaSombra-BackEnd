@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import { User } from '../models/user.model'; // Interface/Modelo User da sua aplicação
-import { PrismaClient, Prisma, TravelerType, TravelFrequency } from '../generated/prisma';
-
-const prisma = new PrismaClient();
-
-// --- Definições de Tipo para Entradas do Serviço ---
 import { User } from '../models/user.model'; // Interface/Modelo User da sua aplicação
 import {
   PrismaClient,
@@ -12,6 +5,7 @@ import {
   TravelerType,
   TravelFrequency,
 } from '../generated/prisma';
+import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
 
@@ -38,8 +32,6 @@ export interface UpdateUserWithPreferencesInput {
   password?: string; // IMPORTANTE: Garanta que isto seja "hasheado" se fornecido
   profileBio?: string | null;
   profileImage?: string | null;
-  // Use 'travelPreferencesData' para evitar confusão com o nome da relação
-  // null significa "remover/deletar preferências"
   travelPreferencesData?: UserPreferencesDataInput | null;
 }
 
@@ -47,8 +39,6 @@ export interface UpdateUserWithPreferencesInput {
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
-    // Asserção de tipo necessária se o seu modelo User não corresponder perfeitamente à estrutura do include.
-    // Considere usar Prisma.UserGetPayload para tipagem precisa.
     return await prisma.user.findMany({
       include: {
         travelPreferences: {
@@ -61,7 +51,7 @@ export const UserService = {
           },
         },
       },
-    }) as User[]; // Cast (conversão de tipo) se o seu modelo User for ligeiramente diferente mas compatível
+    }) as User[];
   },
 
   getUserById: async (id: number): Promise<User | null> => {
@@ -79,7 +69,7 @@ export const UserService = {
         },
       },
     });
-    return user as User | null; // Cast se necessário
+    return user as User | null;
   },
 
   createUser: async (userData: CreateUserInput): Promise<User> => {
@@ -103,12 +93,10 @@ export const UserService = {
     const dataToUpdate: Prisma.UserUpdateInput = {
       name: userData.name,
       email: userData.email,
-      ...(userData.password && { password: userData.password }), // Inclua a senha apenas se fornecida
+      ...(userData.password && { password: userData.password }),
       profileBio: userData.profileBio,
       profileImage: userData.profileImage,
     };
-
-    // Não inclui mais lógica para atualizar travelPreferences
 
     const updatedUser = await prisma.user.update({
       where: { id },
@@ -131,12 +119,6 @@ export const UserService = {
 
   deleteUser: async (id: number): Promise<boolean> => {
     try {
-      // Nota: O Prisma por padrão restringe a deleção se registros relacionados existirem
-      // a menos que `onDelete: Cascade` seja especificado no schema na relação.
-      // Sua relação `TravelPreferences.user` não especifica `onDelete` explicitamente.
-      // Se houver um registro `TravelPreferences` para este usuário, isso pode falhar
-      // com um erro de restrição de chave estrangeira, a menos que você lide com isso (ex: delete as preferências primeiro).
-      // Para simplificar, assumindo que a deleção em cascata é desejada ou tratada em outro lugar.
       await prisma.user.delete({
         where: { id },
       });
@@ -144,11 +126,10 @@ export const UserService = {
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025' // "Registro a ser deletado não existe."
+        error.code === 'P2025'
       ) {
         return false;
       }
-      // Registre outros erros para depuração
       console.error('Erro ao deletar usuário:', error);
       return false;
     }
