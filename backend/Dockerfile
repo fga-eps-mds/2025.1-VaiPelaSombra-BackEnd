@@ -22,6 +22,8 @@ RUN npx prisma generate
 
 # Compila o projeto
 RUN npm run build
+# Expose the application port
+EXPOSE 3000
 
 # Expose the application port
 EXPOSE 3000
