@@ -211,11 +211,209 @@ router.put('/:id', (req, res) => UserController.updateUser(req, res));
  */
 router.delete('/:id', (req, res) => UserController.deleteUser(req, res));
 
+/**
+ * @swagger
+ * /users/{id}/preferences:
+ *   get:
+ *     summary: Retrieve travel preferences for a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: Travel preferences for the user
+ */
 router.get('/:id/preferences', UserPreferencesController.getUserTravelPreferencesByUserId);
+
+/**
+ * @swagger
+ * /users/{id}/preferences:
+ *   post:
+ *     summary: Save or update a user's travel preferences
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               travelPreferences:
+ *                 type: object
+ *                 properties:
+ *                   travelerType:
+ *                     type: string
+ *                     enum: [AVENTUREIRO, CULTURAL, RELAXAMENTO, GASTRONOMICO]
+ *                     example: AVENTUREIRO
+ *                   travelFrequency:
+ *                     type: string
+ *                     enum: [BIMESTRAL, TRIMESTRAL, SEMESTRAL, ANUAL]
+ *                     example: ANUAL
+ *                   averageBudget:
+ *                     type: number
+ *                     example: 0
+ *     responses:
+ *       200:
+ *         description: Preferences saved successfully
+ */
+
 router.post('/:id/preferences', UserPreferencesController.saveUserTravelPreferences);
+/**
+ * @swagger
+ * /users/{id}/preferences:
+ *   put:
+ *     summary: Update a user's travel preferences
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               travelPreferences:
+ *                 type: object
+ *                 properties:
+ *                   travelerType:
+ *                     type: string
+ *                     enum: [AVENTUREIRO, CULTURAL, RELAXAMENTO, GASTRONOMICO]
+ *                     example: RELAXAMENTO
+ *                   travelFrequency:
+ *                     type: string
+ *                     enum: [BIMESTRAL, TRIMESTRAL, SEMESTRAL, ANUAL]
+ *                     example: SEMESTRAL
+ *                   averageBudget:
+ *                     type: number
+ *                     example: 3500
+ *     responses:
+ *       200:
+ *         description: Preferences updated successfully
+ *       404:
+ *         description: Preferences not found
+ *       400:
+ *         description: Invalid input
+ */
+
 router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferences);
+/**
+ * @swagger
+ * /users/{id}/interests:
+ *   get:
+ *     summary: Get travel interests selected by a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: List of travel interests selected by the user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 2
+ *                   name:
+ *                     type: string
+ *                     example: CULTURAL
+ *       404:
+ *         description: Preferences not found
+ */
 
 router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByUserId);
+/**
+ * @swagger
+ * /users/{id}/interests:
+ *   post:
+ *     summary: Save travel interests for a user (first-time setup)
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               travelInterestsIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 3, 4]
+ *     responses:
+ *       201:
+ *         description: Interests saved successfully
+ *       400:
+ *         description: No interests selected
+ */
+
 router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests);
+/**
+ * @swagger
+ * /users/{id}/interests:
+ *   put:
+ *     summary: Update travel interests for a user
+ *     tags: [Users]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           example: 1
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               travelInterestsIds:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [2, 4, 5]
+ *     responses:
+ *       200:
+ *         description: Interests updated successfully
+ *       400:
+ *         description: No interests selected
+ *       404:
+ *         description: Preferences not found
+ */
+
 router.put('/:id/interests', TravelInterestsController.saveUserTravelInterests);
 export default router;
