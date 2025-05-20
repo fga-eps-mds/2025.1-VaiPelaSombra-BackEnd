@@ -1,11 +1,49 @@
 CREATE DATABASE vai_pela_sombra;
 \c vai_pela_sombra
 
+-- criação de type
+
+CREATE TYPE tipo_viajante_enum AS ENUM (
+  'AVENTUREIRO',
+  'CULTURAL',
+  'RELAXAMENTO',
+  'GASTRONOMICO'
+);
+
+CREATE TYPE frequencia_viagem_enum AS ENUM (
+  'BIMESTRAL',
+  'TRIMESTRAL',
+  'SEMESTRAL',
+  'ANUAL'
+);
+
+
 -- TABELAS AUXILIARES
+-- TODO: Remodelar a tabela para a issue #13 Adicionar Interesses e Preferências de Usuário
+
+
+CREATE TABLE interessesViagem(
+  idInteresse SERIAL PRIMARY KEY,
+  nomeInteresse VARCHAR(50)
+)
+
+CREATE TABLE prefere(
+  idInteresse INT,
+  idPrerencias INT
+
+  CONSTRAINT fk_prefere_interessesViagem FOREIGN KEY (idInteresse) REFERENCES interessesViagem(idInteresse),
+  CONSTRAINT fk_prefere_preferenciasViagem FOREIGN KEY (idPrerencias) REFERENCES preferenciasViagem(idPrerencias)
+)
 
 CREATE TABLE preferenciasViagem (
-  idPreferenciasViagem SERIAL PRIMARY KEY,
-  preferenciasViagem VARCHAR(100) NOT NULL
+  idPrerencias SERIAL PRIMARY KEY,
+  idUsuario INT,
+  preferenciasViagem VARCHAR(100) NOT NULL,
+  tipoViajante tipo_viajante_enum,
+  frequenciaViagem frequencia_viagem_enum,
+  orcametoMedio DECIMAL(6,2)
+
+  CONSTRAINT fk_usuario_preferencias FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
 
 -- TABELAS PRINCIPAIS
@@ -17,9 +55,7 @@ CREATE TABLE Usuario (
   senha VARCHAR(100) NOT NULL,
   dataCriacao DATE DEFAULT CURRENT_DATE,
   bioPerfil VARCHAR(500),
-  fotoPerfil VARCHAR(500),
-  idPreferenciasViagem INT,
-  CONSTRAINT fk_usuario_preferencias FOREIGN KEY (idPreferenciasViagem) REFERENCES preferenciasViagem(idPreferenciasViagem)
+  fotoPerfil VARCHAR(500)
 );
 
 CREATE TABLE Avaliacoes (
