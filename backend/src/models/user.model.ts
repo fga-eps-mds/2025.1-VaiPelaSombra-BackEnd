@@ -1,8 +1,30 @@
+import { TravelerType, TravelFrequency } from '../generated/prisma';
+
+interface TravelInterestModel {
+  id: number;
+  name: string;
+}
+
+interface PreferModel {
+  travelInterests: TravelInterestModel;
+}
+
+interface TravelPreferencesModel {
+  id: number;
+  userId: number;
+  travelerType: TravelerType;
+  travelFrequency: TravelFrequency;
+  averageBudget: number;
+  prefer: PreferModel[];
+}
+
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
-  age?: number;
+  password?: string;
   createdAt: Date;
-  updatedAt: Date;
+  profileBio: string | null;
+  profileImage: string | null;
+  travelPreferences?: TravelPreferencesModel | null;
 }

@@ -14,9 +14,10 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ],
   rules: {
     'prettier/prettier': 'error',
+    'no-var': 'off', // ⛔ Desativa a regra que proíbe o uso de var
   },
 };

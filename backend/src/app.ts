@@ -5,6 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import exampleRouter from './routes/example';
 import userRouter from './routes/user.routes';
+import travelInterestsRouter from './routes/travelInterests.routes';
+import planoViagemRouter from './routes/planoViagem.routes';
 
 const app = express();
 
@@ -34,5 +36,7 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/example', exampleRouter);
 app.use('/users', userRouter);
-
+app.use('/api/user-preferences', userRouter);
+app.use('/interests', travelInterestsRouter);
+app.use('/planoViagem', planoViagemRouter);
 export default app;

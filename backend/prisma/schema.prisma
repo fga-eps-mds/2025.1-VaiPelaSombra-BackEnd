@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum TravelerType {
+  AVENTUREIRO
+  CULTURAL
+  RELAXAMENTO
+  GASTRONOMICO
+}
+
+enum TravelFrequency {
+  BIMESTRAL
+  TRIMESTRAL
+  SEMESTRAL
+  ANUAL
+}
+
+model TravelPreferences {
+  id              Int             @id @default(autoincrement())
+  userId          Int             @unique
+  travelerType    TravelerType
+  travelFrequency TravelFrequency
+  averageBudget   Float
+  prefer          Prefer[]
+  user            User            @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id                Int                @id @default(autoincrement())
+  name              String
+  email             String             @unique
+  password          String
+  createdAt         DateTime           @default(now())
+  profileBio        String?
+  profileImage      String?
+  travelPreferences TravelPreferences?
+  planosViagem      PlanoViagem[]
+}
+
+model TravelInterests {
+  id     Int      @id @default(autoincrement())
+  name   String
+  prefer Prefer[]
+}
+
+model Prefer {
+  travelPreferencesId Int
+  travelInterestsId   Int
+
+  travelPreferences TravelPreferences @relation(fields: [travelPreferencesId], references: [id])
+  travelInterests   TravelInterests   @relation(fields: [travelInterestsId], references: [id])
+
+  @@id([travelPreferencesId, travelInterestsId])
+}
+
+model PlanoViagem {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  nome       String
+  destino    String?  // Campo opcional
+  dataInicio DateTime? // Campo opcional
+  dataFim    DateTime? // Campo opcional
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
+}
