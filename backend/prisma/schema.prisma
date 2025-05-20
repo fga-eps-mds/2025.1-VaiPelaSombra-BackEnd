@@ -39,14 +39,15 @@ model TravelPreferences {
 }
 
 model User {
-  id                Int                 @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   name              String
-  email             String              @unique
+  email             String             @unique
   password          String
-  createdAt         DateTime            @default(now())
+  createdAt         DateTime           @default(now())
   profileBio        String?
   profileImage      String?
-  travelPreferences TravelPreferences[]
+  travelPreferences TravelPreferences?
+  planosViagem      PlanoViagem[]
 }
 
 model TravelInterests {
@@ -63,4 +64,17 @@ model Prefer {
   travelInterests   TravelInterests   @relation(fields: [travelInterestsId], references: [id])
 
   @@id([travelPreferencesId, travelInterestsId])
+}
+
+model PlanoViagem {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  nome       String
+  destino    String?  // Campo opcional
+  dataInicio DateTime? // Campo opcional
+  dataFim    DateTime? // Campo opcional
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
 }
