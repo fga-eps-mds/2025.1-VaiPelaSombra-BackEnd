@@ -18,9 +18,10 @@ Após instalar as dependências, você pode iniciar o servidor de desenvolviment
 ```bash
 npm run dev
 ```
+
 ## 📦 Scripts disponíveis
 
-|Comando|Descrição|
-|---|---|
-|npm install|Instala todas as dependências do projeto|
-|npm run dev|	Inicia o servidor de desenvolvimento com nodemon (se configurado)|
+| Comando     | Descrição                                                         |
+| ----------- | ----------------------------------------------------------------- |
+| npm install | Instala todas as dependências do projeto                          |
+| npm run dev | Inicia o servidor de desenvolvimento com nodemon (se configurado) |

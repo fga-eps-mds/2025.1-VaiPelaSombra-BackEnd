@@ -139,13 +139,17 @@
     "z-schema": "^5.0.5"
   },
   "scripts": {
-    "test": "jest",
-    "start": "ts-node src/server.ts",
-    "build": "tsc",
-    "serve": "node dist/server.js",
     "dev": "nodemon src/server.ts",
+    "start": "ts-node src/server.ts",
+    "build": "npm run generate && tsc",
+    "generate": "prisma generate",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:prod": "prisma migrate deploy",
+    "studio": "prisma studio",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest",
+    "serve": "node dist/server.js"
   },
   "repository": {
     "type": "git",
