@@ -7,6 +7,29 @@ import {
   TravelerType,
   TravelFrequency,
 } from '../generated/prisma';
+
+export const PlanoViagemService = {
+  getAllPlanosViagemByUserId: (userId: number) => {
+    // Mock implementation
+    return [];
+  },
+  getPlanoViagemById: (userId: number, id: number) => {
+    // Mock implementation
+    return null;
+  },
+  createPlanoViagem: (userId: number, newPlano: object) => {
+    // Mock implementation
+    return {};
+  },
+  deletePlanoViagem: (userId: number, id: number) => {
+    // Mock implementation
+    return true;
+  },
+  updatePlanoViagem: (userId: number, id: number, updatedData: object) => {
+    // Mock implementation
+    return {};
+  },
+};
 import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();
