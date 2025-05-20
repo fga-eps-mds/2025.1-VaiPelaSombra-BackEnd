@@ -1,6 +1,6 @@
 import { PlanoViagem } from '../models/planoViagem.model';
 
-let planosViagem: PlanoViagem[] = [
+const planosViagem: PlanoViagem[] = [
   {
     id: 1,
     userId: 1,
