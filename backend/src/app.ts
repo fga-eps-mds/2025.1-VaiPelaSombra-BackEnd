@@ -38,5 +38,5 @@ app.use('/example', exampleRouter);
 app.use('/users', userRouter);
 app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
-app.use('/planos-viagem', planoViagemRouter);
+app.use('/planoViagem', planoViagemRouter);
 export default app;
