@@ -3,10 +3,8 @@ import { PrismaClient, Prisma } from '../generated/prisma';
 // Declaração global para evitar conflitos de tipo
 declare global {
   // Extend the global namespace to include the prisma instance
-  namespace NodeJS {
-    interface Global {
-      prisma?: PrismaClient;
-    }
+  interface Global {
+    prisma?: PrismaClient;
   }
 }
 
