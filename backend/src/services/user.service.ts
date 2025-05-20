@@ -1,11 +1,6 @@
+
 import { User } from '../models/user.model'; // Interface/Modelo User da sua aplicação
-import {
-  PrismaClient,
-  Prisma,
-  TravelerType,
-  TravelFrequency,
-} from '../generated/prisma';
-import { Request, Response } from 'express';
+import { PrismaClient, Prisma, TravelerType, TravelFrequency } from '../generated/prisma';
 
 const prisma = new PrismaClient();
 
