@@ -14,7 +14,6 @@ const readUsers = (): User[] => {
     console.error('Erro ao ler users:', error);
     return [];
   }
-  }
 };
 
 // Helper function to write users
