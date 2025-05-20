@@ -2,7 +2,7 @@ import { PrismaClient, Prisma } from '../generated/prisma';
 
 // Declaração global para evitar conflitos de tipo
 declare global {
-  var prisma: PrismaClient | undefined; 
+  var prisma: PrismaClient | undefined;
 }
 
 const prisma = globalThis.prisma || new PrismaClient({});
