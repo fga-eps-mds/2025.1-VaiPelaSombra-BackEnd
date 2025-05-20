@@ -93,6 +93,7 @@
     "path-parse": "^1.0.7",
     "path-to-regexp": "^8.2.0",
     "picomatch": "^2.3.1",
+    "@prisma/client": "^5.x",
     "proxy-addr": "^2.0.7",
     "qs": "^6.14.0",
     "range-parser": "^1.2.1",
