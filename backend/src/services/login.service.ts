@@ -1,33 +1,29 @@
-import { prisma } from '../data/prismaClient';
-import bcrypt from 'bcrypt';
-import { generateToken } from '../utils/jwt.util';
 
-export const loginService = {
-  async authenticateUser(email: string, password: string) {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+import { prisma } from "../data/prismaClient";
+import bcrypt from "bcrypt";
+import { gerarToken } from "../utils/jwt.util";
 
-    if (!user) {
-      throw new Error('Email ou senha inválidos');
-    }
+export async function autenticarUsuario(email: string, senha: string) {
+  const usuario = await prisma.user.findUnique({ where: { email } });
 
-    const verifyPass = await bcrypt.compare(password, user.password);
+  if (!usuario) {
+    throw new Error("Usuário não encontrado.");
+  }
 
-    if (!verifyPass) {
-      throw new Error('Email ou senha inválidos');
-    }
+  const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
-    const token = generateToken({ id: user.id, email: user.email });
+  if (!senhaValida) {
+    throw new Error("Senha incorreta.");
+  }
 
-    //const { password:_, ...userLogin } = user;
-    // sepah retorna so id e email
-    return {
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-      token,
-    };
-  },
-};
+  const token = gerarToken({ id: usuario.id, email: usuario.email });
+
+  return {
+    usuario: {
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
+    },
+    token,
+  };
+}

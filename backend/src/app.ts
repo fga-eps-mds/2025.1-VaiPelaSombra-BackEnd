@@ -23,4 +23,6 @@ app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/planoViagem', planoViagemRouter);
 app.use('/login', loginRouter);
+app.use('/login', loginRouter);
+
 export default app;
