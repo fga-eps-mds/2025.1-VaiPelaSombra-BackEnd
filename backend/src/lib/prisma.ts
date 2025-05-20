@@ -1,10 +1,15 @@
 import { PrismaClient, Prisma } from '../generated/prisma';
 
 declare global {
-  var prisma: PrismaClient | undefined;
+  // Extend the global namespace to include the prisma instance
+  namespace NodeJS {
+    interface Global {
+      prisma?: PrismaClient;
+    }
+  }
 }
 
-const prisma = global.prisma || new PrismaClient({});
+const prisma = global.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV === 'development') {
   global.prisma = prisma;
