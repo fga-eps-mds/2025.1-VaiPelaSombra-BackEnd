@@ -2,9 +2,9 @@ name: Build Backend
 
 on:
   push:
-    branches: [ main, develop, adicionando-actions-backend  ]
+    branches: [main, develop, adicionando-actions-backend]
   pull_request:
-    branches: [ main, develop, adicionando-actions-backend  ]
+    branches: [main, develop, adicionando-actions-backend]
 
 jobs:
   build:

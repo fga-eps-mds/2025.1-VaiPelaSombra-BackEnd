@@ -10,7 +10,6 @@ const router = Router();
  *   description: Example API endpoints
  */
 
-
 /**
  * @swagger
  * /example:

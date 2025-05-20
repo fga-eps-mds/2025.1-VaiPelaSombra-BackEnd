@@ -6,12 +6,7 @@ const prisma = new PrismaClient();
 
 // --- Definições de Tipo para Entradas do Serviço ---
 import { User } from '../models/user.model'; // Interface/Modelo User da sua aplicação
-import {
-  PrismaClient,
-  Prisma,
-  TravelerType,
-  TravelFrequency,
-} from '../generated/prisma';
+import { PrismaClient, Prisma, TravelerType, TravelFrequency } from '../generated/prisma';
 import { Request, Response } from 'express';
 
 const prisma = new PrismaClient();

@@ -29,7 +29,7 @@ const router = Router();
  *                   example: "Bem-vindo à API de PlanoViagem!"
  */
 router.get('/', (req, res) => {
-  res.json({ message: "Bem-vindo à API de PlanoViagem!" });
+  res.json({ message: 'Bem-vindo à API de PlanoViagem!' });
 });
 
 /**
