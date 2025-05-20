@@ -18,14 +18,14 @@ export const UserController = {
   },
 
   createUser: (req: Request, res: Response): void => {
-    const { name, email, password} = req.body;
+    const { name, email, password } = req.body;
 
     if (!name || !email) {
       res.status(400).json({ message: 'Name and email are required' });
       return;
     }
 
-    const newUser = UserService.createUser({ name, email, password});
+    const newUser = UserService.createUser({ name, email, password });
     res.status(201).json(newUser);
   },
 

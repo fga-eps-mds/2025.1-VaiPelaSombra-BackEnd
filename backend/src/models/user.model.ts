@@ -15,7 +15,7 @@ interface TravelPreferencesModel {
   travelerType: TravelerType;
   travelFrequency: TravelFrequency;
   averageBudget: number;
-  prefer: PreferModel[]; 
+  prefer: PreferModel[];
 }
 
 export interface User {
