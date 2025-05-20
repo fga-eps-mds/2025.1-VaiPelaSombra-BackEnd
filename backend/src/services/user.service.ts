@@ -1,47 +1,67 @@
 import { PrismaClient } from '@prisma/client';
 import { User } from '../models/user.model';
-
-const prisma = new PrismaClient();
+import { prisma, Prisma } from '../lib/prisma';
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
-    return await prisma.user.findMany() as User[];
+    return await prisma.user.findMany();
   },
 
-  getUserById: async (id: string): Promise<User | null> => {
+  getUserById: async (id: number): Promise<User | null> => {
     return await prisma.user.findUnique({
       where: { id },
-    }) as User | null;
+    });
   },
 
-  createUser: async (userData: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User> => {
-    const newUser = await prisma.user.create({
-      data: {
-        ...userData,
-      },
-    }) as User;
-    return newUser;
-  },
+  createUser: async (
+  userData: Omit<User, 'id' | 'createdAt'>
+): Promise<User> => {
+  return await prisma.user.create({
+    data: {
+      name: userData.name,
+      email: userData.email,
+      password: userData.password,
+      profileBio: userData.profileBio,
+      profileImage: userData.profileImage,
+      travelPreferences: userData.travelPreferences // Aqui é o ID da preferência (um número)
+        ? {
+            connect: { id: userData.travelPreferences }, // Conecta a UM ÚNICO ID
+          }
+        : undefined, // Ou para desconectar se for null: { disconnect: true } se aplicável
+    },
+  });
+},
 
-  updateUser: async (id: string, updateData: Partial<Omit<User, 'id'>>): Promise<User | null> => {
-    const updatedUser = await prisma.user.update({
+  updateUser: async (
+    id: number,
+    userData: Partial<Omit<User, 'id' | 'createdAt'>>
+  ): Promise<User | null> => {
+    return await prisma.user.update({
       where: { id },
       data: {
-        ...updateData,
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        profileBio: userData.profileBio,
+        profileImage: userData.profileImage,
+        travelPreferences: userData.travelPreferences
+          ? {
+              connect: { id: userData.travelPreferences },
+            }
+          : undefined,
       },
-    }) as User | null;
-    return updatedUser;
+    });
   },
-  
 
-  deleteUser: async (id: string): Promise<boolean> => {
+  deleteUser: async (id: number): Promise<boolean> => {
     try {
       await prisma.user.delete({
         where: { id },
       });
       return true;
     } catch (error) {
-      return false;
+      return false; // Caso nao exista
     }
   },
 };
+
