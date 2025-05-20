@@ -33,7 +33,7 @@ export interface UpdateUserWithPreferencesInput {
 
 export const UserService = {
   getAllUsers: async (): Promise<User[]> => {
-    return await prisma.user.findMany({
+    return (await prisma.user.findMany({
       include: {
         travelPreferences: {
           include: {
@@ -45,7 +45,7 @@ export const UserService = {
           },
         },
       },
-    }) as User[];
+    })) as User[];
   },
 
   getUserById: async (id: number): Promise<User | null> => {
@@ -120,10 +120,7 @@ export const UserService = {
       });
       return true;
     } catch (error) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
         return false;
       }
       console.error('Erro ao deletar usuário:', error);
