@@ -65,3 +65,16 @@ model Prefer {
 
   @@id([travelPreferencesId, travelInterestsId])
 }
+
+model PlanoViagem {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  nome       String
+  destino    String?  // Campo opcional
+  dataInicio DateTime? // Campo opcional
+  dataFim    DateTime? // Campo opcional
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  User User @relation(fields: [userId], references: [id])
+}
