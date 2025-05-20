@@ -11,9 +11,37 @@
  * - Se a senha não coincidir, lançar erro específico.
  * - Gerar token JWT contendo informações essenciais (ex: id, email).
  * - Retornar objeto contendo usuário e token.
- * 
+ *
  * Nota para o time:
  * - Manter a lógica isolada para facilitar testes.
  * - Tratar erros com mensagens claras para o controlador interpretar.
  * - Garantir que a senha no banco esteja sempre armazenada como hash.
  */
+import { prisma } from "../data/prismaClient";
+import bcrypt from "bcrypt";
+import { gerarToken } from "../utils/jwt.util";
+
+export async function autenticarUsuario(email: string, senha: string) {
+  const usuario = await prisma.user.findUnique({ where: { email } });
+
+  if (!usuario) {
+    throw new Error("Usuário não encontrado.");
+  }
+
+  const senhaValida = await bcrypt.compare(senha, usuario.senha);
+
+  if (!senhaValida) {
+    throw new Error("Senha incorreta.");
+  }
+
+  const token = gerarToken({ id: usuario.id, email: usuario.email });
+
+  return {
+    usuario: {
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
+    },
+    token,
+  };
+}

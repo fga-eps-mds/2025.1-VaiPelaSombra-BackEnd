@@ -5,6 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import exampleRouter from './routes/example';
 import userRouter from './routes/user.routes';
+import loginRouter from './routes/login.routes';
 
 const app = express();
 
@@ -34,5 +35,6 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/example', exampleRouter);
 app.use('/users', userRouter);
+app.use('/login', loginRouter);
 
 export default app;
