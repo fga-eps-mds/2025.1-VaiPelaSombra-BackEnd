@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 export const UserController = {
-  getAllUsers: (req: Request, res: Response): void => {
-    const users = UserService.getAllUsers();
-    //const users = [{"robson": "dada"}];
+  getAllUsers: async (req: Request, res: Response): Promise<void> => {
+    const users = await UserService.getAllUsers();
     res.json(users);
   },
 
@@ -17,7 +17,7 @@ export const UserController = {
     res.json(user);
   },
 
-  createUser: (req: Request, res: Response): void => {
+  createUser: async (req: Request, res: Response): Promise<void> => {
     const { name, email, password } = req.body;
 
     if (!name || !email) {
@@ -25,8 +25,12 @@ export const UserController = {
       return;
     }
 
-    const newUser = UserService.createUser({ name, email, password });
-    res.status(201).json(newUser);
+    try {
+      const newUser = await UserService.createUser({ name, email, password });
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating user', error });
+    }
   },
 
   updateUser: (req: Request, res: Response): void => {

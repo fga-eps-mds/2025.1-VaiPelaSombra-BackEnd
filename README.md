@@ -15,6 +15,11 @@ npm install
 
 Após instalar as dependências, você pode iniciar o servidor de desenvolvimento com:
 
+1- Montar o docker com uma instancia postgres
+```bash
+docker-compose up -d
+```
+
 ```bash
 npm run dev
 ```
