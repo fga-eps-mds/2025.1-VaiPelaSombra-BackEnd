@@ -1,0 +1,38 @@
+openapi: 3.0.0
+info:
+  title: VaiPelaSombra API
+  version: 1.0.0
+  description: API documentation for VaiPelaSombra Backend
+servers:
+  - url: http://localhost:3000
+    description: Local server
+paths:
+  $ref: './routes/users.paths.yaml'
+components:
+  schemas:
+    CreateUserInput:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: "João Silva"
+        email:
+          type: string
+          format: email
+          example: "joao@email.com"
+        password:
+          type: string
+          description: Password must be hashed before sending to the service
+          example: "hashed_password"
+        profileBio:
+          type: string
+          nullable: true
+          example: "Apaixonado por viagens e aventuras."
+        profileImage:
+          type: string
+          nullable: true
+          example: "https://example.com/profile.jpg"
