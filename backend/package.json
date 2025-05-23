@@ -188,11 +188,8 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "prisma": "^6.7.0",
-    "swagger-cli": "^4.0.4",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3",
-    "yaml-merge": "^0.0.2",
-    "yaml-merge-cli": "^1.1.5"
+    "typescript": "^5.8.3"
   }
 }
