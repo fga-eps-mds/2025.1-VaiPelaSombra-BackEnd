@@ -1,0 +1,33 @@
+import { prisma } from '../data/prismaClient';
+import bcrypt from 'bcrypt';
+import { generateToken } from '../utils/jwt.util';
+
+export const loginService = {
+  async authenticateUser(email: string, password: string) {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new Error('Email ou senha inválidos');
+    }
+
+    const verifyPass = await bcrypt.compare(password, user.password);
+
+    if (!verifyPass) {
+      throw new Error('Email ou senha inválidos');
+    }
+
+    const token = generateToken({ id: user.id, email: user.email });
+
+    //const { password:_, ...userLogin } = user;
+    // sepah retorna so id e email
+    return {
+      user: {
+        id: user.id,
+        email: user.email,
+      },
+      token,
+    };
+  },
+};
