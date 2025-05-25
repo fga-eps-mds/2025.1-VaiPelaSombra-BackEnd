@@ -24,29 +24,3 @@ export function verifyToken(token: string): JwtPayload {
     throw new Error('Invalid or expired token');
   }
 }
-
-// const {password:_, ...userLogin} = user
-// return res.json({
-// 	user: userLogin,
-// 	token: token,
-// })
-
-// export function verifyToken(req: Request, res: Response){
-//   const { authorization } = req.headers
-//   if (!authorization) {
-//     throw new UnauthorizedError('Não autorizado')
-//   }
-
-//   const token = authorization.split(' ')[1]
-
-//   const { id } = jwt.verify(token, process.env.JWT_PASS ?? '') as JwtPayload
-
-//   const user = await userRepository.findOneBy({ id })
-
-//   if (!user) {
-//     throw new UnauthorizedError('Não autorizado')
-//   }
-
-//   const { password: _, ...loggedUser } = user
-//   return res.json(loggedUser)
-//}
