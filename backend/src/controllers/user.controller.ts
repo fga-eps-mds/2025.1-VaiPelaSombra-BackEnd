@@ -7,7 +7,7 @@ export const UserController = {
     res.json(users);
   },
 
-  getUserById: async (req: Request, res: Response): Promise <void> => {
+  getUserById: async (req: Request, res: Response): Promise<void> => {
     const user = await UserService.getUserById(Number(req.params.id));
     if (!user) {
       res.status(404).json({ message: 'User not found' });
@@ -52,5 +52,5 @@ export const UserController = {
     }
 
     res.status(204).send();
-  },
+  },
 };
