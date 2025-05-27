@@ -1,60 +1,57 @@
+import { prisma } from '../data/prismaClient';
 import { PlanoViagem } from '../models/planoViagem.model';
 
-const planosViagem: PlanoViagem[] = [
-  {
-    id: 1,
-    userId: 1,
-    nome: 'Viagem para o Caribe',
-    destino: 'Caribe',
-    dataInicio: new Date('2025-06-01'),
-    dataFim: new Date('2025-06-15'),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-];
-
 export const PlanoViagemService = {
-  getAllPlanosViagemByUserId: (userId: number): PlanoViagem[] => {
-    return planosViagem.filter((plano) => plano.userId === userId);
+  getAllPlanosViagemByUserId: async (userId: number): Promise<PlanoViagem[]> => {
+    return await prisma.planoViagem.findMany({
+      where: { userId },
+    });
   },
 
-  getPlanoViagemById: (userId: number, id: number): PlanoViagem | undefined => {
-    return planosViagem.find((plano) => plano.userId === userId && plano.id === id);
+  getPlanoViagemById: async (userId: number, id: number): Promise<PlanoViagem | null> => {
+    return await prisma.planoViagem.findFirst({
+      where: { userId, id },
+    });
   },
 
-  createPlanoViagem: (
+  createPlanoViagem: async (
     userId: number,
     newPlano: Omit<PlanoViagem, 'id' | 'createdAt' | 'updatedAt'>
-  ): PlanoViagem => {
-    const newId = planosViagem.length > 0 ? planosViagem[planosViagem.length - 1].id + 1 : 1;
-    const plano = {
-      ...newPlano,
-      id: newId,
-      userId,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    planosViagem.push(plano);
-    return plano;
+  ): Promise<PlanoViagem> => {
+    return await prisma.planoViagem.create({
+      data: {
+        ...newPlano,
+        userId,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
   },
 
-  deletePlanoViagem: (userId: number, id: number): boolean => {
-    const index = planosViagem.findIndex((plano) => plano.userId === userId && plano.id === id);
-    if (index === -1) return false;
-
-    planosViagem.splice(index, 1);
-    return true;
+  deletePlanoViagem: async (userId: number, id: number): Promise<boolean> => {
+    const deleted = await prisma.planoViagem.deleteMany({
+      where: { userId, id },
+    });
+    return deleted.count > 0;
   },
 
-  updatePlanoViagem: (
+  updatePlanoViagem: async (
     userId: number,
     id: number,
-    updatedData: Partial<PlanoViagem>
-  ): PlanoViagem | undefined => {
-    const plano = planosViagem.find((plano) => plano.userId === userId && plano.id === id);
-    if (!plano) return undefined;
+    updatedData: Partial<Omit<PlanoViagem, 'id' | 'userId' | 'createdAt'>>
+  ): Promise<PlanoViagem | null> => {
+    const updated = await prisma.planoViagem.updateMany({
+      where: { userId, id },
+      data: {
+        ...updatedData,
+        updatedAt: new Date(),
+      },
+    });
 
-    Object.assign(plano, updatedData, { updatedAt: new Date() });
-    return plano;
+    if (updated.count === 0) return null;
+
+    return await prisma.planoViagem.findFirst({
+      where: { userId, id },
+    });
   },
 };
