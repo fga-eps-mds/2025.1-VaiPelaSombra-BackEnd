@@ -8,12 +8,12 @@ export const loginController: RequestHandler = async (req, res) => {
     res.status(400).json({ message: 'Email and password are required.' });
     return;
   }
-
+  //returned JWT and data user if sucesses
   try {
     const result = await loginService.authenticateUser(email, password);
     res.status(200).json(result);
   } catch (error: unknown) {
-    if (error instanceof Error && error.message === 'Email ou senha inválidos') {
+    if (error instanceof Error && error.message === 'Invalid email or password') {
       res.status(401).json({ message: 'Incorrect email or password.' });
       return;
     }

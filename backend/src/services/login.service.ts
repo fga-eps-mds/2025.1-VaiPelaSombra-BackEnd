@@ -9,13 +9,13 @@ export const loginService = {
     });
 
     if (!user) {
-      throw new Error('Email ou senha inválidos');
+      throw new Error('Invalid email or password');
     }
 
     const verifyPass = await bcrypt.compare(password, user.password);
 
     if (!verifyPass) {
-      throw new Error('Email ou senha inválidos');
+      throw new Error('Invalid email or password');
     }
 
     const token = generateToken({ id: user.id, email: user.email });
