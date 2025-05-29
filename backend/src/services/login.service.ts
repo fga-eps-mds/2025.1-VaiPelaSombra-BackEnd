@@ -20,14 +20,12 @@ export const loginService = {
 
     const token = generateToken({ id: user.id, email: user.email });
 
-    //const { password:_, ...userLogin } = user;
-    // sepah retorna so id e email
     return {
+      token,
       user: {
         id: user.id,
         email: user.email,
       },
-      token,
     };
   },
 };
