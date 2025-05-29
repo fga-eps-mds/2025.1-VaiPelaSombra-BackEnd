@@ -8,6 +8,7 @@ import userRouter from './routes/user.routes';
 
 import travelInterestsRouter from './routes/travelInterests.routes';
 import planoViagemRouter from './routes/planoViagem.routes';
+import loginRouter from './routes/login.routes';
 
 import loginRouter from './routes/login.routes';
 
@@ -25,6 +26,7 @@ app.use('/users', userRouter);
 app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/planoViagem', planoViagemRouter);
+app.use('/login', loginRouter);
 app.use('/login', loginRouter);
 
 export default app;

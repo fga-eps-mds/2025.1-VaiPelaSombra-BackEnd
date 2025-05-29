@@ -294,6 +294,167 @@ paths:
           description: No interests selected
         '404':
           description: Preferences not found
+  /planoViagem/{userId}:
+    get:
+      summary: Retorna todos os planos de viagem de um usuário
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+      responses:
+        '200':
+          description: Lista de planos de viagem
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanoViagem'
+        '404':
+          description: Usuário não encontrado
+    post:
+      summary: Cria um novo plano de viagem
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+              properties:
+                nome:
+                  type: string
+                  description: Nome do plano de viagem
+                destino:
+                  type: string
+                  nullable: true
+                  description: Destino da viagem
+                dataInicio:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de início da viagem
+                dataFim:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
+      responses:
+        '201':
+          description: Plano de viagem criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoViagem'
+        '400':
+          description: Dados inválidos
+  /planoViagem/{userId}/{id}:
+    get:
+      summary: Retorna um plano de viagem específico
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      responses:
+        '200':
+          description: Detalhes do plano de viagem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoViagem'
+        '404':
+          description: Plano de viagem não encontrado
+    put:
+      summary: Atualiza um plano de viagem existente
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  description: Nome do plano de viagem
+                destino:
+                  type: string
+                  nullable: true
+                  description: Destino da viagem
+                dataInicio:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de início da viagem
+                dataFim:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
+      responses:
+        '200':
+          description: Plano de viagem atualizado com sucesso
+        '404':
+          description: Plano de viagem não encontrado
+    delete:
+      summary: Exclui um plano de viagem
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      responses:
+        '200':
+          description: Plano de viagem excluído com sucesso
+        '404':
+          description: Plano de viagem não encontrado
+
   /login:
     post:
       summary: Authenticate user
@@ -336,6 +497,7 @@ paths:
                       email:
                         type: string
                         example: joao@email.com
+
 components:
   schemas:
     CreateUserInput:
@@ -364,3 +526,23 @@ components:
           type: string
           nullable: true
           example: https://example.com/profile.jpg
+    PlanoViagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
