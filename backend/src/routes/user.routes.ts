@@ -1,7 +1,19 @@
 import { Router } from 'express';
-import { UserController } from '../controllers/user.controller';
-import { UserPreferencesController } from '../controllers/userPreferences.controller';
-import { TravelInterestsController } from '../controllers/travelInterests.controller';
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  getUsers,
+  updateUser,
+} from '../controllers/user.controller';
+//import { TravelInterestController } from '../controllers/travelInterest.controller';
+
+import {
+  createTravelPreference,
+  deleteTravelPreference,
+  getTravelPreferenceByUserId,
+  updateTravelPreference,
+} from '../controllers/travelPreference.controller';
 const router = Router();
 
 /**
@@ -59,7 +71,7 @@ const router = Router();
  *       200:
  *         description: A list of users
  */
-router.get('/', (req, res) => UserController.getAllUsers(req, res));
+router.get('/', getUsers);
 
 /**
  * @swagger
@@ -116,7 +128,6 @@ router.get('/', (req, res) => UserController.getAllUsers(req, res));
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/', (req, res) => UserController.getAllUsers(req, res));
 
 /**
  * @swagger
@@ -139,7 +150,7 @@ router.get('/', (req, res) => UserController.getAllUsers(req, res));
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/:id', (req, res) => UserController.getUserById(req, res));
+router.get('/:id', getUserById);
 
 /**
  * @swagger
@@ -161,7 +172,7 @@ router.get('/:id', (req, res) => UserController.getUserById(req, res));
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.post('/', (req, res) => UserController.createUser(req, res));
+router.post('/', createUser);
 
 /**
  * @swagger
@@ -190,7 +201,7 @@ router.post('/', (req, res) => UserController.createUser(req, res));
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.put('/:id', (req, res) => UserController.updateUser(req, res));
+router.put('/:id', updateUser);
 
 /**
  * @swagger
@@ -209,7 +220,7 @@ router.put('/:id', (req, res) => UserController.updateUser(req, res));
  *       200:
  *         description: The user was successfully deleted
  */
-router.delete('/:id', (req, res) => UserController.deleteUser(req, res));
+router.delete('/:id', deleteUser);
 
 /**
  * @swagger
@@ -228,7 +239,7 @@ router.delete('/:id', (req, res) => UserController.deleteUser(req, res));
  *       200:
  *         description: Travel preferences for the user
  */
-router.get('/:id/preferences', UserPreferencesController.getUserTravelPreferencesByUserId);
+router.get('/:id/preferences', getTravelPreferenceByUserId);
 
 /**
  * @swagger
@@ -269,7 +280,11 @@ router.get('/:id/preferences', UserPreferencesController.getUserTravelPreference
  *         description: Preferences saved successfully
  */
 
-router.post('/:id/preferences', UserPreferencesController.saveUserTravelPreferences);
+router.post('/:id/preferences', createTravelPreference);
+
+router.put('/:id/preferences', updateTravelPreference);
+router.delete('/:id/preferences', deleteTravelPreference);
+
 /**
  * @swagger
  * /users/{id}/preferences:
@@ -313,7 +328,7 @@ router.post('/:id/preferences', UserPreferencesController.saveUserTravelPreferen
  *         description: Invalid input
  */
 
-router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferences);
+//router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferences);
 /**
  * @swagger
  * /users/{id}/interests:
@@ -347,7 +362,7 @@ router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferenc
  *         description: Preferences not found
  */
 
-router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByUserId);
+//router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByUserId);
 /**
  * @swagger
  * /users/{id}/interests:
@@ -380,7 +395,7 @@ router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByU
  *         description: No interests selected
  */
 
-router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests);
+//router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests);
 /**
  * @swagger
  * /users/{id}/interests:
@@ -415,5 +430,5 @@ router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests)
  *         description: Preferences not found
  */
 
-router.put('/:id/interests', TravelInterestsController.saveUserTravelInterests);
+//router.put('/:id/interests', TravelInterestsController.saveUserTravelInterests);
 export default router;

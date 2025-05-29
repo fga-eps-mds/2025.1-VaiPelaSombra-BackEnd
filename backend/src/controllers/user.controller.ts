@@ -1,53 +1,52 @@
 import { Request, Response } from 'express';
+import { PrismaUserRepository } from '../repositories/user/user.repository.prisma';
 import { UserService } from '../services/user.service';
 
-export const UserController = {
-  getAllUsers: async (req: Request, res: Response) => {
-    const users = await UserService.getAllUsers();
-    //const users = [{"robson": "dada"}];
-    res.json(users);
-  },
+const userRepository = new PrismaUserRepository();
+const userService = new UserService(userRepository);
 
-  getUserById: async (req: Request, res: Response) => {
-    const user = await UserService.getUserById(Number(req.params.id));
-    if (!user) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-    res.json(user);
-  },
+export const createUser = async (req: Request, res: Response) => {
+  const { email, name, password } = req.body;
 
-  createUser: async (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
+  const data = { email, name, password };
+  const user = await userService.create(data);
+  res.status(201).json(user);
+  return;
+};
 
-    if (!name || !email) {
-      res.status(400).json({ message: 'Name and email are required' });
-      return;
-    }
+export const getUserById = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const user = await userService.findById(id);
+  if (!user) {
+    res.status(404).json({ message: 'User not found' });
+    return;
+  }
+  res.status(200).json(user);
+  return;
+};
+export const getUsers = async (req: Request, res: Response) => {
+  const users = await userService.findAll();
+  res.status(200).json(users);
+  return;
+};
 
-    const newUser = await UserService.createUser({ name, email, password });
-    res.status(201).json(newUser);
-  },
-
-  updateUser: async (req: Request, res: Response) => {
-    const updatedUser = await UserService.updateUser(Number(req.params.id), req.body);
-
-    if (!updatedUser) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-
-    res.json(updatedUser);
-  },
-
-  deleteUser: async (req: Request, res: Response) => {
-    const isDeleted = await UserService.deleteUser(Number(req.params.id));
-
-    if (!isDeleted) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-
-    res.status(204).send();
-  },
+export const updateUser = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const updatedUser = await userService.update(id, req.body);
+  if (!updatedUser) {
+    res.status(404).json({ message: 'User not found' });
+    return;
+  }
+  res.status(200).json(updatedUser);
+  return;
+};
+export const deleteUser = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const deleted = await userService.delete(id);
+  if (!deleted) {
+    res.status(404).json({ message: 'User not found' });
+    return;
+  }
+  res.status(204).send();
+  return;
 };
