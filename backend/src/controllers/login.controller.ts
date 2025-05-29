@@ -1,22 +1,23 @@
+import { RequestHandler } from 'express';
+import { loginService } from '../services/login.service';
 
-import { Request, Response } from "express";
-import { autenticarUsuario } from "../services/login.service";
+export const loginController: RequestHandler = async (req, res) => {
+  const { email, password } = req.body;
 
-
-export const login = async (req: Request, res: Response) => {
-  console.log('teste');
-  const { email, senha } = req.body;
-
-  if (!email || !senha) {
-    return res.status(400).json({ message: "Email e senha são obrigatórios." });
+  if (!email || !password) {
+    res.status(400).json({ message: 'Email and password are required.' });
+    return;
   }
-
+  //returned JWT and data user if sucesses
   try {
-    const resultado = await autenticarUsuario(email, senha);
-    return res.status(200).json(resultado);
-  } catch (err: any) {
-    return res.status(401).json({ message: err.message });
+    const result = await loginService.authenticateUser(email, password);
+    res.status(200).json(result);
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === 'Invalid email or password') {
+      res.status(401).json({ message: 'Incorrect email or password.' });
+      return;
+    }
+
+    res.status(500).json({ message: 'Internal server error.' });
   }
-
 };
-

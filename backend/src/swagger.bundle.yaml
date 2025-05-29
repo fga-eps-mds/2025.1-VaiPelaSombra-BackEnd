@@ -328,12 +328,6 @@ paths:
           schema:
             type: integer
           description: ID do usuário
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
               properties:
                 nome:
                   type: string
@@ -460,6 +454,50 @@ paths:
           description: Plano de viagem excluído com sucesso
         '404':
           description: Plano de viagem não encontrado
+
+  /login:
+    post:
+      summary: Authenticate user
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: joao@email.com
+                password:
+                  description: password to login
+                  type: string
+                  example: S3NH@SEGURS
+      responses:
+        '200':
+          description: sucessfly loggged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: jxaslcbhdjhasijis
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: joao@email.com
+
 components:
   schemas:
     CreateUserInput:
