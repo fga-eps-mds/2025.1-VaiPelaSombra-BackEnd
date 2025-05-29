@@ -1,0 +1,7 @@
+import { Prisma, Activity } from '../../generated/prisma';
+export interface IActivityRepository {
+  create(data: Prisma.ActivityCreateInput): Promise<Activity>;
+  delete(id: number): Promise<Activity | null>;
+  update(id: number, data: Prisma.ActivityUpdateInput): Promise<Activity | null>;
+  findAllOrderedByDate(): Promise<Activity[]>;
+}
