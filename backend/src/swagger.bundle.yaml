@@ -333,10 +333,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlanoViagem'
+              type: object
+              properties:
+                nome:
+                  type: string
+                  description: Nome do plano de viagem
+                destino:
+                  type: string
+                  nullable: true
+                  description: Destino da viagem
+                dataInicio:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de início da viagem
+                dataFim:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
       responses:
         '201':
           description: Plano de viagem criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoViagem'
         '400':
           description: Dados inválidos
   /planoViagem/{userId}/{id}:
@@ -388,7 +412,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PlanoViagem'
+              type: object
+              properties:
+                nome:
+                  type: string
+                  description: Nome do plano de viagem
+                destino:
+                  type: string
+                  nullable: true
+                  description: Destino da viagem
+                dataInicio:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de início da viagem
+                dataFim:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
       responses:
         '200':
           description: Plano de viagem atualizado com sucesso
