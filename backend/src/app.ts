@@ -5,11 +5,8 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import userRouter from './routes/user.routes';
-
 import travelInterestsRouter from './routes/travelInterests.routes';
 import planoViagemRouter from './routes/planoViagem.routes';
-import loginRouter from './routes/login.routes';
-
 import loginRouter from './routes/login.routes';
 
 const app = express();
