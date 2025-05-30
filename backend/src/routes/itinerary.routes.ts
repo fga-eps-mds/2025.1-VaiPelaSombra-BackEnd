@@ -1,5 +1,5 @@
 import { Router } from 'express';
-
+import activityRouter from './activity.routes';
 import {
   createItinerary,
   deleteItinerary,
@@ -7,12 +7,6 @@ import {
   updateItinerary,
 } from '../controllers/itinerary.controller';
 
-import {
-  createActivity,
-  deleteActivity,
-  getActivities,
-  updateActivity,
-} from '../controllers/activity.controller';
 const router = Router({ mergeParams: true });
 
 router.post('/', createItinerary);
@@ -23,8 +17,5 @@ router.delete('/', deleteItinerary);
 
 router.put('/', updateItinerary);
 
-router.post('/:itineraryId/activities', createActivity);
-router.get('/:itineraryId/activities', getActivities);
-router.delete('/:itineraryId/activities/:id', deleteActivity);
-router.put('/:itineraryId/activities/:id', updateActivity);
+router.use('/:itineraryId/activities', activityRouter);
 export default router;
