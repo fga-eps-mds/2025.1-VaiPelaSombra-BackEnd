@@ -1,28 +1,27 @@
-import { error } from 'console';
+import { Request, Response } from 'express';
 import { PrismaActivityRepository } from '../repositories/activity/actvity.repository.prisma';
 import { ActivityService } from '../services/activity.service';
 
 const activityRepository = new PrismaActivityRepository();
 const activityService = new ActivityService(activityRepository);
 
-export const createActivity = async (req, res) => {
-  try {
-    const itineraryId = parseInt(req.params.itineraryId);
-    const { location, title, price, startTime, endTime, duration } = req.body;
-    const data = {
-      location,
-      title,
-      price,
-      startTime,
-      endTime,
-      duration,
-      itineraryId,
-    };
-    const activity = await activityService.create(data);
-    res.status(201).json(activity);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+export const createActivity = async (req: Request, res: Response) => {
+  const itineraryId = parseInt(req.params.itineraryId);
+  const { location, title, price, startTime, endTime, duration, description } = req.body;
+  const data = {
+    location,
+    title,
+    price,
+    startTime,
+    endTime,
+    duration,
+    description,
+    itinerary: {
+      connect: { id: itineraryId },
+    },
+  };
+  const activity = await activityService.create(data);
+  res.status(201).json(activity);
 };
 export const deleteActivity = async (req, res) => {
   try {
@@ -36,23 +35,23 @@ export const deleteActivity = async (req, res) => {
     res.status(500).json(error);
   }
 };
-export const updateActivity = async (req, res) => {
-  try {
-    const id = parseInt(req.params.id);
-    const updatedActivity = await activityService.update(id, req.body);
-    if (!updatedActivity) {
-      return res.status(404).json(error);
-    }
-    res.status(200).json(updatedActivity);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+export const updateActivity = async (req: Request, res: Response) => {
+  const itineraryId = parseInt(req.params.itineraryId);
+  const { location, title, price, startTime, endTime, duration, description } = req.body;
+  const data = {
+    location,
+    title,
+    price,
+    startTime,
+    endTime,
+    duration,
+    description,
+  };
+  const updatedActivity = await activityService.update(itineraryId, data);
+  res.status(200).json(updatedActivity);
 };
-export const getActivities = async (req, res) => {
-  try {
-    const activities = await activityService.findAllOrderedByDate();
-    res.status(200).json(activities);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+export const getActivities = async (req: Request, res: Response) => {
+  const itineraryId = parseInt(req.params.itineraryId);
+  const activities = await activityService.findAllOrderedByDate(itineraryId);
+  res.status(200).json(activities);
 };

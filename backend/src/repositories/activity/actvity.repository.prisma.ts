@@ -16,9 +16,34 @@ export class PrismaActivityRepository implements IActivityRepository {
       data,
     });
   }
-  async findAllOrderedByDate(): Promise<Activity[]> {
+  async findAllOrderedByDate(itineraryId: number): Promise<Activity[]> {
     return prisma.activity.findMany({
+      where: { itineraryId },
       orderBy: { startTime: 'asc' },
+    });
+  }
+
+  async findConflictingActivities(
+    itineraryId: number,
+    startTime: Date,
+    endTime: Date
+  ): Promise<Activity[]> {
+    return prisma.activity.findMany({
+      where: {
+        itineraryId,
+        AND: [
+          {
+            startTime: {
+              lte: endTime,
+            },
+          },
+          {
+            endTime: {
+              gte: startTime,
+            },
+          },
+        ],
+      },
     });
   }
 }
