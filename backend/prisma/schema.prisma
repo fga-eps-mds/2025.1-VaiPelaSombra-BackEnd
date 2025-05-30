@@ -107,8 +107,8 @@ model Activity {
   location    String    @db.VarChar(100)
   title       String    @db.VarChar(100)
   price       Decimal?  @db.Decimal(5, 2)
-  startTime   DateTime?
-  endTime     DateTime?
+  startTime   DateTime
+  endTime     DateTime
   duration    DateTime?
   description String?   @db.VarChar(500)
 

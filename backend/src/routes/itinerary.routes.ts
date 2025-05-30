@@ -7,7 +7,12 @@ import {
   updateItinerary,
 } from '../controllers/itinerary.controller';
 
-import { createActivity, getActivities } from '../controllers/activity.controller';
+import {
+  createActivity,
+  deleteActivity,
+  getActivities,
+  updateActivity,
+} from '../controllers/activity.controller';
 const router = Router({ mergeParams: true });
 
 router.post('/', createItinerary);
@@ -20,5 +25,6 @@ router.put('/', updateItinerary);
 
 router.post('/:itineraryId/activities', createActivity);
 router.get('/:itineraryId/activities', getActivities);
-
+router.delete('/:itineraryId/activities/:id', deleteActivity);
+router.put('/:itineraryId/activities/:id', updateActivity);
 export default router;
