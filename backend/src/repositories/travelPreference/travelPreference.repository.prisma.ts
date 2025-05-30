@@ -7,16 +7,23 @@ export class PrismaTravelPreferenceRepository implements ITravelPreferenceReposi
     userId: number,
     data: Prisma.TravelPreferenceCreateInput
   ): Promise<TravelPreference> {
-    return prisma.travelPreference.create({
-      data: {
+    return prisma.travelPreference.upsert({
+      where: { userId },
+      update: data,
+      create: {
         ...data,
-        user: { connect: { id: userId } },
+        user: {
+          connect: { id: userId },
+        },
+      },
+      include: {
+        travelInterests: true,
       },
     });
   }
 
   async findByUserId(userId: number): Promise<TravelPreference | null> {
-    return prisma.travelPreference.findUnique({
+    return prisma.travelPreference.findFirst({
       where: { userId },
       include: { travelInterests: true },
     });

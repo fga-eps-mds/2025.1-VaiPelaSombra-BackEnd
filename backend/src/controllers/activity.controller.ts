@@ -1,5 +1,5 @@
 import { error } from 'console';
-import { PrismaActivityRepository } from '../repositories/activity/acitvity.repository.prisma';
+import { PrismaActivityRepository } from '../repositories/activity/actvity.repository.prisma';
 import { ActivityService } from '../services/activity.service';
 
 const activityRepository = new PrismaActivityRepository();

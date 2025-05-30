@@ -41,14 +41,14 @@ model TravelInterest {
 }
 
 model Itinerary {
-  id            Int      @id @default(autoincrement())
-  title         String   @db.VarChar(100)
-  startDate     DateTime
-  endDate       DateTime
-  status        String   @db.VarChar(20)
-  lodgingBudget Decimal? @db.Decimal(7, 2)
-  foodBudget    Decimal? @db.Decimal(7, 2)
-  totalBudget   Decimal? @db.Decimal(7, 2)
+  id              Int      @id @default(autoincrement())
+  title           String   @db.VarChar(100)
+  startDate       DateTime
+  endDate         DateTime
+  itineraryStatus String   @db.VarChar(20)
+  lodgingBudget   Decimal? @db.Decimal(7, 2)
+  foodBudget      Decimal? @db.Decimal(7, 2)
+  totalBudget     Decimal? @db.Decimal(7, 2)
 
   transports        Transport[]
   activities        Activity[]
