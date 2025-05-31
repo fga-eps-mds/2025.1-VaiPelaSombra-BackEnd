@@ -15,12 +15,50 @@ npm install
 
 Após instalar as dependências, você pode iniciar o servidor de desenvolvimento com:
 
+1- Montar o docker com uma instancia postgres
+```bash
+docker-compose up -d
+```
+
+2- No navegador acesse http://localhost:8080
+```bash
+username: admin@admin.com
+password: admin
+```
+
+3- Clique com o direito em "Servers" -> "Register" -> "Server..."
+```bash
+Geral -> Name: VaiPelaSombra 
+Connection -> Host: vai-pela-sombra-db
+              Port: 5432
+              Username: postgres
+              Password: postgres
+```
+Com isso é possível visualizar as tabelas do banco e suas tuplas
+
+4- Inicie a API localemente
 ```bash
 npm run dev
 ```
+
+## Erros
+Caso o acontece de aparecer o erro: 
+"- Drift detected: Your database schema is not in sync with your migration history."
+
+Pode ser que seu banco tenha subido com um histórico diferente ou usando outra migrations 
+para garantir que o banco esteja alinhado com as migrations, execute os comandos 
+
+```bash
+docker-compose down
+docker-compose down -v
+docker-compose up -d
+npm run migrate:dev
+```
+
+
 ## 📦 Scripts disponíveis
 
-|Comando|Descrição|
-|---|---|
-|npm install|Instala todas as dependências do projeto|
-|npm run dev|	Inicia o servidor de desenvolvimento com nodemon (se configurado)|
+| Comando     | Descrição                                                         |
+| ----------- | ----------------------------------------------------------------- |
+| npm install | Instala todas as dependências do projeto                          |
+| npm run dev | Inicia o servidor de desenvolvimento com nodemon (se configurado) |
