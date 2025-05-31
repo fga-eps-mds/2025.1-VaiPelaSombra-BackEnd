@@ -146,7 +146,7 @@ router.get('/', getUsers);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/:id', getUserById);
+router.get('/:userId', getUserById);
 
 /**
  * @swagger
@@ -197,7 +197,7 @@ router.post('/', createUser);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.put('/:id', updateUser);
+router.put('/:userId', updateUser);
 
 /**
  * @swagger
@@ -216,9 +216,9 @@ router.put('/:id', updateUser);
  *       200:
  *         description: The user was successfully deleted
  */
-router.delete('/:id', deleteUser);
+router.delete('/:userId', deleteUser);
 
-router.use('/:id/itineraries', itineraryRouter);
-router.use('/:id/preferences', travelPreferenceRouter); // Assuming you want to use the same router for preferences
+router.use('/:userId/itineraries', itineraryRouter);
+router.use('/:userId/preferences', travelPreferenceRouter); // Assuming you want to use the same router for preferences
 
 export default router;

@@ -14,6 +14,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ItineraryStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
+}
+
 model User {
   id                Int               @id @default(autoincrement())
   name              String            @db.VarChar(100)
@@ -41,14 +47,14 @@ model TravelInterest {
 }
 
 model Itinerary {
-  id              Int      @id @default(autoincrement())
-  title           String   @db.VarChar(100)
+  id              Int             @id @default(autoincrement())
+  title           String          @db.VarChar(100)
   startDate       DateTime
   endDate         DateTime
-  itineraryStatus String   @db.VarChar(20)
-  lodgingBudget   Decimal? @db.Decimal(7, 2)
-  foodBudget      Decimal? @db.Decimal(7, 2)
-  totalBudget     Decimal? @db.Decimal(7, 2)
+  itineraryStatus ItineraryStatus
+  lodgingBudget   Decimal?        @db.Decimal(7, 2)
+  foodBudget      Decimal?        @db.Decimal(7, 2)
+  totalBudget     Decimal?        @db.Decimal(7, 2)
 
   transports        Transport[]
   activities        Activity[]
@@ -103,14 +109,14 @@ model Review {
 }
 
 model Activity {
-  id          Int       @id @default(autoincrement())
-  location    String    @db.VarChar(100)
-  title       String    @db.VarChar(100)
-  price       Decimal?  @db.Decimal(5, 2)
+  id          Int      @id @default(autoincrement())
+  location    String   @db.VarChar(100)
+  title       String   @db.VarChar(100)
+  price       Decimal? @db.Decimal(5, 2)
   startTime   DateTime
   endTime     DateTime
-  duration    DateTime?
-  description String?   @db.VarChar(500)
+  duration    String?
+  description String?  @db.VarChar(500)
 
   itineraryId   Int
   itinerary     Itinerary    @relation(fields: [itineraryId], references: [id], onDelete: Cascade)

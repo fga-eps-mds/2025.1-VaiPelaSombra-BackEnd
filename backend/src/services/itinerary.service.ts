@@ -1,13 +1,13 @@
-import { Prisma } from '../generated/prisma';
+import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
 import { IItineraryRepository } from '../repositories/itinerary/itinerary.reposity';
 export class ItineraryService {
   constructor(private itineraryRepository: IItineraryRepository) {}
 
-  async create(data: Prisma.ItineraryCreateInput) {
-    return this.itineraryRepository.create(data);
+  async create(userId: number, data: CreateItineraryDTO) {
+    return this.itineraryRepository.create(userId, data);
   }
 
-  async update(id: number, data: Prisma.ItineraryUpdateInput) {
+  async update(id: number, data: UpdateItineraryDTO) {
     return this.itineraryRepository.update(id, data);
   }
 

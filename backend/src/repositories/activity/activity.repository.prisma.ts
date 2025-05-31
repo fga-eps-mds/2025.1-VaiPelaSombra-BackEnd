@@ -1,16 +1,23 @@
 import { prisma } from '../../data/prismaClient';
-import { Prisma, Activity } from '../../generated/prisma';
+import { CreateActivityDTO, UpdateActivityDTO } from '../../dtos/activity.dto';
+import { Activity, Prisma } from '../../generated/prisma';
 import { IActivityRepository } from './activity.repository';
 export class PrismaActivityRepository implements IActivityRepository {
-  async create(data: Prisma.ActivityCreateInput): Promise<Activity> {
-    return prisma.activity.create({ data });
+  async create(data: CreateActivityDTO): Promise<Activity> {
+    const { itineraryId, ...rest } = data;
+    const prismaData: Prisma.ActivityCreateInput = {
+      ...rest,
+      itinerary: { connect: { id: itineraryId } },
+    };
+    return prisma.activity.create({ data: prismaData });
   }
+
   async delete(id: number): Promise<Activity | null> {
     return prisma.activity.delete({
       where: { id },
     });
   }
-  async update(id: number, data: Prisma.ActivityUpdateInput): Promise<Activity | null> {
+  async update(id: number, data: UpdateActivityDTO): Promise<Activity | null> {
     return prisma.activity.update({
       where: { id },
       data,
@@ -44,6 +51,11 @@ export class PrismaActivityRepository implements IActivityRepository {
           },
         ],
       },
+    });
+  }
+  async findById(id: number): Promise<Activity | null> {
+    return prisma.activity.findUnique({
+      where: { id },
     });
   }
 }

@@ -15,8 +15,8 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 export const getUserById = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const user = await userService.findById(id);
+  const userId = parseInt(req.params.id);
+  const user = await userService.findById(userId);
   if (!user) {
     res.status(404).json({ message: 'User not found' });
     return;
@@ -31,8 +31,8 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const updatedUser = await userService.update(id, req.body);
+  const userId = parseInt(req.params.id);
+  const updatedUser = await userService.update(userId, req.body);
   if (!updatedUser) {
     res.status(404).json({ message: 'User not found' });
     return;
@@ -41,8 +41,8 @@ export const updateUser = async (req: Request, res: Response) => {
   return;
 };
 export const deleteUser = async (req: Request, res: Response) => {
-  const id = parseInt(req.params.id);
-  const deleted = await userService.delete(id);
+  const userId = parseInt(req.params.id);
+  const deleted = await userService.delete(userId);
   if (!deleted) {
     res.status(404).json({ message: 'User not found' });
     return;
