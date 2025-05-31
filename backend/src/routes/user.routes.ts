@@ -1,7 +1,15 @@
 import { Router } from 'express';
-import { UserController } from '../controllers/user.controller';
-import { UserPreferencesController } from '../controllers/userPreferences.controller';
-import { TravelInterestsController } from '../controllers/travelInterests.controller';
+import {
+  createUser,
+  deleteUser,
+  getUserById,
+  getUsers,
+  updateUser,
+} from '../controllers/user.controller';
+
+import itineraryRouter from './itinerary.routes';
+import travelPreferenceRouter from './travelPreference.routes';
+
 const router = Router();
 
 router.get('/', (req, res) => UserController.getAllUsers(req, res));
