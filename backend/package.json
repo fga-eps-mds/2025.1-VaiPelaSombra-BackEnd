@@ -28,6 +28,7 @@
     "cookie-signature": "^1.2.2",
     "cors": "^2.8.5",
     "create-require": "^1.1.1",
+    "date-fns": "^4.1.0",
     "debug": "^4.4.0",
     "depd": "^2.0.0",
     "diff": "^4.0.2",
@@ -137,7 +138,8 @@
     "yaml": "^2.0.0-1",
     "yamljs": "^0.3.0",
     "yn": "^3.1.1",
-    "z-schema": "^5.0.5"
+    "z-schema": "^5.0.5",
+    "zod": "^3.25.42"
   },
   "scripts": {
     "swagger:bundle": "npx redocly bundle --force src/swagger.schemas.yaml -o src/swagger.bundle.yaml 2> nul",
