@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-// import { PrismaItineraryRepository } from '../repositories/itinerary/itinerary.reposity.prisma';
 import { ItineraryService } from '../services/itinerary.service';
 import { CreateItinerarySchema, UpdateItinerarySchema } from '../dtos/itinerary.dto';
 import { BadRequestError } from '../errors/httpError';
