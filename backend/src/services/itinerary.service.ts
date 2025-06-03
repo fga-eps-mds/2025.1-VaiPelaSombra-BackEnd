@@ -1,5 +1,5 @@
 import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
-import { Prisma, Itinerary } from '../generated/prisma';
+import { Itinerary } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 
 export class ItineraryService {
