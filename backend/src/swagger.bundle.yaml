@@ -8,21 +8,9 @@ servers:
     description: Local server
 paths:
   /users:
-    get:
-      summary: Retrieve a list of users
-      tags:
-        - Users
-      responses:
-        '200':
-          description: A list of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CreateUserInput'
     post:
       summary: Create a new user
+      operationId: createUser
       tags:
         - Users
       requestBody:
@@ -33,471 +21,439 @@ paths:
               $ref: '#/components/schemas/CreateUserInput'
       responses:
         '201':
-          description: The user was successfully created
+          description: User created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateUserInput'
-  /users/{id}:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
     get:
-      summary: Retrieve a single user by ID
+      summary: Get all users
+      operationId: getUsers
       tags:
         - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
       responses:
         '200':
-          description: A single user
+          description: List of users
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateUserInput'
-    put:
-      summary: Update an existing user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserInput'
-      responses:
-        '200':
-          description: The user was successfully updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateUserInput'
-    delete:
-      summary: Delete a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      responses:
-        '200':
-          description: The user was successfully deleted
-  /users/{id}/preferences:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Server error
+  /users/{userId}:
     get:
-      summary: Retrieve travel preferences for a user
+      summary: Get user by ID
+      operationId: getUserById
       tags:
         - Users
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      responses:
-        '200':
-          description: Travel preferences for the user
-    post:
-      summary: Save or update a user's travel preferences
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
+        - name: userId
+          in: path
           required: true
           schema:
             type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelPreferences:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                      enum:
-                        - AVENTUREIRO
-                        - CULTURAL
-                        - RELAXAMENTO
-                        - GASTRONOMICO
-                      example: AVENTUREIRO
-                    travelFrequency:
-                      type: string
-                      enum:
-                        - BIMESTRAL
-                        - TRIMESTRAL
-                        - SEMESTRAL
-                        - ANUAL
-                      example: ANUAL
-                    averageBudget:
-                      type: number
-                      example: 0
       responses:
         '200':
-          description: Preferences saved successfully
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server error
     put:
-      summary: Update a user's travel preferences
+      summary: Update user by ID
+      operationId: updateUser
       tags:
         - Users
       parameters:
-        - in: path
-          name: id
+        - name: userId
+          in: path
           required: true
           schema:
             type: integer
-          example: 1
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                travelPreferences:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                      enum:
-                        - AVENTUREIRO
-                        - CULTURAL
-                        - RELAXAMENTO
-                        - GASTRONOMICO
-                      example: RELAXAMENTO
-                    travelFrequency:
-                      type: string
-                      enum:
-                        - BIMESTRAL
-                        - TRIMESTRAL
-                        - SEMESTRAL
-                        - ANUAL
-                      example: SEMESTRAL
-                    averageBudget:
-                      type: number
-                      example: 3500
+              $ref: '#/components/schemas/UpdateUserInput'
       responses:
         '200':
-          description: Preferences updated successfully
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         '400':
           description: Invalid input
         '404':
-          description: Preferences not found
-  /users/{id}/interests:
-    get:
-      summary: Get travel interests selected by a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      responses:
-        '200':
-          description: List of travel interests selected by the user
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 2
-                    name:
-                      type: string
-                      example: CULTURAL
-        '404':
-          description: Preferences not found
-    post:
-      summary: Save travel interests for a user (first-time setup)
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelInterestsIds:
-                  type: array
-                  items:
-                    type: integer
-                  example:
-                    - 1
-                    - 3
-                    - 4
-      responses:
-        '201':
-          description: Interests saved successfully
-        '400':
-          description: No interests selected
-    put:
-      summary: Update travel interests for a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelInterestsIds:
-                  type: array
-                  items:
-                    type: integer
-                  example:
-                    - 2
-                    - 4
-                    - 5
-      responses:
-        '200':
-          description: Interests updated successfully
-        '400':
-          description: No interests selected
-        '404':
-          description: Preferences not found
-  /planoViagem/{userId}:
-    get:
-      summary: Retorna todos os planos de viagem de um usuário
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-      responses:
-        '200':
-          description: Lista de planos de viagem
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PlanoViagem'
-        '404':
-          description: Usuário não encontrado
-    post:
-      summary: Cria um novo plano de viagem
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-              properties:
-                nome:
-                  type: string
-                  description: Nome do plano de viagem
-                destino:
-                  type: string
-                  nullable: true
-                  description: Destino da viagem
-                dataInicio:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de início da viagem
-                dataFim:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de término da viagem
-              required:
-                - nome
-      responses:
-        '201':
-          description: Plano de viagem criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanoViagem'
-        '400':
-          description: Dados inválidos
-  /planoViagem/{userId}/{id}:
-    get:
-      summary: Retorna um plano de viagem específico
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      responses:
-        '200':
-          description: Detalhes do plano de viagem
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanoViagem'
-        '404':
-          description: Plano de viagem não encontrado
-    put:
-      summary: Atualiza um plano de viagem existente
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                  description: Nome do plano de viagem
-                destino:
-                  type: string
-                  nullable: true
-                  description: Destino da viagem
-                dataInicio:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de início da viagem
-                dataFim:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de término da viagem
-              required:
-                - nome
-      responses:
-        '200':
-          description: Plano de viagem atualizado com sucesso
-        '404':
-          description: Plano de viagem não encontrado
+          description: User not found
+        '500':
+          description: Server error
     delete:
-      summary: Exclui um plano de viagem
+      summary: Delete user by ID
+      operationId: deleteUser
       tags:
-        - PlanoViagem
+        - Users
       parameters:
-        - in: path
-          name: userId
+        - name: userId
+          in: path
           required: true
           schema:
             type: integer
-          description: ID do usuário
-        - in: path
-          name: id
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+  /travel-preferences/{userId}:
+    get:
+      summary: Get travel preference by user ID
+      operationId: getTravelPreferenceByUserId
+      tags:
+        - TravelPreferences
+      parameters:
+        - name: preferenceId
+          in: path
           required: true
           schema:
             type: integer
-          description: ID do plano de viagem
       responses:
         '200':
-          description: Plano de viagem excluído com sucesso
+          description: Travel preference found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelPreference'
         '404':
-          description: Plano de viagem não encontrado
-
-  /login:
+          description: Travel preference not found
+        '500':
+          description: Server error
     post:
-      summary: Authenticate user
+      summary: Create travel preference
+      operationId: createTravelPreference
       tags:
-        - Login
+        - TravelPreferences
+      parameters:
+        - name: preferenceId
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: joao@email.com
-                password:
-                  description: password to login
-                  type: string
-                  example: S3NH@SEGURS
+              $ref: '#/components/schemas/CreateTravelPreferenceInput'
       responses:
-        '200':
-          description: sucessfly loggged
+        '201':
+          description: Travel preference created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: jxaslcbhdjhasijis
-                  user:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      email:
-                        type: string
-                        example: joao@email.com
-
+                $ref: '#/components/schemas/TravelPreference'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    put:
+      summary: Update travel preference
+      operationId: updateTravelPreference
+      tags:
+        - TravelPreferences
+      parameters:
+        - name: preferenceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTravelPreferenceInput'
+      responses:
+        '200':
+          description: Travel preference updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelPreference'
+        '400':
+          description: Invalid input
+        '404':
+          description: Travel preference not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete travel preference
+      operationId: deleteTravelPreference
+      tags:
+        - TravelPreferences
+      parameters:
+        - name: preferenceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Travel preference deleted
+        '404':
+          description: Travel preference not found
+        '500':
+          description: Server error
+  /travel-interests:
+    post:
+      summary: Create a new travel interest
+      operationId: createTravelInterest
+      tags:
+        - TravelInterests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTravelInterestInput'
+      responses:
+        '201':
+          description: Travel interest created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelInterest'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    get:
+      summary: Get all travel interests
+      operationId: getTravelInterests
+      tags:
+        - TravelInterests
+      responses:
+        '200':
+          description: List of travel interests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TravelInterest'
+        '500':
+          description: Server error
+  /travel-interests/{id}:
+    get:
+      summary: Get travel interest by ID
+      operationId: getTravelInterestById
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Travel interest found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelInterest'
+        '404':
+          description: Travel interest not found
+        '500':
+          description: Server error
+    put:
+      summary: Update travel interest by ID
+      operationId: updateTravelInterest
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTravelInterestInput'
+      responses:
+        '200':
+          description: Travel interest updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelInterest'
+        '400':
+          description: Invalid input
+        '404':
+          description: Travel interest not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete travel interest by ID
+      operationId: deleteTravelInterest
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Travel interest deleted
+        '404':
+          description: Travel interest not found
+        '500':
+          description: Server error
+  /itineraries/{userId}:
+    post:
+      summary: Create itinerary for user
+      operationId: createItinerary
+      tags:
+        - Itineraries
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateItineraryInput'
+      responses:
+        '201':
+          description: Itinerary created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Itinerary'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    get:
+      summary: Get all itineraries for user
+      operationId: findByUserId
+      tags:
+        - Itineraries
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of itineraries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Itinerary'
+        '500':
+          description: Server error
+  /itineraries/{userId}/{itineraryId}:
+    get:
+      summary: Get itinerary by user and itinerary ID
+      operationId: findByUserItineraryId
+      tags:
+        - Itineraries
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Itinerary found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Itinerary'
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+  /itineraries/{itineraryId}:
+    put:
+      summary: Update itinerary by ID
+      operationId: updateItinerary
+      tags:
+        - Itineraries
+      parameters:
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateItineraryInput'
+      responses:
+        '200':
+          description: Itinerary updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Itinerary'
+        '400':
+          description: Invalid input
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete itinerary by ID
+      operationId: deleteItinerary
+      tags:
+        - Itineraries
+      parameters:
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Itinerary deleted
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
 components:
   schemas:
     CreateUserInput:

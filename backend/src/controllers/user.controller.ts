@@ -1,56 +1,63 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
+import { CreateUserSchema } from '../dtos/user.dto';
+import { BadRequestError, NotFoundError } from '../errors/httpError';
 
-export const UserController = {
-  getAllUsers: async (req: Request, res: Response): Promise<void> => {
-    const users = await UserService.getAllUsers();
-    res.json(users);
-  },
+const userService = new UserService();
 
-  getUserById: async (req: Request, res: Response): Promise<void> => {
-    const user = await UserService.getUserById(Number(req.params.id));
-    if (!user) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-    res.json(user);
-  },
+export const createUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const data = CreateUserSchema.parse(req.body);
+    const user = await userService.create(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userResponse } = user;
+    res.status(201).json(userResponse);
+  } catch (error) {
+    next(error);
+  }
+};
 
-  createUser: async (req: Request, res: Response): Promise<void> => {
-    const { name, email, password } = req.body;
+export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
+    const user = await userService.findById(userId);
+    if (!user) throw new NotFoundError('User not found');
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await userService.findAll();
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
 
-    if (!name || !email) {
-      res.status(400).json({ message: 'Name and email are required' });
-      return;
-    }
-
-    try {
-      const newUser = await UserService.createUser({ name, email, password });
-      res.status(201).json(newUser);
-    } catch (error) {
-      res.status(500).json({ message: 'Error creating user', error });
-    }
-  },
-
-  updateUser: async (req: Request, res: Response): Promise<void> => {
-    const updatedUser = await UserService.updateUser(Number(req.params.id), req.body);
-
-    if (!updatedUser) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-
-    res.json(updatedUser);
-  },
-
-  deleteUser: async (req: Request, res: Response): Promise<void> => {
-    const isDeleted = await UserService.deleteUser(Number(req.params.id));
-
-    if (!isDeleted) {
-      res.status(404).json({ message: 'User not found' });
-      return;
-    }
-
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
+    const updatedUser = await userService.update(userId, req.body);
+    if (!updatedUser) throw new NotFoundError('User not found');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...userResponse } = updatedUser;
+    res.status(200).json(userResponse);
+  } catch (error) {
+    next(error);
+  }
+};
+export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = parseInt(req.params.userId);
+    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
+    const deleted = await userService.delete(userId);
+    if (!deleted) throw new NotFoundError('User not found');
     res.status(204).send();
-  },
+  } catch (error) {
+    next(error);
+  }
 };
