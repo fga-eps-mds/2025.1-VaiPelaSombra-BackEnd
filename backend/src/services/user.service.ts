@@ -1,5 +1,4 @@
 import { User } from '../generated/prisma';
-// import { IUserRepository } from './user.repository';
 import { prisma } from '../data/prismaClient';
 import { CreateUserDTO, UpdateUserDTO } from '../dtos/user.dto';
 
