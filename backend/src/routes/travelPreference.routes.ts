@@ -7,9 +7,13 @@ import {
 } from '../controllers/travelPreference.controller';
 
 const router = Router({ mergeParams: true });
-router.get('/', getTravelPreferenceByUserId);
-router.post('/', createTravelPreference);
-router.put('/', updateTravelPreference);
-router.delete('/', deleteTravelPreference);
+//Create
+router.get('/:userId', getTravelPreferenceByUserId);
+//Read
+router.post('/:userId', createTravelPreference);
+//Update
+router.put('/:userId', updateTravelPreference);
+//Delete
+router.delete('/:userId', deleteTravelPreference);
 
 export default router;

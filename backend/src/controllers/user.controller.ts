@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
+import { CreateUserSchema } from '../dtos/user.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
 
 const userService = new UserService();
@@ -41,8 +42,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   try {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const data = UpdateUserSchema.parse(req.body);
-    const updatedUser = await userService.update(userId, data);
+    const updatedUser = await userService.update(userId, req.body);
     if (!updatedUser) throw new NotFoundError('User not found');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userResponse } = updatedUser;
@@ -58,6 +58,9 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     const deleted = await userService.delete(userId);
     if (!deleted) throw new NotFoundError('User not found');
     res.status(204).send();
+  } catch (error) {
+    next(error);
+  }
   } catch (error) {
     next(error);
   }
