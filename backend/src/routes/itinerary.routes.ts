@@ -1,19 +1,16 @@
 import { Router } from 'express';
-import {
-  createItinerary,
-  deleteItinerary,
-  findByUserId,
-  // findByUserItineraryId,
-  updateItinerary,
-} from '../controllers/intinerary.controller';
+import { createItinerary, deleteItinerary, findByUserId, findByUserItineraryId, updateItinerary } from '../controllers/intinerary.controller';
 
-import activityRouter from './activity.routes';
-const router = Router({ mergeParams: true });
+const router = Router();
 
-router.post('/', createItinerary);
-router.get('/', findByUserId);
-//router.get('/:itineraryId', findByItineraryId);
+// Create
+router.post('/:userId', createItinerary);
+// Read
+router.get('/:userId', findByUserId);
+router.get('/:userId/:itineraryId', findByUserItineraryId);
+// Update
 router.put('/:itineraryId', updateItinerary);
+// Delete
 router.delete('/:itineraryId', deleteItinerary);
-router.use('/:itineraryId/activities', activityRouter);
+
 export default router;
