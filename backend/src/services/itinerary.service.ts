@@ -3,7 +3,6 @@ import { Itinerary } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 
 export class ItineraryService {
-
   async create(userId: number, data: CreateItineraryDTO): Promise<Itinerary> {
     const userIds = data.userIds ? Array.from(new Set([userId, ...data.userIds])) : [userId];
     const prismaData = {
@@ -73,5 +72,3 @@ export class ItineraryService {
     });
   }
 }
-
-
