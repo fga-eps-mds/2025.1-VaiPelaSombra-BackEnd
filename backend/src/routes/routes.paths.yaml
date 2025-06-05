@@ -605,14 +605,26 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateTravelInterestInput'
+            type: object
+            required:
+              - label
+            properties:
+              label:
+                type: string
+                example: "Natureza"
     responses:
       '201':
         description: Travel interest created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelInterest'
+              type: object
+              required:
+                - label
+              properties:
+                label:
+                  type: string
+                  example: "Natureza"
       '400':
         description: Invalid input
       '500':
@@ -634,7 +646,13 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelInterest'
+              type: object
+              required:
+                - label
+              properties:
+                label:
+                  type: string
+                  example: "Natureza"
       '404':
         description: Travel interest not found
       '500':
@@ -653,7 +671,13 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateTravelInterestInput'
+            type: object
+            required:
+              - label
+            properties:
+              label:
+                type: string
+                example: "Natureza"
     responses:
       '200':
         description: Travel interest updated
