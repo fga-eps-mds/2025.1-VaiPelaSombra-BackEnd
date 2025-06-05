@@ -17,4 +17,6 @@ router.delete('/:userId', deleteUser);
 router.use('/:userId/itineraries', itineraryRouter);
 router.use('/:userId/travel-preferences', travelPreferenceRouter);
 
+router.use('/:userId/itineraries', itineraryRouter);
+router.use('/:userId/preferences', travelPreferenceRouter);
 export default router;
