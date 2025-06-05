@@ -6,7 +6,7 @@ import { differenceInMinutes } from 'date-fns';
 
 export class ActivityService {
   async create(data: CreateActivityDTO): Promise<Activity> {
-    const { itineraryId, startTime, endTime } = data;
+    const { itineraryId, startTime, endTime, ...rest } = data;
 
     if (startTime >= endTime) throw new BadRequestError('Invalid start/end time');
     const conflictingActivities = await this.findConflictingActivities(
@@ -22,10 +22,12 @@ export class ActivityService {
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = durationInMinutes % 60;
     const durationString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-    data.duration = durationString;
 
     const prismaData: Prisma.ActivityCreateInput = {
-      ...data,
+      ...rest,
+      startTime,
+      endTime,
+      duration: durationString,
       itinerary: { connect: { id: itineraryId } },
     };
     return prisma.activity.create({ data: prismaData });
@@ -36,7 +38,7 @@ export class ActivityService {
       where: { id },
     });
   }
-  async update(    
+  async update(
     activityId: number,
     itineraryId: number,
     data: UpdateActivityDTO
