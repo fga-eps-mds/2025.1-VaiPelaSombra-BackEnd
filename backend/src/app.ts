@@ -6,6 +6,7 @@ import YAML from 'yamljs';
 import path from 'path';
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
+import destinationRouter from './routes/destination.routes';
 import { errorHandler } from './errors/midle';
 
 const app = express();
@@ -19,5 +20,6 @@ app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', userRouter);
 app.use('/interests', travelInterestsRouter);
+app.use('/destinations', destinationRouter);
 app.use(errorHandler);
 export default app;
