@@ -15,9 +15,21 @@ export class UserService {
     return prisma.user.findMany();
   }
 
-  async update(id: number, data: UpdateUserDTO): Promise<User | null> {
-    return prisma.user.update({
+  async getUserEmail(id: number): Promise<string | null> {
+    const user = await prisma.user.findUnique({
       where: { id },
+      select: { email: true },
+    });
+    return user ? user.email : null;
+  }
+
+  async update(id: number, data: UpdateUserDTO): Promise<User | null> {
+    const email = await this.getUserEmail(id);
+    if (!email) {
+      return null;
+    }
+    return prisma.user.update({
+      where: { email: email },
       data,
     });
   }
