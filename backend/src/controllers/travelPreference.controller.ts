@@ -54,7 +54,7 @@ export const deleteTravelPreference = async (req: Request, res: Response, next: 
 
 export const updateTravelPreference = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.params.userId);
 
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
     const { travelInterestIds } = req.body;

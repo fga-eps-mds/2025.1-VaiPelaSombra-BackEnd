@@ -3,14 +3,14 @@ import { ItineraryService } from '../services/itinerary.service';
 import { CreateItinerarySchema, UpdateItinerarySchema } from '../dtos/itinerary.dto';
 import { BadRequestError } from '../errors/httpError';
 
-const itineraryService = new ItineraryService()
+const itineraryService = new ItineraryService();
 
 export const createItinerary = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
 
-    const data = CreateItinerarySchema.parse({ ...req.body });
+    const data = CreateItinerarySchema.parse(req.body);
 
     data.totalBudget = (data.foodBudget ?? 0) + (data.lodgingBudget ?? 0);
 

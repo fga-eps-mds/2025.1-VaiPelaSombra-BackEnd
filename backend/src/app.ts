@@ -5,9 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import userRouter from './routes/user.routes';
-import travelPreferenceRouter from './routes/travelPreference.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
-import itineraryRouter from './routes/itinerary.routes';
 import { errorHandler } from './errors/midle';
 
 const app = express();
@@ -23,6 +21,5 @@ app.use('/users', userRouter);
 app.use('/travel-interests', travelInterestsRouter);
 app.use('/preferences', travelPreferenceRouter);
 app.use('/interests', travelInterestsRouter);
-app.use('/itinerary', itineraryRouter);
 app.use(errorHandler);
 export default app;
