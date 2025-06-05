@@ -36,7 +36,12 @@ Connection -> Host: vai-pela-sombra-db
 ```
 Com isso é possível visualizar as tabelas do banco e suas tuplas
 
-4- Inicie a API localemente
+4- Crie as tabelas no banco que está rodando localmente
+```bash
+npm run migrate:dev
+```
+
+5- Inicie a API localemente
 ```bash
 npm run dev
 ```
