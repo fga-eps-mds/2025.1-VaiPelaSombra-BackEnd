@@ -117,14 +117,14 @@ paths:
           description: User not found
         '500':
           description: Server error
-  /travel-preferences/{userId}:
+  /users/{userId}/preferences:
     get:
       summary: Get travel preference by user ID
       operationId: getTravelPreferenceByUserId
       tags:
         - TravelPreferences
       parameters:
-        - name: preferenceId
+        - name: userId
           in: path
           required: true
           schema:
@@ -135,7 +135,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelPreference'
+                type: object
+                required:
+                  - userId
+                  - travelInterests
+                properties:
+                  userId:
+                    type: integer
+                    example: 1
+                  travelInterests:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 2
+                      - 3
         '404':
           description: Travel preference not found
         '500':
@@ -146,7 +160,7 @@ paths:
       tags:
         - TravelPreferences
       parameters:
-        - name: preferenceId
+        - name: userId
           in: path
           required: true
           schema:
@@ -156,7 +170,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTravelPreferenceInput'
+              type: object
+              required:
+                - userId
+                - travelInterests
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                travelInterests:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 2
+                    - 3
       responses:
         '201':
           description: Travel preference created
@@ -174,7 +202,7 @@ paths:
       tags:
         - TravelPreferences
       parameters:
-        - name: preferenceId
+        - name: userId
           in: path
           required: true
           schema:
@@ -184,7 +212,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTravelPreferenceInput'
+              type: object
+              required:
+                - userId
+                - travelInterests
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                travelInterests:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 2
+                    - 3
       responses:
         '200':
           description: Travel preference updated
@@ -204,7 +246,7 @@ paths:
       tags:
         - TravelPreferences
       parameters:
-        - name: preferenceId
+        - name: userId
           in: path
           required: true
           schema:
@@ -216,7 +258,7 @@ paths:
           description: Travel preference not found
         '500':
           description: Server error
-  /travel-interests:
+  /interests:
     post:
       summary: Create a new travel interest
       operationId: createTravelInterest
@@ -227,14 +269,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTravelInterestInput'
+              type: object
+              required:
+                - label
+              properties:
+                label:
+                  type: string
+                  example: Natureza
       responses:
         '201':
           description: Travel interest created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
+                required:
+                  - label
+                properties:
+                  label:
+                    type: string
+                    example: Natureza
         '400':
           description: Invalid input
         '500':
@@ -252,10 +306,16 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TravelInterest'
+                  type: object
+                  required:
+                    - label
+                  properties:
+                    label:
+                      type: string
+                      example: Natureza
         '500':
           description: Server error
-  /travel-interests/{id}:
+  /interests/{id}:
     get:
       summary: Get travel interest by ID
       operationId: getTravelInterestById
@@ -273,7 +333,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
+                required:
+                  - label
+                properties:
+                  label:
+                    type: string
+                    example: Natureza
         '404':
           description: Travel interest not found
         '500':
@@ -294,14 +360,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTravelInterestInput'
+              type: object
+              required:
+                - label
+              properties:
+                label:
+                  type: string
+                  example: Natureza
       responses:
         '200':
           description: Travel interest updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
+                required:
+                  - label
+                properties:
+                  label:
+                    type: string
+                    example: Natureza
         '400':
           description: Invalid input
         '404':
@@ -326,7 +404,7 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-  /itineraries/{userId}:
+  /users/{userId}/itineraries:
     post:
       summary: Create itinerary for user
       operationId: createItinerary
@@ -343,7 +421,76 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateItineraryInput'
+              type: object
+              required:
+                - title
+                - startDate
+                - endDate
+                - itineraryStatus
+              properties:
+                title:
+                  type: string
+                  example: Viagem para o Rio
+                startDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-01T09:00:00.000Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-10T18:00:00.000Z'
+                itineraryStatus:
+                  type: string
+                  enum:
+                    - PLANNING
+                    - IN_PROGRESS
+                    - COMPLETED
+                  example: PLANNING
+                foodBudget:
+                  type: number
+                  format: float
+                  example: 500
+                lodgingBudget:
+                  type: number
+                  format: float
+                  example: 1200
+                totalBudget:
+                  type: number
+                  format: float
+                  example: 2000
+                userIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                transportIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                activityIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                destinationIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                requiredDocumentIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
       responses:
         '201':
           description: Itinerary created
@@ -374,38 +521,79 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Itinerary'
+                  type: object
+                  required:
+                    - title
+                    - startDate
+                    - endDate
+                    - itineraryStatus
+                  properties:
+                    title:
+                      type: string
+                      example: Viagem para o Rio
+                    startDate:
+                      type: string
+                      format: date-time
+                      example: '2025-07-01T09:00:00.000Z'
+                    endDate:
+                      type: string
+                      format: date-time
+                      example: '2025-07-10T18:00:00.000Z'
+                    itineraryStatus:
+                      type: string
+                      enum:
+                        - PLANNING
+                        - IN_PROGRESS
+                        - COMPLETED
+                      example: PLANNING
+                    foodBudget:
+                      type: number
+                      format: float
+                      example: 500
+                    lodgingBudget:
+                      type: number
+                      format: float
+                      example: 1200
+                    totalBudget:
+                      type: number
+                      format: float
+                      example: 2000
+                    userIds:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                        - 1
+                        - 2
+                    transportIds:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                        - 1
+                    activityIds:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                        - 1
+                        - 2
+                    destinationIds:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                        - 1
+                    requiredDocumentIds:
+                      type: array
+                      items:
+                        type: integer
+                      example:
+                        - 1
+                        - 2
         '500':
           description: Server error
-  /itineraries/{userId}/{itineraryId}:
-    get:
-      summary: Get itinerary by user and itinerary ID
-      operationId: findByUserItineraryId
-      tags:
-        - Itineraries
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-        - name: itineraryId
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Itinerary found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Itinerary'
-        '404':
-          description: Itinerary not found
-        '500':
-          description: Server error
-  /itineraries/{itineraryId}:
+  /users/{userId}/itineraries/{itineraryId}:
     put:
       summary: Update itinerary by ID
       operationId: updateItinerary
@@ -429,7 +617,76 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Itinerary'
+                type: object
+                required:
+                  - title
+                  - startDate
+                  - endDate
+                  - itineraryStatus
+                properties:
+                  title:
+                    type: string
+                    example: Viagem para o Rio
+                  startDate:
+                    type: string
+                    format: date-time
+                    example: '2025-07-01T09:00:00.000Z'
+                  endDate:
+                    type: string
+                    format: date-time
+                    example: '2025-07-10T18:00:00.000Z'
+                  itineraryStatus:
+                    type: string
+                    enum:
+                      - PLANNING
+                      - IN_PROGRESS
+                      - COMPLETED
+                    example: PLANNING
+                  foodBudget:
+                    type: number
+                    format: float
+                    example: 500
+                  lodgingBudget:
+                    type: number
+                    format: float
+                    example: 1200
+                  totalBudget:
+                    type: number
+                    format: float
+                    example: 2000
+                  userIds:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 1
+                      - 2
+                  transportIds:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 1
+                  activityIds:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 1
+                      - 2
+                  destinationIds:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 1
+                  requiredDocumentIds:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 1
+                      - 2
         '400':
           description: Invalid input
         '404':
@@ -452,6 +709,297 @@ paths:
           description: Itinerary deleted
         '404':
           description: Itinerary not found
+        '500':
+          description: Server error
+  users/{userId}/itineraries/{itineraryId}/activities:
+    post:
+      summary: Create activity for itinerary
+      operationId: createActivity
+      tags:
+        - Activities
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - location
+                - startTime
+                - endTime
+              properties:
+                title:
+                  type: string
+                  example: Passeio de barco
+                location:
+                  type: string
+                  example: Rio de Janeiro
+                startTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T09:00:00.000Z'
+                endTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T12:00:00.000Z'
+                price:
+                  type: number
+                  format: float
+                  example: 150
+                duration:
+                  type: string
+                  example: 3h
+                description:
+                  type: string
+                  example: Passeio de barco pela orla.
+                destinationId:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Activity created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - title
+                  - location
+                  - startTime
+                  - endTime
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: Passeio de barco
+                  location:
+                    type: string
+                    example: Rio de Janeiro
+                  startTime:
+                    type: string
+                    format: date-time
+                    example: '2025-07-02T09:00:00.000Z'
+                  endTime:
+                    type: string
+                    format: date-time
+                    example: '2025-07-02T12:00:00.000Z'
+                  price:
+                    type: number
+                    format: float
+                    example: 150
+                  duration:
+                    type: string
+                    example: 3h
+                  description:
+                    type: string
+                    example: Passeio de barco pela orla.
+                  destinationId:
+                    type: integer
+                    example: 1
+        '400':
+          description: Invalid input
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+    get:
+      summary: Get all activities for itinerary
+      operationId: getActivitiesByItineraryId
+      tags:
+        - Activities
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of activities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - id
+                    - title
+                    - location
+                    - startTime
+                    - endTime
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    title:
+                      type: string
+                      example: Passeio de barco
+                    location:
+                      type: string
+                      example: Rio de Janeiro
+                    startTime:
+                      type: string
+                      format: date-time
+                      example: '2025-07-02T09:00:00.000Z'
+                    endTime:
+                      type: string
+                      format: date-time
+                      example: '2025-07-02T12:00:00.000Z'
+                    price:
+                      type: number
+                      format: float
+                      example: 150
+                    duration:
+                      type: string
+                      example: 3h
+                    description:
+                      type: string
+                      example: Passeio de barco pela orla.
+                    destinationId:
+                      type: integer
+                      example: 1
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+  /users/{userId}/itineraries/{itineraryId}/activities/{activityId}:
+    put:
+      summary: Update activity by ID
+      operationId: updateActivity
+      tags:
+        - Activities
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - location
+                - startTime
+                - endTime
+              properties:
+                title:
+                  type: string
+                  example: Passeio de barco
+                location:
+                  type: string
+                  example: Rio de Janeiro
+                startTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T09:00:00.000Z'
+                endTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T12:00:00.000Z'
+                price:
+                  type: number
+                  format: float
+                  example: 150
+                duration:
+                  type: string
+                  example: 3h
+                description:
+                  type: string
+                  example: Passeio de barco pela orla.
+                destinationId:
+                  type: integer
+                  example: 1
+      responses:
+        '200':
+          description: Activity updated
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - title
+                  - location
+                  - startTime
+                  - endTime
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  title:
+                    type: string
+                    example: Passeio de barco
+                  location:
+                    type: string
+                    example: Rio de Janeiro
+                  startTime:
+                    type: string
+                    format: date-time
+                    example: '2025-07-02T09:00:00.000Z'
+                  endTime:
+                    type: string
+                    format: date-time
+                    example: '2025-07-02T12:00:00.000Z'
+                  price:
+                    type: number
+                    format: float
+                    example: 150
+                  duration:
+                    type: string
+                    example: 3h
+                  description:
+                    type: string
+                    example: Passeio de barco pela orla.
+                  destinationId:
+                    type: integer
+                    example: 1
+        '400':
+          description: Invalid input
+        '404':
+          description: Activity not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete activity by ID
+      operationId: deleteActivity
+      tags:
+        - Activities
+      parameters:
+        - name: activityId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Activity deleted
+        '404':
+          description: Activity not found
         '500':
           description: Server error
 components:
