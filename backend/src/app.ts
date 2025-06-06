@@ -7,6 +7,7 @@ import path from 'path';
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import planoViagemRouter from './routes/planoViagem.routes';
+import destinationsRoutes from './routes/destination.routes'; 
 
 const app = express();
 
@@ -21,4 +22,12 @@ app.use('/users', userRouter);
 app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/planoViagem', planoViagemRouter);
+app.use('/destinations', destinationsRoutes);
+app.use(express.json()); 
 export default app;
+
+
+
+
+
+

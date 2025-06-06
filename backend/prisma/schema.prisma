@@ -28,6 +28,7 @@ enum TravelFrequency {
   ANUAL
 }
 
+
 model TravelPreferences {
   id              Int             @id @default(autoincrement())
   userId          Int             @unique
@@ -77,4 +78,22 @@ model PlanoViagem {
   updatedAt  DateTime @updatedAt
 
   User User @relation(fields: [userId], references: [id])
+}
+
+model Destination {
+  id            String @id @default(uuid())
+  name          String @unique 
+  description   String? 
+  mainImageUrl  String 
+  images        Image[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Image {
+  id            String @id @default(uuid())
+  url           String
+  description   String? 
+  destinationId String
+  destination   Destination @relation(fields: [destinationId], references: [id])
 }
