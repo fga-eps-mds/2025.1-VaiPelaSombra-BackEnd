@@ -21,5 +21,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/destinations', destinationRouter);
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use(errorHandler);
 export default app;

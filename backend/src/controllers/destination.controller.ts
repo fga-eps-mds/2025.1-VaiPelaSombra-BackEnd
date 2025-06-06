@@ -54,3 +54,25 @@ export const getDestinationById = async (req: Request, res: Response, next: Next
     next(error);
   }
 };
+
+export const uploadDestinationImage = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const destinationId = parseInt(req.params.destinationId);
+    if (isNaN(destinationId)) throw new BadRequestError('Invalid destinations id');
+    if (!req.file) throw new BadRequestError('No image file provided');
+    const savedImage = await destinationService.uploadDestinationImage(destinationId, req.file);
+    res.status(201).json(savedImage);
+  } catch (error) {
+    next(error);
+  }
+};
+export const getDestinationImages = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const destinationId = parseInt(req.params.destinationId);
+    if (isNaN(destinationId)) throw new BadRequestError('Invalid destinations id');
+    const images = await destinationService.getDestinationImages(destinationId);
+    res.status(200).json(images);
+  } catch (error) {
+    next(error);
+  }
+};

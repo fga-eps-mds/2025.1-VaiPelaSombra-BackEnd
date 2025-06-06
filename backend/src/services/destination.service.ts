@@ -66,4 +66,23 @@ export class DestinationService {
       },
     });
   }
+  async uploadDestinationImage(destinationId: number, file: Express.Multer.File) {
+    const imageUrl = `/uploads/${file.filename}`;
+
+    const image = await prisma.destinationImage.create({
+      data: {
+        url: imageUrl,
+        destinationId,
+      },
+    });
+
+    return image;
+  }
+  async getDestinationImages(destinationId: number) {
+    return prisma.destinationImage.findMany({
+      where: { destinationId },
+      select: { id: true, url: true },
+      orderBy: { id: 'asc' },
+    });
+  }
 }
