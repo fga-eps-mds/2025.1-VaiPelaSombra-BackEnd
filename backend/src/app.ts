@@ -18,6 +18,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', userRouter);
-app.use('/interests', travelInterestsRouter);
+app.use('/travel-interests', travelInterestsRouter);
 app.use(errorHandler);
 export default app;

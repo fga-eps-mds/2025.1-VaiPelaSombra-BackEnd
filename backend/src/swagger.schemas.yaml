@@ -12,27 +12,345 @@ components:
   schemas:
     CreateUserInput:
       type: object
-      required:
-        - name
-        - email
-        - password
+      required: [name, email, password]
       properties:
         name:
           type: string
-          example: "João Silva"
         email:
           type: string
           format: email
-          example: "joao@email.com"
         password:
           type: string
-          description: Password must be hashed before sending to the service
-          example: "hashed_password"
+        createdAt:
+          type: string
+          format: date-time
         profileBio:
           type: string
-          nullable: true
-          example: "Apaixonado por viagens e aventuras."
         profileImage:
           type: string
-          nullable: true
-          example: "https://example.com/profile.jpg"
+          format: uri
+
+    UpdateUserInput:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        profileBio:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        profileBio:
+          type: string
+        profileImage:
+          type: string
+          format: uri
+
+    CreateTravelPreferenceInput:
+      type: object
+      required: [userId, transport, accommodation, activities]
+      properties:
+        userId:
+          type: integer
+        transport:
+          type: string
+        accommodation:
+          type: string
+        activities:
+          type: array
+          items:
+            type: string
+        budget:
+          type: number
+        duration:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+
+    UpdateTravelPreferenceInput:
+      type: object
+      properties:
+        userId:
+          type: integer
+        transport:
+          type: string
+        accommodation:
+          type: string
+        activities:
+          type: array
+          items:
+            type: string
+        budget:
+          type: number
+        duration:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+
+    TravelPreference:
+      type: object
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        transport:
+          type: string
+        accommodation:
+          type: string
+        activities:
+          type: array
+          items:
+            type: string
+        budget:
+          type: number
+        duration:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+
+    CreateItineraryInput:
+      type: object
+      required: [title, startDate, endDate, itineraryStatus]
+      properties:
+        title:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        itineraryStatus:
+          type: string
+          enum: [PLANNING, IN_PROGRESS, COMPLETED]
+        foodBudget:
+          type: number
+        lodgingBudget:
+          type: number
+        totalBudget:
+          type: number
+        userIds:
+          type: array
+          items:
+            type: integer
+        activityIds:
+          type: array
+          items:
+            type: integer
+        destinationIds:
+          type: array
+          items:
+            type: integer
+        transportIds:
+          type: array
+          items:
+            type: integer
+        requiredDocumentIds:
+          type: array
+          items:
+            type: integer
+
+    UpdateItineraryInput:
+      type: object
+      properties:
+        title:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        itineraryStatus:
+          type: string
+          enum: [PLANNING, IN_PROGRESS, COMPLETED]
+        foodBudget:
+          type: number
+        lodgingBudget:
+          type: number
+        totalBudget:
+          type: number
+        userIds:
+          type: array
+          items:
+            type: integer
+        activityIds:
+          type: array
+          items:
+            type: integer
+        destinationIds:
+          type: array
+          items:
+            type: integer
+        transportIds:
+          type: array
+          items:
+            type: integer
+        requiredDocumentIds:
+          type: array
+          items:
+            type: integer
+
+    Itinerary:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        itineraryStatus:
+          type: string
+        foodBudget:
+          type: number
+        lodgingBudget:
+          type: number
+        totalBudget:
+          type: number
+        userIds:
+          type: array
+          items:
+            type: integer
+        activityIds:
+          type: array
+          items:
+            type: integer
+        destinationIds:
+          type: array
+          items:
+            type: integer
+        transportIds:
+          type: array
+          items:
+            type: integer
+        requiredDocumentIds:
+          type: array
+          items:
+            type: integer
+
+    CreateActivityInput:
+      type: object
+      required: [location, title, price, startTime, endTime, itineraryId]
+      properties:
+        location:
+          type: string
+        title:
+          type: string
+        price:
+          type: number
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        duration:
+          type: string
+        description:
+          type: string
+        itineraryId:
+          type: integer
+
+    UpdateActivityInput:
+      type: object
+      properties:
+        location:
+          type: string
+        title:
+          type: string
+        price:
+          type: number
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        duration:
+          type: string
+        description:
+          type: string
+
+    Activity:
+      type: object
+      properties:
+        id:
+          type: integer
+        location:
+          type: string
+        title:
+          type: string
+        price:
+          type: number
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        duration:
+          type: string
+        description:
+          type: string
+        itineraryId:
+          type: integer
+
+    CreateTravelInterestInput:
+      type: object
+      required: [label]
+      properties:
+        label:
+          type: string
+
+    UpdateTravelInterestInput:
+      type: object
+      properties:
+        label:
+          type: string
+
+    TravelInterest:
+      type: object
+      properties:
+        id:
+          type: integer
+        label:
+          type: string
