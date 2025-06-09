@@ -2,6 +2,8 @@ import { DestinationService } from '../services/destination.service';
 import { Request, Response, NextFunction } from 'express';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../dtos/destination.dto';
 import { BadRequestError } from '../errors/httpError';
+import { destinationImageSchema } from '../dtos/destinationImage.dto';
+import { validateMIMEType } from 'validate-image-type';
 const destinationService = new DestinationService();
 export const createDestination = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -60,7 +62,13 @@ export const uploadDestinationImage = async (req: Request, res: Response, next: 
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId)) throw new BadRequestError('Invalid destinations id');
     if (!req.file) throw new BadRequestError('No image file provided');
-    const savedImage = await destinationService.uploadDestinationImage(destinationId, req.file);
+    const imageFile = destinationImageSchema.parse(req.file);
+    const result = await validateMIMEType(req.file.path, {
+      originalFilename: req.file.originalname,
+      allowMimeTypes: ['image/jpeg', 'image/png'],
+    });
+    if (!result.ok) throw new BadRequestError('Invalid image type. Only JPEG and PNG are allowed.');
+    const savedImage = await destinationService.uploadDestinationImage(destinationId, imageFile);
     res.status(201).json(savedImage);
   } catch (error) {
     next(error);

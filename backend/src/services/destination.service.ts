@@ -1,6 +1,7 @@
 import { Destination, Prisma } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 import { CreateDestinationDTO, UpdateDestinationDTO } from '../dtos/destination.dto';
+import { DestinationImageDTO } from '../dtos/destinationImage.dto';
 export class DestinationService {
   async create(data: CreateDestinationDTO): Promise<Destination> {
     const prismaData: Prisma.DestinationCreateInput = {
@@ -66,7 +67,7 @@ export class DestinationService {
       },
     });
   }
-  async uploadDestinationImage(destinationId: number, file: Express.Multer.File) {
+  async uploadDestinationImage(destinationId: number, file: DestinationImageDTO) {
     const imageUrl = `/uploads/${file.filename}`;
 
     const image = await prisma.destinationImage.create({
