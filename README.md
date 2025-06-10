@@ -39,6 +39,7 @@ Com isso é possível visualizar as tabelas do banco e suas tuplas
 4- Crie as tabelas no banco que está rodando localmente
 ```bash
 npm run migrate:dev
+npm run prisma:generate
 ```
 
 5- Inicie a API localemente
