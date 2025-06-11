@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@react-email/components": "^0.0.42",
+    "@react-email/render": "^1.1.2",
     "accepts": "^2.0.0",
     "acorn": "^8.14.1",
     "acorn-walk": "^8.3.4",
@@ -99,7 +101,9 @@
     "qs": "^6.14.0",
     "range-parser": "^1.2.1",
     "raw-body": "^3.0.0",
+    "react": "^19.1.0",
     "readdirp": "^3.6.0",
+    "resend": "^4.5.2",
     "resolve": "^1.22.10",
     "rimraf": "^2.7.1",
     "router": "^2.2.0",
@@ -153,7 +157,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
-    "serve": "node dist/server.js"
+    "serve": "node dist/server.js",
+    "email": "email dev --dir ./emails/emaiLayout"    
   },
   "repository": {
     "type": "git",
@@ -191,6 +196,7 @@
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
     "prisma": "^6.7.0",
+    "react-email": "4.0.16",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
