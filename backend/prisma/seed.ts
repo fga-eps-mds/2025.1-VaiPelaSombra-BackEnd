@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma'; // FIX
+import { PrismaClient } from '../src/generated/prisma'; // Ajuste o caminho se necessário
 
 const prisma = new PrismaClient();
 
@@ -11,11 +11,17 @@ async function main() {
     create: {
       name: 'Paris',
       description: 'A cidade da luz e do amor, famosa por sua arte, moda, gastronomia e cultura.',
-      mainImageUrl: 'https://images.unsplash.com/photo-1502602898669-e74fec47310d?fit=crop&w=800&q=80', // Exemplo de URL de imagem
+      mainImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg',
       images: {
         create: [
-          { url: 'https://images.unsplash.com/photo-1549144577-486111f148b3?fit=crop&w=600&q=80', description: 'Torre Eiffel' },
-          { url: 'https://images.unsplash.com/photo-1590779033379-335607590d98?fit=crop&w=600&q=80', description: 'Museu do Louvre' },
+          {
+            url: 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg',
+            description: 'Torre Eiffel (vista clássica)',
+          },
+          {
+            url: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?fit=crop&w=800&q=80',
+            description: 'Vista aérea de Paris',
+          },
         ],
       },
     },
@@ -26,18 +32,40 @@ async function main() {
     update: {},
     create: {
       name: 'Rio de Janeiro',
-      description: 'A Cidade Maravilhosa, conhecida por suas praias deslumbrantes, carnaval e o Cristo Redentor.',
-      mainImageUrl: 'https://images.unsplash.com/photo-1516339901601-2e52b62b719f?fit=crop&w=800&q=80', // Exemplo de URL de imagem
+      description: 'A Cidade Maravilhosa, conhecida por suas praias, carnaval e o Cristo Redentor.',
+      mainImageUrl: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?fit=crop&w=800&q=80',
       images: {
         create: [
-          { url: 'https://images.unsplash.com/photo-1518632611729-1662580ce6a8?fit=crop&w=600&q=80', description: 'Cristo Redentor' },
-          { url: 'https://images.unsplash.com/photo-1579730533355-6677f240ef40?fit=crop&w=600&q=80', description: 'Praia de Copacabana' },
+          {
+            url: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?fit=crop&w=800&q=80',
+            description: 'Imagem de Cristo Redentor',
+          },
         ],
       },
     },
   });
 
-  console.log(`Seeding concluído. Destinos criados: ${paris.name}, ${rio.name}`);
+  const brasilia = await prisma.destination.upsert({
+    where: { name: 'Brasília' },
+    update: {},
+    create: {
+      name: 'Brasília',
+      description: 'A capital do Brasil, famosa por sua arquitetura moderna e planejamento urbano.',
+      mainImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg',
+      images: {
+        create: [
+          {
+            url: 'https://upload.wikimedia.org/wikipedia/commons/a/a8/Tour_Eiffel_Wikimedia_Commons.jpg',
+            description: 'Imagem simbólica de Brasília (temporária)',
+          },
+        ],
+      },
+    },
+  });
+
+  console.log(
+    `Seeding concluído. Destinos criados: ${paris.name}, ${rio.name}, ${brasilia.name}`
+  );
 }
 
 main()
