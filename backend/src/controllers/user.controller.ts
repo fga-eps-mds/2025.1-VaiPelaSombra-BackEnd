@@ -1,64 +1,85 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
-import { BadRequestError, NotFoundError } from '../errors/httpError';
+import { AuthenticatedRequest } from '../middlewares/auth.middleware';
 
 const userService = new UserService();
 
-export const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const data = CreateUserSchema.parse(req.body);
-    const user = await userService.create(data);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userResponse } = user;
-    res.status(201).json(userResponse);
-  } catch (error) {
-    next(error);
-  }
-};
+export const UserController = {
+  getUserById: (req: Request, res: Response): void => {
+    const user = UserService.getUserById(Number(req.params.id));
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+    res.json(user);
+  },
 
-export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = parseInt(req.params.userId);
-    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const user = await userService.findById(userId);
-    if (!user) throw new NotFoundError('User not found');
-    res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const users = await userService.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    next(error);
-  }
-};
+  createUser: async (req: Request, res: Response): Promise<void> => {
+    const { name, email, password } = req.body;
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = parseInt(req.params.userId);
-    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const data = UpdateUserSchema.parse(req.body);
-    const updatedUser = await userService.update(userId, data);
-    if (!updatedUser) throw new NotFoundError('User not found');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userResponse } = updatedUser;
-    res.status(200).json(userResponse);
-  } catch (error) {
-    next(error);
-  }
-};
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = parseInt(req.params.userId);
-    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const deleted = await userService.delete(userId);
-    if (!deleted) throw new NotFoundError('User not found');
+    if (!name || !email) {
+      res.status(400).json({ message: 'Name and email are required' });
+      return;
+    }
+
+    try {
+      const newUser = await UserService.createUser({ name, email, password });
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(500).json({ message: 'Error creating user', error });
+    }
+  },
+
+  updateUser: (req: Request, res: Response): void => {
+    const updatedUser = UserService.updateUser(Number(req.params.id), req.body);
+
+    if (!updatedUser) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.json(updatedUser);
+  },
+
+  deleteUser: (req: Request, res: Response): void => {
+    const isDeleted = UserService.deleteUser(Number(req.params.id));
+
+    if (!isDeleted) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
     res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
+  },
+  getUserProfile: async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+      const userId = Number(req.user.id);
+      const user = await UserService.getUserById(userId);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ message: 'Error fetching user profile', error });
+    }
+  },
+  updateUserProfile: async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+    try {
+      const userId = Number(req.user.id);
+      const userData = req.body;
+      const updatedUser = await UserService.updateUser(userId, userData);
+      if (userData.travelPreferencesData) {
+        await UserService.updateTravelPreferences(userId, userData.travelPreferencesData);
+      }
+      if (!updatedUser) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+      const userUpdated = await UserService.getUserById(userId);
+      res.status(200).json(userUpdated);
+    } catch (error) {
+      res.status(500).json({ message: 'Erro updating user profile', error });
+    }
+  },
 };
