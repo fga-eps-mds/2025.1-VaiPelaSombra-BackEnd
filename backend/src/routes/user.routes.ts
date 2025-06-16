@@ -2,6 +2,9 @@ import { Router } from 'express';
 import { UserController } from '../controllers/user.controller';
 import { UserPreferencesController } from '../controllers/userPreferences.controller';
 import { TravelInterestsController } from '../controllers/travelInterests.controller';
+import { authMiddleware } from '../middlewares/error.middleware';
+
+const { getUserProfile, updateUserProfile } = UserController;
 const router = Router();
 
 router.get('/', (req, res) => UserController.getAllUsers(req, res));
@@ -15,4 +18,7 @@ router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferenc
 router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByUserId);
 router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests);
 router.put('/:id/interests', TravelInterestsController.saveUserTravelInterests);
+router.get('/me', authMiddleware, getUserProfile);
+router.put('/me', authMiddleware, updateUserProfile);
+
 export default router;

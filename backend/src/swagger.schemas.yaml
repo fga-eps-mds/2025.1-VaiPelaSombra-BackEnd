@@ -10,49 +10,63 @@ paths:
   $ref: "./routes/users.paths.yaml"
 components:
   schemas:
-    CreateUserInput:
+    User:
       type: object
-      required:
-        - name
-        - email
-        - password
       properties:
+        id:
+          type: integer
         name:
           type: string
-          example: "João Silva"
         email:
           type: string
-          format: email
-          example: "joao@email.com"
-        password:
-          type: string
-          description: Password must be hashed before sending to the service
-          example: "hashed_password"
         profileBio:
           type: string
           nullable: true
-          example: "Apaixonado por viagens e aventuras."
         profileImage:
           type: string
           nullable: true
-          example: "https://example.com/profile.jpg"
+
+    CreateUserInput:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        profileBio:
+          type: string
+          nullable: true
+        profileImage:
+          type: string
+          nullable: true
+
     PlanoViagem:
-        type: object
-        properties:
-          id:
-            type: integer
-          title:
-            type: string
-          image:
-            type: string
-          date:
-            type: string
-            format: date-time
-          daysLeft:
-            type: integer
-          faded:
-            type: boolean
-          users:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+
+securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  

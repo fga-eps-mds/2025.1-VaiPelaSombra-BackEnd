@@ -32,7 +32,7 @@
     "debug": "^4.4.0",
     "depd": "^2.0.0",
     "diff": "^4.0.2",
-    "docker": "^1.0.0",
+    "docker": "^0.2.14",
     "doctrine": "^3.0.0",
     "dotenv": "^16.5.0",
     "dunder-proto": "^1.0.1",

@@ -28,3 +28,8 @@ export interface User {
   profileImage: string | null;
   travelPreferences?: TravelPreferencesModel | null;
 }
+export interface UserPreferencesDataInput {
+  name?: string;
+  profileBio?: string | null;
+  profileImage?: string | null;
+}

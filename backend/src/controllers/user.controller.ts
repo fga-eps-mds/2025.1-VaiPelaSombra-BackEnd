@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-import { AuthenticatedRequest } from '../middlewares/auth.middleware';
+import { AuthenticatedRequest } from '../middlewares/error.middleware';
 
 export const UserController = {
   getAllUsers: async (req: Request, res: Response): Promise<void> => {

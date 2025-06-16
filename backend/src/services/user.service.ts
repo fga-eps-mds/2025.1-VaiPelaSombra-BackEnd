@@ -127,4 +127,31 @@ export const UserService = {
       return false;
     }
   },
+  updateTravelPreferences: async (
+    userId: number,
+    travelPreferencesData: UserPreferencesDataInput
+  ): Promise<void> => {
+    const existingPref = await prisma.travelPreferences.findUnique({
+      where: { userId },
+    });
+    if (existingPref) {
+      await prisma.travelPreferences.update({
+        where: { userId },
+        data: {
+          travelerType: travelPreferencesData.travelerType,
+          travelFrequency: travelPreferencesData.travelFrequency,
+          averageBudget: travelPreferencesData.averageBudget,
+        },
+      });
+    } else {
+      await prisma.travelPreferences.create({
+        data: {
+          userId,
+          travelerType: travelPreferencesData.travelerType,
+          travelFrequency: travelPreferencesData.travelFrequency,
+          averageBudget: travelPreferencesData.averageBudget,
+        },
+      });
+    }
+  },
 };
