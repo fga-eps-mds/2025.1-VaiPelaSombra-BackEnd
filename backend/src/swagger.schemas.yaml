@@ -10,6 +10,22 @@ paths:
   $ref: './routes/routes.paths.yaml'
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        profileBio:
+          type: string
+          nullable: true
+        profileImage:
+          type: string
+          nullable: true
+
     CreateUserInput:
       type: object
       required: [name, email, password]
@@ -21,16 +37,12 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
           nullable: true
-          format: uri
-          example: "https://example.com/profile.jpg"
 
     PlanoViagem:
       type: object
@@ -377,3 +389,8 @@ components:
           type: integer
         label:
           type: string
+securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  

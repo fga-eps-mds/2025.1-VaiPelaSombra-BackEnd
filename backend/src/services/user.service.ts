@@ -44,4 +44,36 @@ export class UserService {
   async delete(id: number): Promise<User | null> {
     return prisma.user.delete({ where: { id } });
   }
+
+    async updateTravelPreferences(
+    userId: number,
+    travelPreferencesData: UserPreferencesDataInput
+  ): Promise<void> {
+    const existingPref = await prisma.travelPreferences.findUnique({
+      where: { userId },
+    });
+
+    if (existingPref) {
+      await prisma.travelPreferences.update({
+        where: { userId },
+        data: {
+          travelerType: travelPreferencesData.travelerType,
+          travelFrequency: travelPreferencesData.travelFrequency,
+          averageBudget: travelPreferencesData.averageBudget,
+        },
+      });
+    } else {
+      await prisma.travelPreferences.create({
+        data: {
+          userId,
+          travelerType: travelPreferencesData.travelerType,
+          travelFrequency: travelPreferencesData.travelFrequency,
+          averageBudget: travelPreferencesData.averageBudget,
+        },
+      });
+    }
+  }
+  
 }
+
+
