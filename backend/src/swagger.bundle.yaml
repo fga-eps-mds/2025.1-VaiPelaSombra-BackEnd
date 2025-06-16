@@ -3,16 +3,15 @@ info:
   title: VaiPelaSombra API
   version: 1.0.0
   description: API documentation for VaiPelaSombra Backend
-
 servers:
   - url: http://localhost:3000
     description: Local server
-
 paths:
   /users:
     get:
       summary: Retrieve a list of users
-      tags: [Users]
+      tags:
+        - Users
       responses:
         '200':
           description: A list of users
@@ -21,10 +20,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CreateUserInput'
+                  $ref: '#/components/schemas/User'
     post:
       summary: Create a new user
-      tags: [Users]
+      tags:
+        - Users
       requestBody:
         required: true
         content:
@@ -38,17 +38,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CreateUserInput'
-
   /users/{id}:
     get:
       summary: Retrieve a single user by ID
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
+          description: The user ID
       responses:
         '200':
           description: A single user
@@ -58,13 +59,15 @@ paths:
                 $ref: '#/components/schemas/CreateUserInput'
     put:
       summary: Update an existing user
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
+          description: The user ID
       requestBody:
         required: true
         content:
@@ -80,39 +83,44 @@ paths:
                 $ref: '#/components/schemas/CreateUserInput'
     delete:
       summary: Delete a user
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
+          description: The user ID
       responses:
         '200':
           description: The user was successfully deleted
-
   /users/{id}/preferences:
     get:
       summary: Retrieve travel preferences for a user
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: string
+          description: The user ID
       responses:
         '200':
           description: Travel preferences for the user
     post:
       summary: Save or update a user's travel preferences
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          example: 1
       requestBody:
         required: true
         content:
@@ -125,24 +133,37 @@ paths:
                   properties:
                     travelerType:
                       type: string
-                      enum: [AVENTUREIRO, CULTURAL, RELAXAMENTO, GASTRONOMICO]
+                      enum:
+                        - AVENTUREIRO
+                        - CULTURAL
+                        - RELAXAMENTO
+                        - GASTRONOMICO
+                      example: AVENTUREIRO
                     travelFrequency:
                       type: string
-                      enum: [BIMESTRAL, TRIMESTRAL, SEMESTRAL, ANUAL]
+                      enum:
+                        - BIMESTRAL
+                        - TRIMESTRAL
+                        - SEMESTRAL
+                        - ANUAL
+                      example: ANUAL
                     averageBudget:
                       type: number
+                      example: 0
       responses:
         '200':
           description: Preferences saved successfully
     put:
       summary: Update a user's travel preferences
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          example: 1
       requestBody:
         required: true
         content:
@@ -155,12 +176,23 @@ paths:
                   properties:
                     travelerType:
                       type: string
-                      enum: [AVENTUREIRO, CULTURAL, RELAXAMENTO, GASTRONOMICO]
+                      enum:
+                        - AVENTUREIRO
+                        - CULTURAL
+                        - RELAXAMENTO
+                        - GASTRONOMICO
+                      example: RELAXAMENTO
                     travelFrequency:
                       type: string
-                      enum: [BIMESTRAL, TRIMESTRAL, SEMESTRAL, ANUAL]
+                      enum:
+                        - BIMESTRAL
+                        - TRIMESTRAL
+                        - SEMESTRAL
+                        - ANUAL
+                      example: SEMESTRAL
                     averageBudget:
                       type: number
+                      example: 3500
       responses:
         '200':
           description: Preferences updated successfully
@@ -168,17 +200,18 @@ paths:
           description: Invalid input
         '404':
           description: Preferences not found
-
   /users/{id}/interests:
     get:
       summary: Get travel interests selected by a user
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          example: 1
       responses:
         '200':
           description: List of travel interests selected by the user
@@ -191,19 +224,23 @@ paths:
                   properties:
                     id:
                       type: integer
+                      example: 2
                     name:
                       type: string
+                      example: CULTURAL
         '404':
           description: Preferences not found
     post:
       summary: Save travel interests for a user (first-time setup)
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          example: 1
       requestBody:
         required: true
         content:
@@ -215,6 +252,10 @@ paths:
                   type: array
                   items:
                     type: integer
+                  example:
+                    - 1
+                    - 3
+                    - 4
       responses:
         '201':
           description: Interests saved successfully
@@ -222,13 +263,15 @@ paths:
           description: No interests selected
     put:
       summary: Update travel interests for a user
-      tags: [Users]
+      tags:
+        - Users
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          example: 1
       requestBody:
         required: true
         content:
@@ -240,6 +283,10 @@ paths:
                   type: array
                   items:
                     type: integer
+                  example:
+                    - 2
+                    - 4
+                    - 5
       responses:
         '200':
           description: Interests updated successfully
@@ -247,17 +294,18 @@ paths:
           description: No interests selected
         '404':
           description: Preferences not found
-
   /planoViagem/{userId}:
     get:
       summary: Retorna todos os planos de viagem de um usuário
-      tags: [PlanoViagem]
+      tags:
+        - PlanoViagem
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
+          description: ID do usuário
       responses:
         '200':
           description: Lista de planos de viagem
@@ -271,35 +319,57 @@ paths:
           description: Usuário não encontrado
     post:
       summary: Cria um novo plano de viagem
-      tags: [PlanoViagem]
+      tags:
+        - PlanoViagem
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
+          description: ID do usuário
+  /login:
+    post:
+      summary: Authenticate user
+      tags:
+        - Login
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [nome]
+              required:
+                - email
+                - password
               properties:
-                nome:
+                email:
                   type: string
-                destino:
+                  example: joao@email.com
+                password:
+                  description: password to login
                   type: string
-                  nullable: true
-                dataInicio:
-                  type: string
-                  format: date-time
-                  nullable: true
-                dataFim:
-                  type: string
-                  format: date-time
-                  nullable: true
+                  example: S3NH@SEGURS
       responses:
+        '200':
+          description: sucessfly loggged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: jxaslcbhdjhasijis
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: joao@email.com
         '201':
           description: Plano de viagem criado com sucesso
           content:
@@ -308,22 +378,24 @@ paths:
                 $ref: '#/components/schemas/PlanoViagem'
         '400':
           description: Dados inválidos
-
   /planoViagem/{userId}/{id}:
     get:
       summary: Retorna um plano de viagem específico
-      tags: [PlanoViagem]
+      tags:
+        - PlanoViagem
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
+          description: ID do usuário
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          description: ID do plano de viagem
       responses:
         '200':
           description: Detalhes do plano de viagem
@@ -335,39 +407,47 @@ paths:
           description: Plano de viagem não encontrado
     put:
       summary: Atualiza um plano de viagem existente
-      tags: [PlanoViagem]
+      tags:
+        - PlanoViagem
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
+          description: ID do usuário
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          description: ID do plano de viagem
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [nome]
               properties:
                 nome:
                   type: string
+                  description: Nome do plano de viagem
                 destino:
                   type: string
                   nullable: true
+                  description: Destino da viagem
                 dataInicio:
                   type: string
                   format: date-time
                   nullable: true
+                  description: Data de início da viagem
                 dataFim:
                   type: string
                   format: date-time
                   nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
       responses:
         '200':
           description: Plano de viagem atualizado com sucesso
@@ -375,58 +455,106 @@ paths:
           description: Plano de viagem não encontrado
     delete:
       summary: Exclui um plano de viagem
-      tags: [PlanoViagem]
+      tags:
+        - PlanoViagem
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
+          description: ID do usuário
         - in: path
           name: id
           required: true
           schema:
             type: integer
+          description: ID do plano de viagem
       responses:
         '200':
           description: Plano de viagem excluído com sucesso
         '404':
           description: Plano de viagem não encontrado
-
-  /login:
-    post:
-      summary: Authenticate user
-      tags: [Login]
+  /users/me:
+    get:
+      summary: Get authenticated user's profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Authenticated user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update authenticated user's profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
               type: object
-              required: [email, password]
               properties:
+                name:
+                  type: string
                 email:
                   type: string
-                password:
+                profileBio:
                   type: string
+                profileImage:
+                  type: string
+                travelPreferencesData:
+                  type: object
+                  properties:
+                    travelerType:
+                      type: string
+                    travelFrequency:
+                      type: string
+                    averageBudget:
+                      type: number
       responses:
         '200':
-          description: Successfully logged in
+          description: Updated user profile
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                  user:
-                    $ref: '#/components/schemas/User'
-
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        profileBio:
+          type: string
+          nullable: true
+        profileImage:
+          type: string
+          nullable: true
     CreateUserInput:
       type: object
-      required: [name, email, password]
+      required:
+        - name
+        - email
+        - password
       properties:
         name:
           type: string
@@ -441,7 +569,6 @@ components:
         profileImage:
           type: string
           nullable: true
-
     PlanoViagem:
       type: object
       properties:
@@ -462,25 +589,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        profileBio:
-          type: string
-          nullable: true
-        profileImage:
-          type: string
-          nullable: true
-
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT

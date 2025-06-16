@@ -65,8 +65,9 @@ components:
           items:
             $ref: '#/components/schemas/User'
 
-securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT  
+# (removido para testes)
+#securitySchemes:
+#    bearerAuth:
+#     type: http
+#      scheme: bearer
+#      bearerFormat: JWT  

@@ -10,7 +10,7 @@
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/CreateUserInput"
+                $ref: "#/components/schemas/User"  # em vez de CreateUserInput
   post:
     summary: Create a new user
     tags: [Users]
@@ -328,29 +328,6 @@
                     email:
                       type: string
                       example: "joao@email.com"
-
-                      
-            properties:
-              nome:
-                type: string
-                description: Nome do plano de viagem
-              destino:
-                type: string
-                nullable: true
-                description: Destino da viagem
-              dataInicio:
-                type: string
-                format: date-time
-                nullable: true
-                description: Data de início da viagem
-              dataFim:
-                type: string
-                format: date-time
-                nullable: true
-                description: Data de término da viagem
-            required:
-              - nome
-    responses:
       "201":
         description: Plano de viagem criado com sucesso
         content:
@@ -457,6 +434,62 @@
       "404":
         description: Plano de viagem não encontrado
 
+/users/me:
+  get:
+    summary: Get authenticated user's profile
+    tags: [Users]
+    security:
+      - bearerAuth: []
+    responses:
+      "200":
+        description: Authenticated user profile
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      "401":
+        description: Unauthorized
+
+  put:
+    summary: Update authenticated user's profile
+    tags: [Users]
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              profileBio:
+                type: string
+              profileImage:
+                type: string
+              travelPreferencesData:
+                type: object
+                properties:
+                  travelerType:
+                    type: string
+                  travelFrequency:
+                    type: string
+                  averageBudget:
+                    type: number
+    responses:
+      "200":
+        description: Updated user profile
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      "400":
+        description: Invalid input
+      "401":
+        description: Unauthorized
 
 
 
