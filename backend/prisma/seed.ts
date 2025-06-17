@@ -32,19 +32,19 @@ async function main() {
 
   console.log('🌐 Criando interesses...');
   const interests = await Promise.all(
-    ['Praia', 'Montanha', 'Cultura', 'Gastronomia', 'Aventura'].map(label =>
+    ['Praia', 'Montanha', 'Cultura', 'Gastronomia', 'Aventura'].map((label) =>
       prisma.travelInterest.create({ data: { label } })
     )
   );
 
   console.log('🎯 Preferências por usuário...');
   await Promise.all(
-    users.map(user =>
+    users.map((user) =>
       prisma.travelPreference.create({
         data: {
           userId: user.id,
           travelInterests: {
-            connect: interests.map(i => ({ id: i.id })),
+            connect: interests.map((i) => ({ id: i.id })),
           },
         },
       })
@@ -147,5 +147,5 @@ async function main() {
 }
 
 main()
-  .catch(e => console.error(e))
+  .catch((e) => console.error(e))
   .finally(() => prisma.$disconnect());
