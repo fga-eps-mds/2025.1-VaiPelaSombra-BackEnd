@@ -42,7 +42,13 @@ npm run migrate:dev
 npm run prisma:generate
 ```
 
-5- Inicie a API localemente
+5- Popule o banco de dados
+
+```bash
+npm run seed
+```
+
+6- Inicie a API localemente
 ```bash
 npm run dev
 ```
