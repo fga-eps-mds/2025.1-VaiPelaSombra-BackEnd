@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { emailService } from '../services/email.service';
 import { BadRequestError } from '../errors/httpError';
+import { RequestHandler } from 'express';
 
-export const sendRecoveryEmail = async (req: Request, res: Response, next: NextFunction) => {
+export const sendRecoveryEmail: RequestHandler = async (req, res, next) => {
   try {
     const { email } = req.query;
     if (!email || typeof email !== 'string') {
@@ -10,7 +11,8 @@ export const sendRecoveryEmail = async (req: Request, res: Response, next: NextF
     }
 
     await emailService.sendRecoveryEmail(email);
-    return res.status(200).json({
+    
+    res.status(200).json({
       message: 'Se um usuário com este e-mail existir, um link de recuperação foi enviado.',
     });
   } catch (error) {
