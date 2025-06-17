@@ -155,7 +155,8 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
-    "serve": "node dist/server.js"
+    "serve": "node dist/server.js",
+    "seed": "ts-node prisma/seed.ts"
   },
   "repository": {
     "type": "git",
