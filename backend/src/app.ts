@@ -1,11 +1,17 @@
+// src/app.ts - VERSÃO CORRIGIDA
+
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
+
+// --- PASSO 1: IMPORTAR O ROTEADOR DE EMAIL ---
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
+import emailRouter from './routes/email.routes'; // <-- ADICIONE ESTA LINHA
+
 import { errorHandler } from './errors/midle';
 
 const app = express();
@@ -17,7 +23,12 @@ const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// --- PASSO 2: USAR O ROTEADOR DE EMAIL ---
 app.use('/users', userRouter);
 app.use('/travel-interests', travelInterestsRouter);
+app.use('/email', emailRouter); // <-- ADICIONE ESTA LINHA
+
 app.use(errorHandler);
+
 export default app;

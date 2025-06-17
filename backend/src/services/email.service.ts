@@ -15,7 +15,7 @@ class EmailService {
       throw new Error('Usuário com este e-mail não foi encontrado.');
     }
 
-    const recoveryLink = `http://localhost:5174/reset-password?userId=${user.id}`;
+    const recoveryLink = `http://localhost:5174/recover-password?userId=${user.id}`;
 
     const emailHtml = await render(AccessTokenEmail({ email: userEmail, link: recoveryLink }));
 

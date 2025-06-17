@@ -39,8 +39,6 @@ export const AccessTokenEmail = ({ link }: AccessTokenEmailProps) => {
     </Html>
   );
 };
-
-// PreviewProps continuam úteis para o desenvolvimento visual do e-mail.
 AccessTokenEmail.PreviewProps = {
   email: 'example@example.com',
   link: 'http://localhost:3000/mock-link',
@@ -48,7 +46,6 @@ AccessTokenEmail.PreviewProps = {
 
 export default AccessTokenEmail;
 
-// Os estilos continuam os mesmos, estão ótimos.
 const main = {
   backgroundColor: '#ffffff',
   color: '#24292e',
