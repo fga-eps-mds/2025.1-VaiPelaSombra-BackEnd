@@ -51,35 +51,38 @@ export const UserController = {
 
     res.status(204).send();
   },
-  getUserProfile: async (req: Request, res: Response): Promise<void> => { //req: AuthenticatedRequest
+  getUserProfile: async (req: Request, res: Response): Promise<void> => {
     try {
       const userId = Number(req.params.id); //const userId = Number(req.user.id);
       const user = await UserService.getUserById(userId);
-      if (!user) {
-        res.status(404).json({ message: 'User not found' });
-        return;
-      }
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(500).json({ message: 'Error fetching user profile', error });
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
-  },
-  updateUserProfile: async (req: Request, res: Response): Promise<void> => { // req: AuthenticatedRequest
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user profile', error });
+  }
+},
+
+
+  updateUserProfile: async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = Number(req.params.id); // const userId = Number(req.user.id);
+      const userId = Number(req.params.id);
       const userData = req.body;
       const updatedUser = await UserService.updateUser(userId, userData);
       if (userData.travelPreferencesData) {
         await UserService.updateTravelPreferences(userId, userData.travelPreferencesData);
       }
-      if (!updatedUser) {
-        res.status(404).json({ message: 'User not found' });
-        return;
-      }
-      const userUpdated = await UserService.getUserById(userId);
-      res.status(200).json(userUpdated);
+    if (!updatedUser) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+    const userUpdated = await UserService.getUserById(userId);
+    res.status(200).json(userUpdated);
     } catch (error) {
       res.status(500).json({ message: 'Erro updating user profile', error });
     }
   },
 };
+

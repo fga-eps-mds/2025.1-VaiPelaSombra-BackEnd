@@ -18,8 +18,8 @@ const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', userRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/interests', travelInterestsRouter);
 app.use('/destinations', destinationRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
