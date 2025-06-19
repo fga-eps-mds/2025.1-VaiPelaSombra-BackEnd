@@ -4,7 +4,6 @@ import { UserPreferencesController } from '../controllers/userPreferences.contro
 import { TravelInterestsController } from '../controllers/travelInterests.controller';
 //import { authMiddleware } from '../middlewares/error.middleware';
 
-const { getUserProfile, updateUserProfile } = UserController;
 const router = Router();
 
 router.get('/', (req, res) => UserController.getAllUsers(req, res));
@@ -18,7 +17,9 @@ router.put('/:id/preferences', UserPreferencesController.saveUserTravelPreferenc
 router.get('/:id/interests', TravelInterestsController.getUserTravelInterestsByUserId);
 router.post('/:id/interests', TravelInterestsController.saveUserTravelInterests);
 router.put('/:id/interests', TravelInterestsController.saveUserTravelInterests);
-router.get('/:id/profile', getUserProfile); // router.get('/me', authMiddleware, getUserProfile);
-router.put('/:id/profile', updateUserProfile); // router.put('/me', authMiddleware, updateUserProfile);
+router.get('/:id/profile', UserController.getUserProfile); // router.get('/me', authMiddleware, getUserProfile);
+router.put('/:id/profile', UserController.updateUserProfile); // router.put('/me', authMiddleware, updateUserProfile);
+router.get('/me', UserController.getUserProfile);
+router.put('/me', UserController.updateUserProfile);
 
 export default router;

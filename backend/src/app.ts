@@ -17,13 +17,9 @@ const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/users', userRouter);
-
-app.use('/api/user-preferences', userRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/interests', travelInterestsRouter);
 app.use('/planoViagem', planoViagemRouter);
 app.use('/login', loginRouter);
-app.use('/login', loginRouter);
-
 export default app;

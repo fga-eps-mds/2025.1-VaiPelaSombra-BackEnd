@@ -78,7 +78,7 @@ export const UserService = {
     });
 
     return createdUser as User;
-  },
+},
 
   updateUser: async (
     id: number,
