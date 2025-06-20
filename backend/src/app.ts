@@ -5,7 +5,7 @@ import YAML from 'yamljs';
 import path from 'path';
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
-import destinationsRoutes from './routes/destination.routes'; 
+import homeRouter from './routes/home.routes';
 import { errorHandler } from './errors/midle';
 
 const app = express();
@@ -22,7 +22,7 @@ app.use('/users', userRouter);
 app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/travel-interests', travelInterestsRouter);
-app.use('/destinations', destinationsRoutes);
+app.use('/home', homeRouter);
 
 app.use(errorHandler);
 
