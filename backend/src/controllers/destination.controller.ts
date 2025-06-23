@@ -1,69 +1,48 @@
-import { DestinationService } from '../services/destination.service';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../dtos/destination.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
 import { DestinationImageDTO, destinationImageSchema } from '../dtos/destinationImage.dto';
 import { validateMIMEType } from 'validate-image-type';
 import fs from 'fs/promises';
-
-export let destinationService = new DestinationService();
-export const createDestination = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+import { DestinationService } from '../services/destination.service';
+export class DestinationController {
+  constructor(private destinationService: DestinationService) {}
+  createDestination = async (req: Request, res: Response) => {
     const data = CreateDestinationSchema.parse(req.body);
-    const destination = await destinationService.create(data);
+    const destination = await this.destinationService.create(data);
     res.status(201).json(destination);
-  } catch (error) {
-    next(error);
-  }
-};
-export const deleteDestination = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  deleteDestination = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
       throw new BadRequestError('Invalid destination id');
-    const deletedDestination = await destinationService.deleteDestination(destinationId);
+    const deletedDestination = await this.destinationService.deleteDestination(destinationId);
     res.status(200).json(deletedDestination);
-  } catch (error) {
-    next(error);
-  }
-};
-export const updateDestination = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  updateDestination = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
       throw new BadRequestError('Invalid destination id');
     const data = UpdateDestinationSchema.parse(req.body);
-    const updatedDestination = await destinationService.update(destinationId, data);
+    const updatedDestination = await this.destinationService.update(destinationId, data);
     res.status(200).json(updatedDestination);
-  } catch (error) {
-    next(error);
-  }
-};
-export const getAllDestinations = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const destinations = await destinationService.getAllDestinations();
+  };
+  getAllDestinations = async (req: Request, res: Response) => {
+    const destinations = await this.destinationService.getAllDestinations();
     res.status(200).json(destinations);
-  } catch (error) {
-    next(error);
-  }
-};
-export const getDestinationById = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  getDestinationById = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
       throw new BadRequestError('Invalid destination id');
-    const destination = await destinationService.getDestinationById(destinationId);
+    const destination = await this.destinationService.getDestinationById(destinationId);
     if (!destination) {
       throw new NotFoundError('Destination not found');
     }
     res.status(200).json(destination);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
 
-export const uploadDestinationImage = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  uploadDestinationImage = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
       throw new BadRequestError('Invalid destination id');
@@ -83,20 +62,17 @@ export const uploadDestinationImage = async (req: Request, res: Response, next: 
       await fs.unlink(req.file.path).catch(() => {});
       throw new BadRequestError('Invalid image type. Only JPEG and PNG are allowed.');
     }
-    const savedImage = await destinationService.uploadDestinationImage(destinationId, imageFile);
+    const savedImage = await this.destinationService.uploadDestinationImage(
+      destinationId,
+      imageFile
+    );
     res.status(201).json(savedImage);
-  } catch (error) {
-    next(error);
-  }
-};
-export const getDestinationImages = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  getDestinationImages = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
       throw new BadRequestError('Invalid destination id');
-    const images = await destinationService.getDestinationImages(destinationId);
+    const images = await this.destinationService.getDestinationImages(destinationId);
     res.status(200).json(images);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+}
