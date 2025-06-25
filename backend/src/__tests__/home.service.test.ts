@@ -3,118 +3,118 @@ import { HomeService } from '../services/home.service';
 
 const homeService = new HomeService();
 
-describe('Testes para Home Service', () => {
-  //pra func findDestinations
+describe('Testes para HomeService', () => {
   describe('funcao: findDestinations()', () => {
-    it('deve retornar todos os destinos quando search está vazio(undfined)', async () => {
+    it('deve retornar todos destinos quando search está vazio(undfined)', async () => {
       const mockDestinations = [
-        {
-          id: 'uuid-1',
-          name: 'Paris',
-          description: 'Cidade da luz',
-          mainImageUrl: '',
-          images: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          id: 'uuid-2',
-          name: 'Rio de Janeiro',
-          description: 'Cidade maravilhosa',
-          mainImageUrl: '',
-          images: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
+        { id: 1, title: 'Paris' },
+        { id: 2, title: 'Rio de Janeiro' },
       ];
-      prismaMock.homeDestination.findMany.mockResolvedValue(mockDestinations);
+      prismaMock.destination.findMany.mockResolvedValue(mockDestinations);
+
       const destinations = await homeService.findDestinations();
+
       expect(destinations).toHaveLength(2);
-      expect(destinations[1].name).toBe('Rio de Janeiro');
-      expect(prismaMock.homeDestination.findMany).toHaveBeenCalledWith({
-        where: {},
-        include: { images: true },
-      });
-    });
-
-    it('deve retornar os destinos filtrados quando search envia uma string que não está vazia', async () => {
-      const mockFiltered = [
-        {
-          id: 'uuid-1',
-          name: 'Paris',
-          description: 'Cidade da luz',
-          mainImageUrl: '',
-          images: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
-      prismaMock.homeDestination.findMany.mockResolvedValue(mockFiltered);
-      const searchQuery = 'Paris';
-      const destinations = await homeService.findDestinations(searchQuery);
-      expect(destinations).toHaveLength(1);
-      expect(destinations[0].name).toBe('Paris');
-      expect(prismaMock.homeDestination.findMany).toHaveBeenCalledWith({
-        where: {
-          name: {
-            contains: searchQuery,
-            mode: 'insensitive',
-          },
-        },
-        include: { images: true },
-      });
-    });
-
-    it('deve retornar todos os destinos se a search for uma string vazia', async () => {
-      const mockDestinations = [
-        {
-          id: 'uuid-1',
-          name: 'Paris',
-          description: 'Cidade da luz',
-          mainImageUrl: '',
-          images: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ];
-      prismaMock.homeDestination.findMany.mockResolvedValue(mockDestinations);
-      const destinations = await homeService.findDestinations('');
-
+      expect(destinations[0].title).toBe('Paris');
+      expect(destinations[0].id).toBe(1);
       expect(destinations).toEqual(mockDestinations);
 
-      expect(prismaMock.homeDestination.findMany).toHaveBeenCalledWith({
+      expect(prismaMock.destination.findMany).toHaveBeenCalledWith({
         where: {},
-        include: { images: true },
+        select: {
+          id: true,
+          title: true,
+        },
+        orderBy: {
+          title: 'asc',
+        },
       });
+    });
+
+    it('deve retornar os destinos filtrados, quando search tem uma string alfabética', async () => {
+      const search = 'P';
+      const mockExpectedResult = [
+        { id: 1, title: 'Paris' },
+        { id: 3, title: 'Porto' },
+      ];
+
+      prismaMock.destination.findMany.mockResolvedValue(mockExpectedResult);
+
+      const destinations = await homeService.findDestinations(search);
+
+      expect(destinations).toHaveLength(2);
+      expect(destinations).toEqual(mockExpectedResult);
+
+      expect(prismaMock.destination.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {
+            title: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          select: {
+            id: true,
+            title: true,
+          },
+          orderBy: {
+            title: 'asc',
+          },
+        })
+      );
+    });
+
+    it('deve tratar uma busca com apenas espaços(string vazia que gera falsy) como uma busca sem filtro', async () => {
+      const mockDestinations = [
+        { id: 1, title: 'Paris' },
+        { id: 2, title: 'Rio de Janeiro' },
+      ];
+      prismaMock.destination.findMany.mockResolvedValue(mockDestinations);
+
+      await homeService.findDestinations(' ');
+
+      expect(prismaMock.destination.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: {},
+        })
+      );
     });
   });
-
-  //pra func findDestinations
-  describe('getDestinationById()', () => {
-    it('deve retornar um destino especifico pelo seu id(string)', async () => {
+  describe('funcao: getDestinationById()', () => {
+    it('deve retornar o objeto completo de um destino quando o ID é encontrado', async () => {
       const mockDestination = {
-        id: 'uuid-paris',
-        name: 'Paris',
-        description: 'Cidade da luz',
-        mainImageUrl: '',
-        images: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        id: 4,
+        title: 'Brasilia',
+        description: 'A capital do Brasil.',
+        latitude: '51.503',
+        longitude: '17.122',
+        localClimate: 'tropical',
+        timeZone: 'GMT-3',
+        itineraries: [],
+        reviews: [],
+        localEvents: [],
+        survivalTips: [],
+        recommendedActivities: [],
       };
-      prismaMock.homeDestination.findUnique.mockResolvedValue(mockDestination);
-      const destination = await homeService.getDestinationById('uuid-paris');
-      expect(destination).not.toBeNull();
-      expect(destination?.name).toBe('Paris');
-      expect(prismaMock.homeDestination.findUnique).toHaveBeenCalledWith({
-        where: { id: 'uuid-paris' },
-        include: { images: true },
+
+      prismaMock.destination.findUnique.mockResolvedValue(mockDestination);
+
+      const destination = await homeService.getDestinationById(4);
+
+      expect(destination).toEqual(mockDestination);
+
+      expect(prismaMock.destination.findUnique).toHaveBeenCalledWith({
+        where: { id: 4 },
       });
     });
 
-    it('deve retornar null se o destino não for encontrado pelo id(string)', async () => {
-      prismaMock.homeDestination.findUnique.mockResolvedValue(null);
-      const destination = await homeService.getDestinationById('uuid-nao-existe');
+    it('deve retornar null quando o destino com o ID fornecido não existe', async () => {
+      prismaMock.destination.findUnique.mockResolvedValue(null);
+
+      const destination = await homeService.getDestinationById(777);
+
       expect(destination).toBeNull();
+      expect(prismaMock.destination.findUnique).toHaveBeenCalledWith({ where: { id: 777 } });
     });
   });
 });
