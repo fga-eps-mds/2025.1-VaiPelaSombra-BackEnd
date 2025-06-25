@@ -137,21 +137,3 @@ model SurvivalTip {
   destinationId Int
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 }
-
-model HomeDestination {
-  id            String @id @default(uuid())
-  name          String @unique
-  description   String?
-  mainImageUrl  String
-  images        Image[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model Image {
-  id            String @id @default(uuid())
-  url           String
-  description   String?
-  destinationId String
-  destination   HomeDestination @relation(fields: [destinationId], references: [id])
-}

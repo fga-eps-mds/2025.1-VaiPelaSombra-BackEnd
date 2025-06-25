@@ -11,26 +11,32 @@ export const handleFindDestinations = async (req: Request, res: Response) => {
       typeof search === 'string' ? search : undefined
     );
 
-    return res.status(200).json(destinations);
+    res.status(200).json(destinations);
   } catch (error) {
     console.error('Error fetching destinations:', error);
-    return res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: 'Internal server error.' });
   }
 };
 
 export const handleGetDestinationById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id, 10);
+
+    if (isNaN(id)) {
+      res.status(400).json({ message: 'Invalid destination ID.' });
+      return;
+    }
 
     const destination = await homeService.getDestinationById(id);
 
     if (!destination) {
-      return res.status(404).json({ message: 'Destination not found.' });
+      res.status(404).json({ message: 'Destination not found.' });
+      return;
     }
 
-    return res.status(200).json(destination);
+    res.status(200).json(destination);
   } catch (error) {
     console.error('Error fetching destination by ID:', error);
-    return res.status(500).json({ message: 'Internal server error.' });
+    res.status(500).json({ message: 'Internal server error.' });
   }
 };

@@ -4,31 +4,32 @@ export class HomeService {
   async findDestinations(search?: string) {
     let whereClause = {};
 
-    if (search) {
+    if (search && search.trim()) {
       whereClause = {
-        name: {
-          contains: search,
+        title: {
+          contains: search.trim(),
           mode: 'insensitive',
         },
       };
     }
 
-    const destinations = await prisma.homeDestination.findMany({
+    const destinations = await prisma.destination.findMany({
       where: whereClause,
-      include: {
-        images: true,
+      select: {
+        id: true,
+        title: true,
+      },
+      orderBy: {
+        title: 'asc',
       },
     });
 
     return destinations;
   }
 
-  async getDestinationById(id: string) {
-    const destination = await prisma.homeDestination.findUnique({
+  async getDestinationById(id: number) {
+    const destination = await prisma.destination.findUnique({
       where: { id },
-      include: {
-        images: true,
-      },
     });
 
     return destination;
