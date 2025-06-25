@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
@@ -59,9 +58,6 @@ export const deleteUser = async (req: Request, res: Response, next: NextFunction
     const deleted = await userService.delete(userId);
     if (!deleted) throw new NotFoundError('User not found');
     res.status(204).send();
-  } catch (error) {
-    next(error);
-  }
   } catch (error) {
     next(error);
   }
