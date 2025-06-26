@@ -14,67 +14,126 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum TravelerType {
-  AVENTUREIRO
-  CULTURAL
-  RELAXAMENTO
-  GASTRONOMICO
-}
-
-enum TravelFrequency {
-  BIMESTRAL
-  TRIMESTRAL
-  SEMESTRAL
-  ANUAL
-}
-
-model TravelPreferences {
-  id              Int             @id @default(autoincrement())
-  userId          Int             @unique
-  travelerType    TravelerType
-  travelFrequency TravelFrequency
-  averageBudget   Float
-  prefer          Prefer[]
-  user            User            @relation(fields: [userId], references: [id])
+enum ItineraryStatus {
+  PLANNING
+  IN_PROGRESS
+  COMPLETED
 }
 
 model User {
+  id                Int               @id @default(autoincrement())
+  name              String            @db.VarChar(100)
+  email             String            @unique @db.VarChar(100)
+  password          String            @db.VarChar(100)
+  createdAt         DateTime          @default(now())
+  profileBio        String?           @db.VarChar(500)
+  profileImage      String?           @db.VarChar(500)
+  reviews           Review[]
+  itineraries       Itinerary[]
+  travelPreferences TravelPreference?
+}
+
+model TravelPreference {
+  id              Int              @id @default(autoincrement())
+  userId          Int              @unique
+  user            User             @relation(fields: [userId], references: [id])
+  travelInterests TravelInterest[]
+}
+
+model TravelInterest {
   id                Int                @id @default(autoincrement())
-  name              String
-  email             String             @unique
-  password          String
-  createdAt         DateTime           @default(now())
-  profileBio        String?
-  profileImage      String?
-  travelPreferences TravelPreferences?
-  planosViagem      PlanoViagem[]
+  label             String
+  travelPreferences TravelPreference[]
 }
 
-model TravelInterests {
-  id     Int      @id @default(autoincrement())
-  name   String
-  prefer Prefer[]
+model Itinerary {
+  id              Int             @id @default(autoincrement())
+  title           String          @db.VarChar(100)
+  startDate       DateTime
+  endDate         DateTime
+  itineraryStatus ItineraryStatus
+  lodgingBudget   Decimal?        @db.Decimal(7, 2)
+  foodBudget      Decimal?        @db.Decimal(7, 2)
+  totalBudget     Decimal?        @db.Decimal(7, 2)
+
+  transports        Transport[]
+  activities        Activity[]
+  users             User[]
+  destinations      Destination[]
+  requiredDocuments RequiredDocument[]
 }
 
-model Prefer {
-  travelPreferencesId Int
-  travelInterestsId   Int
-
-  travelPreferences TravelPreferences @relation(fields: [travelPreferencesId], references: [id])
-  travelInterests   TravelInterests   @relation(fields: [travelInterestsId], references: [id])
-
-  @@id([travelPreferencesId, travelInterestsId])
+model RequiredDocument {
+  id          Int       @id @default(autoincrement())
+  content     String    @db.VarChar(800)
+  itineraryId Int
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
 }
 
-model PlanoViagem {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  nome       String
-  destino    String?  // Campo opcional
-  dataInicio DateTime? // Campo opcional
-  dataFim    DateTime? // Campo opcional
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model Transport {
+  id          Int       @id @default(autoincrement())
+  type        String    @db.VarChar(100)
+  cost        Decimal   @db.Decimal(6, 2)
+  departure   DateTime?
+  arrival     DateTime?
+  duration    DateTime?
+  description String?   @db.VarChar(500)
+  itineraryId Int
+  Itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+}
 
-  User User @relation(fields: [userId], references: [id])
+model Destination {
+  id           Int     @id @default(autoincrement())
+  title        String  @db.VarChar(100)
+  description  String  @db.VarChar(500)
+  longitude    String  @db.VarChar(100)
+  latitude     String  @db.VarChar(100)
+  localClimate String? @db.VarChar(500)
+  timeZone     String? @db.VarChar(100)
+
+  itineraries           Itinerary[]
+  reviews               Review[]
+  localEvents           LocalEvent[]
+  survivalTips          SurvivalTip[]
+  recommendedActivities Activity[]
+}
+
+model Review {
+  id            Int         @id @default(autoincrement())
+  content       String      @db.VarChar(1500)
+  imageUrl      String?     @db.VarChar(500)
+  userId        Int
+  destinationId Int
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  location    String   @db.VarChar(100)
+  title       String   @db.VarChar(100)
+  price       Decimal? @db.Decimal(5, 2)
+  startTime   DateTime
+  endTime     DateTime
+  duration    String?
+  description String?  @db.VarChar(500)
+
+  itineraryId   Int
+  itinerary     Itinerary    @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  destination   Destination? @relation(fields: [destinationId], references: [id])
+  destinationId Int?
+}
+
+model LocalEvent {
+  id            Int         @id @default(autoincrement())
+  name          String      @db.VarChar(100)
+  destinationId Int
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+}
+
+model SurvivalTip {
+  id            Int         @id @default(autoincrement())
+  content       String      @db.VarChar(500)
+  destinationId Int
+  destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
 }
