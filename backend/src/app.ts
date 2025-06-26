@@ -8,6 +8,7 @@ import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import destinationRouter from './routes/destination.routes';
 import { errorHandler } from './errors/midle';
+import loginRouter from './routes/login.routes';
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/users', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/destinations', destinationRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+app.use('/login', loginRouter);
 app.use(errorHandler);
 export default app;
