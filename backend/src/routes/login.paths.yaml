@@ -1,0 +1,44 @@
+/login:
+  post:
+    summary: Authenticate user
+    tags: [Login]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                example: "joao@email.com"
+              password:
+                description: password to login
+                type: string
+                example: "S3NH@SEGURS"
+    responses:
+      "200":
+        description: sucessfly loggged
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  example: "jxaslcbhdjhasijis"
+                user:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 1
+                    email:
+                      type: string
+                      example: "joao@email.com"
+
+
+

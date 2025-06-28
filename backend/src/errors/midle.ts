@@ -35,13 +35,15 @@ export const errorHandler: ErrorRequestHandler = (
         break;
     }
   }
-  if (error instanceof Prisma.PrismaClientUnknownRequestError) {
-    error = new InternalServerError('Unknown database error occurred');
-  }
   if (error instanceof Prisma.PrismaClientValidationError) {
     error = new InternalServerError('Validation database error occurred');
   }
-
+  if (error instanceof Prisma.PrismaClientInitializationError) {
+    error = new InternalServerError('Connection database error occurred ');
+  }
+  if (error instanceof Prisma.PrismaClientUnknownRequestError) {
+    error = new InternalServerError('Unknown database error occurred');
+  }
   if (error instanceof HttpError) {
     res.status(error.status).json({
       status: error.status,
