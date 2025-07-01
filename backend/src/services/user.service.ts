@@ -4,6 +4,8 @@ import { CreateUserDTO, UpdateUserDTO } from '../dtos/user.dto';
 import { UserPreferencesDataInput, UpdateUserWithPreferencesInput, CreateUserInput } from '../dtos/preferences.dto';
 import { Prisma } from '@prisma/client';
 
+
+
 export class UserService {
   async createUser(userData: CreateUserInput): Promise<User> {
     const createdUser = await prisma.user.create({

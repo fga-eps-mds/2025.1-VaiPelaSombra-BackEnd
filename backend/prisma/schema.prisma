@@ -86,8 +86,8 @@ model Destination {
   id           Int     @id @default(autoincrement())
   title        String  @db.VarChar(100)
   description  String  @db.VarChar(500)
-  latitude     Decimal @db.Decimal(9, 6)
-  longitude    Decimal @db.Decimal(9, 6)
+  latitude     Decimal @db.Decimal(9, 6)//
+  longitude    Decimal @db.Decimal(9, 6)//
   localClimate String? @db.VarChar(500)
   timeZone     String? @db.VarChar(100)
 
