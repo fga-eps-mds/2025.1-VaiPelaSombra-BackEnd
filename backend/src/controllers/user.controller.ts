@@ -2,9 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 //import { AuthenticatedRequest } from '../middlewares/error.middleware';
 
-const userService = new UserService();
-
 export const UserController = {
+  getAllUsers: async (req: Request, res: Response): Promise<void> => {
+    const users = await UserService.getAllUsers();
+    res.json(users);
+  },
+
   getUserById: (req: Request, res: Response): void => {
     const user = UserService.getUserById(Number(req.params.id));
     if (!user) {

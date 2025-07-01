@@ -665,6 +665,8 @@ paths:
   /login:
     post:
       summary: Authenticate user
+<<<<<<< HEAD
+=======
       tags:
         - Login
       requestBody:
@@ -690,6 +692,179 @@ paths:
           content:
             application/json:
               schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: jxaslcbhdjhasijis
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: joao@email.com
+        '201':
+          description: Plano de viagem criado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoViagem'
+        '400':
+          description: Dados inválidos
+  /planoViagem/{userId}/{id}:
+    get:
+      summary: Retorna um plano de viagem específico
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      responses:
+        '200':
+          description: Detalhes do plano de viagem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanoViagem'
+        '404':
+          description: Plano de viagem não encontrado
+    put:
+      summary: Atualiza um plano de viagem existente
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  description: Nome do plano de viagem
+                destino:
+                  type: string
+                  nullable: true
+                  description: Destino da viagem
+                dataInicio:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de início da viagem
+                dataFim:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Data de término da viagem
+              required:
+                - nome
+      responses:
+        '200':
+          description: Plano de viagem atualizado com sucesso
+        '404':
+          description: Plano de viagem não encontrado
+    delete:
+      summary: Exclui um plano de viagem
+      tags:
+        - PlanoViagem
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do plano de viagem
+      responses:
+        '200':
+          description: Plano de viagem excluído com sucesso
+        '404':
+          description: Plano de viagem não encontrado
+  /users/me:
+    get:
+      summary: Get authenticated user's profile
+>>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Authenticated user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+    put:
+      summary: Update authenticated user's profile
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                profileBio:
+                  type: string
+                profileImage:
+                  type: string
+                travelPreferencesData:
+                  type: object
+                  properties:
+                    travelerType:
+                      type: string
+                    travelFrequency:
+                      type: string
+                    averageBudget:
+                      type: number
+      responses:
+        '200':
+          description: Updated user profile
+          content:
+            application/json:
+              schema:
+<<<<<<< HEAD
                 type: object
                 properties:
                   token:
@@ -2186,12 +2361,17 @@ paths:
           content:
             application/json:
               schema:
+=======
+>>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
                 $ref: '#/components/schemas/User'
         '400':
           description: Invalid input
         '401':
           description: Unauthorized
+<<<<<<< HEAD
 >>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
+=======
+>>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
 components:
   schemas:
     User:
@@ -2223,6 +2403,7 @@ components:
           format: email
         password:
           type: string
+<<<<<<< HEAD
 <<<<<<< HEAD
         createdAt:
           type: string
@@ -2436,6 +2617,8 @@ components:
             type: integer
     Itinerary:
 =======
+=======
+>>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
         profileBio:
           type: string
           nullable: true
