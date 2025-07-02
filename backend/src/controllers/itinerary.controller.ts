@@ -26,8 +26,8 @@ export const findByUserId = async (req: Request, res: Response, next: NextFuncti
   try {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const itinearies = await itineraryService.findByUserId(userId);
-    res.status(200).json(itinearies);
+    const itineraries = await itineraryService.findByUserId(userId);
+    res.status(200).json(itineraries);
   } catch (error) {
     next(error);
   }
@@ -38,8 +38,8 @@ export const findByUserItineraryId = async (req: Request, res: Response, next: N
     const userId = parseInt(req.params.userId);
     const itineraryId = parseInt(req.params.itineraryId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const itinearies = await itineraryService.findByUserItineraryId(userId, itineraryId);
-    res.status(200).json(itinearies);
+    const itineraries = await itineraryService.findByUserItineraryId(userId, itineraryId);
+    res.status(200).json(itineraries);
   } catch (error) {
     next(error);
   }
