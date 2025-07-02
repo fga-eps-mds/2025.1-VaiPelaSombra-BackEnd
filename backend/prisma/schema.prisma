@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -20,6 +14,21 @@ enum ItineraryStatus {
   COMPLETED
 }
 
+enum TravelerType {
+  ADVENTURE
+  RELAX
+  CULTURAL
+  NATURE
+  LUXURY
+}
+
+enum TravelFrequency {
+  RARE
+  OCCASIONAL
+  FREQUENT
+  ALWAYS
+}
+
 model User {
   id                Int               @id @default(autoincrement())
   name              String            @db.VarChar(100)
@@ -34,10 +43,13 @@ model User {
 }
 
 model TravelPreference {
-  id              Int              @id @default(autoincrement())
-  userId          Int              @unique
-  user            User             @relation(fields: [userId], references: [id])
-  travelInterests TravelInterest[]
+  id               Int              @id @default(autoincrement())
+  userId           Int              @unique
+  user             User             @relation(fields: [userId], references: [id])
+  travelInterests  TravelInterest[]
+  travelerType     TravelerType
+  travelFrequency  TravelFrequency
+  averageBudget    Int
 }
 
 model TravelInterest {
@@ -47,14 +59,14 @@ model TravelInterest {
 }
 
 model Itinerary {
-  id              Int             @id @default(autoincrement())
-  title           String          @db.VarChar(100)
-  startDate       DateTime
-  endDate         DateTime
-  itineraryStatus ItineraryStatus
-  lodgingBudget   Decimal?        @db.Decimal(7, 2)
-  foodBudget      Decimal?        @db.Decimal(7, 2)
-  totalBudget     Decimal?        @db.Decimal(7, 2)
+  id                Int               @id @default(autoincrement())
+  title             String            @db.VarChar(100)
+  startDate         DateTime
+  endDate           DateTime
+  itineraryStatus   ItineraryStatus
+  lodgingBudget     Decimal?          @db.Decimal(7, 2)
+  foodBudget        Decimal?          @db.Decimal(7, 2)
+  totalBudget       Decimal?          @db.Decimal(7, 2)
 
   transports        Transport[]
   activities        Activity[]
@@ -83,13 +95,13 @@ model Transport {
 }
 
 model Destination {
-  id           Int     @id @default(autoincrement())
-  title        String  @db.VarChar(100)
-  description  String  @db.VarChar(500)
-  latitude     Decimal @db.Decimal(9, 6)
-  longitude    Decimal @db.Decimal(9, 6)
-  localClimate String? @db.VarChar(500)
-  timeZone     String? @db.VarChar(100)
+  id                    Int                 @id @default(autoincrement())
+  title                 String              @db.VarChar(100)
+  description           String              @db.VarChar(500)
+  latitude              Decimal             @db.Decimal(9, 6)
+  longitude             Decimal             @db.Decimal(9, 6)
+  localClimate          String?             @db.VarChar(500)
+  timeZone              String?             @db.VarChar(100)
 
   itineraries           Itinerary[]
   reviews               Review[]
@@ -118,17 +130,17 @@ model Review {
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  location    String   @db.VarChar(100)
-  title       String   @db.VarChar(100)
-  price       Decimal? @db.Decimal(5, 2)
-  startTime   DateTime
-  endTime     DateTime
-  duration    String?
-  description String?  @db.VarChar(500)
+  id            Int         @id @default(autoincrement())
+  location      String      @db.VarChar(100)
+  title         String      @db.VarChar(100)
+  price         Decimal?    @db.Decimal(5, 2)
+  startTime     DateTime
+  endTime       DateTime
+  duration      String?
+  description   String?     @db.VarChar(500)
 
   itineraryId   Int
-  itinerary     Itinerary    @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  itinerary     Itinerary   @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   destination   Destination? @relation(fields: [destinationId], references: [id])
   destinationId Int?
 }

@@ -21,16 +21,12 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
           nullable: true
-          format: uri
-          example: "https://example.com/profile.jpg"
 
     PlanoViagem:
       type: object
@@ -377,3 +373,14 @@ components:
           type: integer
         label:
           type: string
+securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT  
+# (removido para testes)
+#securitySchemes:
+#    bearerAuth:
+#     type: http
+#      scheme: bearer
+#      bearerFormat: JWT  
