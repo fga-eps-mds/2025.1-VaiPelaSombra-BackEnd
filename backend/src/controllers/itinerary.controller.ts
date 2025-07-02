@@ -1,69 +1,36 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { ItineraryService } from '../services/itinerary.service';
 import { CreateItinerarySchema, UpdateItinerarySchema } from '../dtos/itinerary.dto';
 import { BadRequestError } from '../errors/httpError';
 
-const itineraryService = new ItineraryService();
-
-export const createItinerary = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+export class ItineraryController {
+  constructor(private itineraryService: ItineraryService) {}
+  createItinerary = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-
     const data = CreateItinerarySchema.parse(req.body);
-
     data.totalBudget = (data.foodBudget ?? 0) + (data.lodgingBudget ?? 0);
-
-    const itinerary = await itineraryService.create(userId, data);
-
+    const itinerary = await this.itineraryService.create(userId, data);
     res.status(201).json(itinerary);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const findByUserId = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  findByUserId = async (req: Request, res: Response) => {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const itineraries = await itineraryService.findByUserId(userId);
+    const itineraries = await this.itineraryService.findByUserId(userId);
     res.status(200).json(itineraries);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const findByUserItineraryId = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const userId = parseInt(req.params.userId);
-    const itineraryId = parseInt(req.params.itineraryId);
-    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
-    const itineraries = await itineraryService.findByUserItineraryId(userId, itineraryId);
-    res.status(200).json(itineraries);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const deleteItinerary = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  };
+  deleteItinerary = async (req: Request, res: Response) => {
     const itineraryId = parseInt(req.params.itineraryId);
     if (isNaN(itineraryId)) throw new BadRequestError('Invalid user id');
-    const deletedItinerary = await itineraryService.delete(itineraryId);
+    const deletedItinerary = await this.itineraryService.delete(itineraryId);
     res.status(200).json(deletedItinerary);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
 
-export const updateItinerary = async (req: Request, res: Response, next: NextFunction) => {
-  try {
+  updateItinerary = async (req: Request, res: Response) => {
     const itineraryId = parseInt(req.params.itineraryId);
     if (isNaN(itineraryId)) throw new BadRequestError('Invalid itinerary id');
     const data = UpdateItinerarySchema.parse({ ...req.body });
-    const itinerary = await itineraryService.update(itineraryId, data);
+    const itinerary = await this.itineraryService.update(itineraryId, data);
     res.status(201).json(itinerary);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+}
