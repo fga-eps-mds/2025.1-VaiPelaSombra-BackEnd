@@ -18,18 +18,36 @@ export class HomeService {
       select: {
         id: true,
         title: true,
+        images: {
+          take: 1,
+          select: {
+            url: true,
+          },
+        },
       },
       orderBy: {
         title: 'asc',
       },
     });
 
-    return destinations;
+    return destinations.map((dest) => ({
+      id: dest.id,
+      title: dest.title,
+      imageUrl: dest.images[0]?.url || null,
+    }));
   }
 
   async getDestinationById(id: number) {
     const destination = await prisma.destination.findUnique({
       where: { id },
+      include: {
+        images: {
+          select: {
+            id: true,
+            url: true,
+          },
+        },
+      },
     });
 
     return destination;

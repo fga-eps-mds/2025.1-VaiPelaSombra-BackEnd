@@ -694,7 +694,7 @@
         required: false
         schema:
           type: string
-        description: Filter destinations by partial match in the title(case-insensitive)
+        description: Filter destinations by partial match in the title (case-insensitive)
     responses:
       '200':
         description: List of destinations
@@ -703,14 +703,7 @@
             schema:
               type: array
               items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 1
-                  title:
-                    type: string
-                    example: Paris
+                $ref: '#/components/schemas/HomeDestination'
       '500':
         description: Internal server error
 
@@ -731,54 +724,7 @@
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  example: 4
-                title:
-                  type: string
-                  example: Brasília
-                description:
-                  type: string
-                  example: A capital do Brasil.
-                latitude:
-                  type: string
-                  example: "51.503"
-                longitude:
-                  type: string
-                  example: "17.122"
-                localClimate:
-                  type: string
-                  example: tropical
-                timeZone:
-                  type: string
-                  example: GMT-3
-                itineraries:
-                  type: array
-                  items:
-                    type: object
-                  example: []
-                reviews:
-                  type: array
-                  items:
-                    type: object
-                  example: []
-                localEvents:
-                  type: array
-                  items:
-                    type: object
-                  example: []
-                survivalTips:
-                  type: array
-                  items:
-                    type: object
-                  example: []
-                recommendedActivities:
-                  type: array
-                  items:
-                    type: object
-                  example: []
+              $ref: '#/components/schemas/FullDestination'
       '400':
         description: Invalid destination ID
       '404':
