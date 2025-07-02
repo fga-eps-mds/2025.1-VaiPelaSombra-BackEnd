@@ -31,6 +31,9 @@ model User {
   reviews           Review[]
   itineraries       Itinerary[]
   travelPreferences TravelPreference?
+
+  createdItineraries Itinerary[] @relation("CreatedItineraries")
+  itineraryComments  ItineraryComment[]
 }
 
 model TravelPreference {
@@ -61,6 +64,10 @@ model Itinerary {
   users             User[]
   destinations      Destination[]
   requiredDocuments RequiredDocument[]
+  comments           ItineraryComment[]
+
+  createdById       Int
+  createdBy         User           @relation("CreatedItineraries", fields: [createdById], references: [id])
 }
 
 model RequiredDocument {
@@ -136,4 +143,15 @@ model SurvivalTip {
   content       String      @db.VarChar(500)
   destinationId Int
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+}
+
+model ItineraryComment {
+  id           Int       @id @default(autoincrement())
+  content      String    @db.VarChar(1000)
+  createdAt    DateTime  @default(now())
+  userId       Int
+  itineraryId  Int
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itinerary    Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
