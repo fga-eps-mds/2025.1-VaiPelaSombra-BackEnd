@@ -10,22 +10,6 @@ paths:
   $ref: './routes/routes.paths.yaml'
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        profileBio:
-          type: string
-          nullable: true
-        profileImage:
-          type: string
-          nullable: true
-
     CreateUserInput:
       type: object
       required: [name, email, password]
