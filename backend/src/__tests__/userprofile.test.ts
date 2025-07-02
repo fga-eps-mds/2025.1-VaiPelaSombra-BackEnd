@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
 import { UserController } from '../controllers/user.controller';
 import { UserService } from '../services/user.service';
+import { TravelPreferenceService } from '../services/travelPreference.service';
 import app from '../app';
 import request from 'supertest';
 
 jest.mock('../services/user.service');
+jest.mock('../services/travelPreference.service');
 jest.spyOn(console, 'error').mockImplementation(() => {});
+
+const userService = new UserService();
+const travelPreferenceService = new TravelPreferenceService();
 
 describe('UserController - updateUserProfile', () => {
   const mockReq = {
@@ -27,9 +32,9 @@ describe('UserController - updateUserProfile', () => {
   });
 
   it('deve atualizar o perfil do usuário com sucesso', async () => {
-    (UserService.updateUser as jest.Mock).mockResolvedValue({ id: 1, name: 'Maria' });
-    (UserService.updateTravelPreferences as jest.Mock).mockResolvedValue(undefined);
-    (UserService.getUserById as jest.Mock).mockResolvedValue({
+    (userService.update as jest.Mock).mockResolvedValue({ id: 1, name: 'Maria' });
+    (travelPreferenceService.update as jest.Mock).mockResolvedValue(undefined);
+    (userService.findById as jest.Mock).mockResolvedValue({
       id: 1,
       name: 'Maria',
       travelPreferencesData: { destination: 'Praia' },
@@ -37,8 +42,8 @@ describe('UserController - updateUserProfile', () => {
 
     await UserController.updateUserProfile(mockReq, mockRes);
 
-    expect(UserService.updateUser).toHaveBeenCalledWith(1, mockReq.body);
-    expect(UserService.updateTravelPreferences).toHaveBeenCalledWith(
+    expect(userService.update).toHaveBeenCalledWith(1, mockReq.body);
+    expect(travelPreferenceService.update).toHaveBeenCalledWith(
       1,
       mockReq.body.travelPreferencesData
     );
@@ -51,7 +56,7 @@ describe('UserController - updateUserProfile', () => {
   });
 
   it('deve retornar 404 se o usuário não for encontrado', async () => {
-    (UserService.updateUser as jest.Mock).mockResolvedValue(null);
+    (userService.update as jest.Mock).mockResolvedValue(null);
 
     await UserController.updateUserProfile(mockReq, mockRes);
 
@@ -60,7 +65,7 @@ describe('UserController - updateUserProfile', () => {
   });
 
   it('deve retornar 500 em caso de erro inesperado', async () => {
-    (UserService.updateUser as jest.Mock).mockRejectedValue(new Error('Erro inesperado'));
+    (userService.update as jest.Mock).mockRejectedValue(new Error('Erro inesperado'));
 
     await UserController.updateUserProfile(mockReq, mockRes);
 
@@ -89,14 +94,14 @@ describe('UserController - getUserProfile', () => {
   it('deve retornar o perfil do usuário', async () => {
     req.params = { id: '2' };
 
-    (UserService.getUserById as jest.Mock).mockResolvedValueOnce({
+    (userService.findById as jest.Mock).mockResolvedValueOnce({
       id: 2,
       name: 'Jane Doe',
     });
 
     await UserController.getUserProfile(req as Request, res as Response);
 
-    expect(UserService.getUserById).toHaveBeenCalledWith(2);
+    expect(userService.findById).toHaveBeenCalledWith(2);
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith({ id: 2, name: 'Jane Doe' });
   });
@@ -104,7 +109,7 @@ describe('UserController - getUserProfile', () => {
   it('deve retornar 404 se o usuário não existir', async () => {
     req.params = { id: '2' };
 
-    (UserService.getUserById as jest.Mock).mockResolvedValueOnce(null);
+    (userService.findById as jest.Mock).mockResolvedValueOnce(null);
 
     await UserController.getUserProfile(req as Request, res as Response);
 
@@ -115,7 +120,7 @@ describe('UserController - getUserProfile', () => {
   it('deve retornar 500 se ocorrer um erro inesperado', async () => {
     req.params = { id: '2' };
 
-    (UserService.getUserById as jest.Mock).mockRejectedValueOnce(new Error('DB error'));
+    (userService.findById as jest.Mock).mockRejectedValueOnce(new Error('DB error'));
 
     await UserController.getUserProfile(req as Request, res as Response);
 
@@ -130,12 +135,12 @@ describe('UserController - getUserProfile', () => {
 
 describe('Rotas de integração /users/:id', () => {
   beforeAll(() => {
-    (UserService.updateUser as jest.Mock).mockImplementation(async (id, data) => {
+    (userService.update as jest.Mock).mockImplementation(async (id, data) => {
       if (id === 1) return { id, ...data };
       return null;
     });
-    (UserService.updateTravelPreferences as jest.Mock).mockResolvedValue(undefined);
-    (UserService.getUserById as jest.Mock).mockImplementation(async (id) => {
+    (travelPreferenceService.update as jest.Mock).mockResolvedValue(undefined);
+    (userService.findById as jest.Mock).mockImplementation(async (id) => {
       if (id === 1) {
         return {
           id: 1,

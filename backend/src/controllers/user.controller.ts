@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { UserService } from '../services/user.service';
-//import { AuthenticatedRequest } from '../middlewares/error.middleware';
-
+import { TravelPreferenceService } from '../services/travelPreference.service';
 
 const userService = new UserService();
+const travelPreferenceService = new TravelPreferenceService();
 
 export const UserController = {
   getAllUsers: async (req: Request, res: Response): Promise<void> => {
@@ -29,7 +29,7 @@ export const UserController = {
     }
 
     try {
-      const newUser = await userService.createUser({ name, email, password });
+      const newUser = await userService.create({ name, email, password });
       res.status(201).json(newUser);
     } catch (error) {
       res.status(500).json({ message: 'Error creating user', error });
@@ -37,7 +37,7 @@ export const UserController = {
   },
 
   updateUser: async (req: Request, res: Response): Promise<void> => {
-    const updatedUser = await userService.updateUser(
+    const updatedUser = await userService.update(
       Number(req.params.id),
       req.body
     );
@@ -49,8 +49,9 @@ export const UserController = {
 
     res.json(updatedUser);
   },
-    deleteUser: async (req: Request, res: Response): Promise<void> => {
-    const isDeleted = await userService.deleteUser(Number(req.params.id));
+
+  deleteUser: async (req: Request, res: Response): Promise<void> => {
+    const isDeleted = await userService.delete(Number(req.params.id));
 
     if (!isDeleted) {
       res.status(404).json({ message: 'User not found' });
@@ -62,7 +63,7 @@ export const UserController = {
 
   getUserProfile: async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = Number(req.params.id); // const userId = Number(req.user.id);
+      const userId = Number(req.params.id); // ou req.user.id se estiver autenticado
       const user = await userService.findById(userId);
       if (!user) {
         res.status(404).json({ message: 'User not found' });
@@ -82,14 +83,14 @@ export const UserController = {
       const userId = Number(req.params.id);
       const userData = req.body;
 
-      const updatedUser = await userService.updateUser(userId, userData);
+      const updatedUser = await userService.update(userId, userData);
       if (!updatedUser) {
         res.status(404).json({ message: 'User not found' });
         return;
       }
 
       if (userData.travelPreferencesData) {
-        await userService.updateTravelPreferences(userId, userData.travelPreferencesData);
+        await travelPreferenceService.update(userId, userData.travelPreferencesData);
       }
 
       const userUpdated = await userService.findById(userId);
