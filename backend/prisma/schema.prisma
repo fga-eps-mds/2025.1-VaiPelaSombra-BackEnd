@@ -41,6 +41,7 @@ model User {
   travelPreferences        TravelPreference?
   participatingItineraries Itinerary[]       @relation("ItineraryParticipants")
   createdItineraries       Itinerary[]       @relation("ItineraryCreator")
+  itineraryComments  ItineraryComment[]
 }
 
 model TravelPreference {
@@ -157,4 +158,15 @@ model SurvivalTip {
   content       String      @db.VarChar(500)
   destinationId Int
   destination   Destination @relation(fields: [destinationId], references: [id], onDelete: Cascade)
+}
+
+model ItineraryComment {
+  id           Int       @id @default(autoincrement())
+  content      String    @db.VarChar(1000)
+  createdAt    DateTime  @default(now())
+  userId       Int
+  itineraryId  Int
+
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itinerary    Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
