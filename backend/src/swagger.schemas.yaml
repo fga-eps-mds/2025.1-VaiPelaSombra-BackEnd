@@ -354,3 +354,65 @@ components:
           type: integer
         label:
           type: string
+
+    CreateTransportInput:       
+      type: object
+      required:
+        - tipo
+        - valor
+        - dataCsaida
+        - dataChegada
+        - duracao
+      properties:
+        tipo:
+          type: string
+        valor:
+          type: number
+        dataCsaida:
+          type: string
+          format: date-time
+        dataChegada:
+          type: string
+          format: date-time
+        duracao:
+          type: string
+        descricao:
+          type: string
+
+    UpdateTransportInput:
+      type: object
+      properties:
+        tipo:
+          type: string
+        valor:
+          type: number
+        dataCsaida:
+          type: string
+          format: date-time
+        dataChegada:
+          type: string
+          format: date-time
+        duracao:
+          type: string
+        descricao:
+          type: string
+
+    Transport:
+      type: object
+      properties:
+        idTransporte:
+          type: integer
+        tipo:
+          type: string
+        valor:
+          type: number
+        dataCsaida:
+          type: string
+          format: date-time
+        dataChegada:
+          type: string
+          format: date-time
+        duracao:
+          type: string
+        descricao:
+          type: string
