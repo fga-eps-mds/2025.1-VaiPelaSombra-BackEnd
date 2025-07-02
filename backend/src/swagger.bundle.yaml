@@ -782,6 +782,114 @@ paths:
           description: Destination not found
         '500':
           description: Internal server error
+  /transports:
+    post:
+      summary: Create a new transport
+      tags:
+        - Transports
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransportInput'
+      responses:
+        '201':
+          description: Transport created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+    get:
+      summary: Get all transports
+      tags:
+        - Transports
+      responses:
+        '200':
+          description: List of transports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
+        '500':
+          description: Server error
+  /transports/{idTransporte}:
+    get:
+      summary: Get transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: idTransporte
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transport found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+
+    put:
+      summary: Update transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: idTransporte
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransportInput'
+      responses:
+        '200':
+          description: Transport updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '400':
+          description: Invalid input
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+
+    delete:
+      summary: Delete transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: idTransporte
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transport deleted
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
 components:
   schemas:
     CreateUserInput:
