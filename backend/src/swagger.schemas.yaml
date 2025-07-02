@@ -28,7 +28,30 @@ components:
           type: string
         profileImage:
           type: string
+          nullable: true
           format: uri
+          example: "https://example.com/profile.jpg"
+
+    PlanoViagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
 
     UpdateUserInput:
       type: object
@@ -354,6 +377,7 @@ components:
           type: integer
         label:
           type: string
+<<<<<<< HEAD
 
     CreateTransportInput:       
       type: object
@@ -416,3 +440,5 @@ components:
           type: string
         descricao:
           type: string
+=======
+>>>>>>> 35cdb438e7ad48ece8a72348fd749b7a580102fb
