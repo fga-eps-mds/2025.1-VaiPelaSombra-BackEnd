@@ -37,10 +37,7 @@ export const UserController = {
   },
 
   updateUser: async (req: Request, res: Response): Promise<void> => {
-    const updatedUser = await userService.update(
-      Number(req.params.id),
-      req.body
-    );
+    const updatedUser = await userService.update(Number(req.params.id), req.body);
 
     if (!updatedUser) {
       res.status(404).json({ message: 'User not found' });

@@ -1,5 +1,5 @@
 import { UserService } from '../services/user.service';
-import { PrismaClient, Prisma } from '../generated/prisma';
+import { PrismaClient } from '../generated/prisma';
 
 jest.mock('../generated/prisma', () => {
   const mPrismaClient = {
@@ -21,7 +21,7 @@ jest.mock('../generated/prisma', () => {
   };
 });
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient(); // Esse já está mockado
 const userService = new UserService();
 
 describe('UserService.delete', () => {
@@ -32,7 +32,16 @@ describe('UserService.delete', () => {
   });
 
   it('deve retornar o usuário deletado quando a exclusão for bem-sucedida', async () => {
-    const deletedUser = { id: userId, name: 'Usuário Excluído' };
+    const deletedUser = {
+      id: userId,
+      name: 'Usuário Excluído',
+      email: 'email@email.com',
+      password: 'hash',
+      createdAt: new Date(),
+      profileBio: null,
+      profileImage: null,
+      travelPreferences: null,
+    };
     (prisma.user.delete as jest.Mock).mockResolvedValueOnce(deletedUser);
 
     const result = await userService.delete(userId);
@@ -42,7 +51,7 @@ describe('UserService.delete', () => {
   });
 
   it('deve lançar erro quando o usuário não for encontrado (Prisma P2025)', async () => {
-    const prismaError = new Error('User not found') as any;
+    const prismaError = new Error('User not found') as Error & { code: string };
     prismaError.code = 'P2025';
 
     (prisma.user.delete as jest.Mock).mockRejectedValueOnce(prismaError);
@@ -58,6 +67,7 @@ describe('UserService.delete', () => {
     (prisma.user.delete as jest.Mock).mockRejectedValueOnce(unexpectedError);
 
     await expect(userService.delete(userId)).rejects.toThrow('Unexpected Error');
+
     expect(console.error).toHaveBeenCalledWith('Erro ao deletar usuário:', unexpectedError);
 
     consoleSpy.mockRestore();

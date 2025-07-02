@@ -7,13 +7,13 @@ import {
   getTravelInterestById,
   createTravelInterest,
   updateTravelInterest,
-  deleteTravelInterest
+  deleteTravelInterest,
 } from '../controllers/travelInterest.controller';
 import {
   getTravelPreferenceByUserId,
   createTravelPreference,
   updateTravelPreference,
-  deleteTravelPreference
+  deleteTravelPreference,
 } from '../controllers/travelPreference.controller';
 //import { authMiddleware } from '../middlewares/error.middleware';
 
@@ -46,4 +46,3 @@ router.get('/me', UserController.getUserProfile);
 router.put('/me', UserController.updateUserProfile);
 
 export default router;
-
