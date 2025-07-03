@@ -683,3 +683,51 @@
         description: Travel interest not found
       '500':
         description: Server error
+
+/home:
+  get:
+    summary: Get all destinations or filtered by search
+    tags: [Home]
+    parameters:
+      - in: query
+        name: search
+        required: false
+        schema:
+          type: string
+        description: Filter destinations by partial match in the title (case-insensitive)
+    responses:
+      '200':
+        description: List of destinations
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HomeDestination'
+      '500':
+        description: Internal server error
+
+/home/{id}:
+  get:
+    summary: Get destination by ID
+    tags: [Home]
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: ID of the destination
+    responses:
+      '200':
+        description: Destination found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FullDestination'
+      '400':
+        description: Invalid destination ID
+      '404':
+        description: Destination not found
+      '500':
+        description: Internal server error

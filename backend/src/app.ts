@@ -1,28 +1,34 @@
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import destinationRouter from './routes/destination.routes';
+import homeRouter from './routes/home.routes';
 import { errorHandler } from './errors/midle';
 import loginRouter from './routes/login.routes';
 
 const app = express();
 
-// Swagger setup usando arquivo YAML externo
-const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
-
-// Middleware
 app.use(cors());
-app.use(bodyParser.json());
-app.use('/users', userRouter);
+app.use(express.json());
+
+// Swagger
+const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Rotas
+app.use('/users', userRouter);
+app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
+app.use('/travel-interests', travelInterestsRouter);
 app.use('/destinations', destinationRouter);
+app.use('/home', homeRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/login', loginRouter);
+
 app.use(errorHandler);
+
 export default app;
