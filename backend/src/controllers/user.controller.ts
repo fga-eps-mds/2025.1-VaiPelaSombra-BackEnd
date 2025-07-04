@@ -2,12 +2,14 @@ import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
-
+import bcrypt from 'bcrypt';
 const userService = new UserService();
 
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const data = CreateUserSchema.parse(req.body);
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
     const user = await userService.create(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...userResponse } = user;
