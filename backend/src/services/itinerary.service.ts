@@ -1,10 +1,11 @@
 import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
 import { Itinerary } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
+import { BadRequestError, NotFoundError } from '../errors/httpError';
 
 export class ItineraryService {
   async create(userId: number, data: CreateItineraryDTO): Promise<Itinerary> {
-    const userIds = data.userIds ? Array.from(new Set([userId, ...data.userIds])) : [userId];
+    const usersIds = data.usersIds ? Array.from(new Set([userId, ...data.usersIds])) : [userId];
     const prismaData = {
       title: data.title,
       startDate: data.startDate,
@@ -13,8 +14,11 @@ export class ItineraryService {
       foodBudget: data.foodBudget,
       lodgingBudget: data.lodgingBudget,
       totalBudget: data.totalBudget,
+      createdBy: {
+        connect: { id: userId },
+      },
       users: {
-        connect: userIds.map((id) => ({ id })),
+        connect: usersIds.map((id) => ({ id })),
       },
       transports: {
         connect: data.transportIds?.map((id) => ({ id })) || [],
@@ -36,15 +40,23 @@ export class ItineraryService {
     });
   }
 
-  async update(id: number, data: UpdateItineraryDTO): Promise<Itinerary | null> {
+  async update(
+    itineraryId: number,
+    userId: number,
+    data: UpdateItineraryDTO
+  ): Promise<Itinerary | null> {
+    const ownerId = await this.getOwnerId(itineraryId);
+    if (userId !== ownerId) throw new BadRequestError('Only the owner can update the itinerary');
     return prisma.itinerary.update({
-      where: { id },
+      where: { id: itineraryId },
       data,
     });
   }
 
-  async delete(id: number): Promise<Itinerary | null> {
-    return prisma.itinerary.delete({ where: { id } });
+  async delete(itineraryId: number, userId: number): Promise<Itinerary | null> {
+    const ownerId = await this.getOwnerId(itineraryId);
+    if (userId !== ownerId) throw new BadRequestError('Only the owner can delete the itinerary');
+    return prisma.itinerary.delete({ where: { id: itineraryId } });
   }
 
   async findByUserId(userId: number): Promise<Itinerary[] | null> {
@@ -58,17 +70,17 @@ export class ItineraryService {
       },
     });
   }
-
-  async findByUserItineraryId(userId: number, itineraryId: number): Promise<Itinerary[] | null> {
-    return prisma.itinerary.findMany({
+  async getOwnerId(itineraryId: number): Promise<number> {
+    const itinerary = await prisma.itinerary.findUnique({
       where: {
         id: itineraryId,
-        users: {
-          some: {
-            id: userId,
-          },
-        },
+      },
+      select: {
+        ownerId: true,
       },
     });
+    if (!itinerary) throw new NotFoundError('Itinerary not found');
+
+    return itinerary.ownerId;
   }
 }

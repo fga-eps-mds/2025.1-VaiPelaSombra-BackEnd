@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ItineraryService } from '../services/itinerary.service';
 import { CreateItinerarySchema, UpdateItinerarySchema } from '../dtos/itinerary.dto';
 import { BadRequestError } from '../errors/httpError';
-
+import { AuthRequest } from '../middlewares/auth.middleware';
 export class ItineraryController {
   constructor(private itineraryService: ItineraryService) {}
   createItinerary = async (req: Request, res: Response) => {
@@ -19,18 +19,22 @@ export class ItineraryController {
     const itineraries = await this.itineraryService.findByUserId(userId);
     res.status(200).json(itineraries);
   };
-  deleteItinerary = async (req: Request, res: Response) => {
+  deleteItinerary = async (req: AuthRequest, res: Response) => {
     const itineraryId = parseInt(req.params.itineraryId);
-    if (isNaN(itineraryId)) throw new BadRequestError('Invalid user id');
-    const deletedItinerary = await this.itineraryService.delete(itineraryId);
+    if (isNaN(itineraryId)) throw new BadRequestError('Invalid itinerary id');
+    const userId = req.user!.id;
+    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
+    const deletedItinerary = await this.itineraryService.delete(itineraryId, userId);
     res.status(200).json(deletedItinerary);
   };
 
-  updateItinerary = async (req: Request, res: Response) => {
+  updateItinerary = async (req: AuthRequest, res: Response) => {
     const itineraryId = parseInt(req.params.itineraryId);
     if (isNaN(itineraryId)) throw new BadRequestError('Invalid itinerary id');
+    const userId = req.user!.id;
+    if (isNaN(userId)) throw new BadRequestError('Invalid user id');
     const data = UpdateItinerarySchema.parse({ ...req.body });
-    const itinerary = await this.itineraryService.update(itineraryId, data);
+    const itinerary = await this.itineraryService.update(itineraryId, userId, data);
     res.status(201).json(itinerary);
   };
 }
