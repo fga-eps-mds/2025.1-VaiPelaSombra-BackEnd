@@ -1,16 +1,13 @@
 import { z } from 'zod';
 
 export const CreateTransportSchema = z.object({
-  tipo: z.string().min(1, 'Tipo é obrigatório'),
-  valor: z.number().nonnegative('Valor deve ser positivo'),
-  dataCsaida: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: 'Data de saída inválida',
-  }),
-  dataChegada: z.string().refine((val) => !isNaN(Date.parse(val)), {
-    message: 'Data de chegada inválida',
-  }),
-  duracao: z.string().min(1, 'Duração é obrigatória'),
-  descricao: z.string().optional(),
+  type: z.string().min(1, 'Tipo é obrigatório'),
+  cost: z.number().nonnegative('Valor deve ser positivo'),
+  itineraryId: z.number(),
+  departure: z.union([z.string(), z.date()]).optional(),
+  arrival: z.union([z.string(), z.date()]).optional(),
+  duration: z.union([z.string(), z.date()]).optional(),
+  description: z.string().optional(),
 });
 
 export const UpdateTransportSchema = CreateTransportSchema.partial();

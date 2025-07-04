@@ -1,18 +1,13 @@
 import { Router } from 'express';
-import {
-  createTransport,
-  deleteTransport,
-  getAllTransports,
-  getTransportById,
-  updateTransport,
-} from '../controllers/transport.controller';
+import { TransportController } from '../controllers/transport.controller';
 
 const router = Router();
+const controller = new TransportController();
 
-router.post('/', createTransport);
-router.get('/', getAllTransports);
-router.get('/:idTransporte', getTransportById);
-router.put('/:idTransporte', updateTransport);
-router.delete('/:idTransporte', deleteTransport);
+router.post('/', controller.createTransport.bind(controller));
+router.get('/', controller.getAllTransports.bind(controller));
+router.get('/:id', controller.getTransportById.bind(controller));
+router.put('/:id', controller.updateTransport.bind(controller));
+router.delete('/:id', controller.deleteTransport.bind(controller));
 
 export default router;
