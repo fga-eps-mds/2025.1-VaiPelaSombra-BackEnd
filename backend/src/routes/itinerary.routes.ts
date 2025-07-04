@@ -12,6 +12,5 @@ router.post('/', itineraryController.createItinerary);
 router.get('/', itineraryController.findByUserId);
 router.put('/:itineraryId', itineraryController.updateItinerary);
 router.delete('/:itineraryId', itineraryController.deleteItinerary);
-
 router.use('/:itineraryId/activities', activityRouter);
 export default router;
