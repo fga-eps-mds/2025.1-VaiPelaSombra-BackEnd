@@ -1,4 +1,5 @@
 import { Request, Response, ErrorRequestHandler, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 import {
   BadRequestError,
   ConflictError,
@@ -6,6 +7,7 @@ import {
   InternalServerError,
   NotFoundError,
   UnprocessableEntityError,
+  ForbiddenError,
 } from './httpError';
 import { Prisma } from '../generated/prisma';
 import { z } from 'zod';
@@ -16,6 +18,17 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction // eslint-disable-line @typescript-eslint/no-unused-vars
 ) => {
+  // JWT errors mapped to your custom errors
+  if (error instanceof jwt.JsonWebTokenError) {
+    if (error instanceof jwt.TokenExpiredError) {
+      error = new ForbiddenError('Access token has expired');
+    } else if (error instanceof jwt.NotBeforeError) {
+      error = new BadRequestError('Token is not active yet');
+    } else {
+      error = new BadRequestError('Invalid token provided');
+    }
+  }
+
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     switch (error.code) {
       case 'P2002':
