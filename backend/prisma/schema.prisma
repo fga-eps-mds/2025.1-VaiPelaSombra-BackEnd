@@ -21,16 +21,17 @@ enum ItineraryStatus {
 }
 
 model User {
-  id                Int               @id @default(autoincrement())
-  name              String            @db.VarChar(100)
-  email             String            @unique @db.VarChar(100)
-  password          String            @db.VarChar(100)
-  createdAt         DateTime          @default(now())
-  profileBio        String?           @db.VarChar(500)
-  profileImage      String?           @db.VarChar(500)
-  reviews           Review[]
-  itineraries       Itinerary[]
-  travelPreferences TravelPreference?
+  id                       Int               @id @default(autoincrement())
+  name                     String            @db.VarChar(100)
+  email                    String            @unique @db.VarChar(100)
+  password                 String            @db.VarChar(100)
+  createdAt                DateTime          @default(now())
+  profileBio               String?           @db.VarChar(500)
+  profileImage             String?           @db.VarChar(500)
+  reviews                  Review[]
+  travelPreferences        TravelPreference?
+  participatingItineraries Itinerary[]       @relation("ItineraryParticipants")
+  createdItineraries       Itinerary[]       @relation("ItineraryCreator")
 }
 
 model TravelPreference {
@@ -47,20 +48,21 @@ model TravelInterest {
 }
 
 model Itinerary {
-  id              Int             @id @default(autoincrement())
-  title           String          @db.VarChar(100)
-  startDate       DateTime
-  endDate         DateTime
-  itineraryStatus ItineraryStatus
-  lodgingBudget   Decimal?        @db.Decimal(7, 2)
-  foodBudget      Decimal?        @db.Decimal(7, 2)
-  totalBudget     Decimal?        @db.Decimal(7, 2)
-
+  id                Int                @id @default(autoincrement())
+  title             String             @db.VarChar(100)
+  startDate         DateTime
+  endDate           DateTime
+  itineraryStatus   ItineraryStatus
+  lodgingBudget     Decimal?           @db.Decimal(7, 2)
+  foodBudget        Decimal?           @db.Decimal(7, 2)
+  totalBudget       Decimal?           @db.Decimal(7, 2)
   transports        Transport[]
   activities        Activity[]
-  users             User[]
+  users             User[]             @relation("ItineraryParticipants")
   destinations      Destination[]
   requiredDocuments RequiredDocument[]
+  createdBy         User               @relation("ItineraryCreator", fields: [ownerId], references: [id])
+  ownerId           Int
 }
 
 model RequiredDocument {
@@ -83,14 +85,13 @@ model Transport {
 }
 
 model Destination {
-  id           Int     @id @default(autoincrement())
-  title        String  @db.VarChar(100)
-  description  String  @db.VarChar(500)
-  latitude     Decimal @db.Decimal(9, 6)
-  longitude    Decimal @db.Decimal(9, 6)
-  localClimate String? @db.VarChar(500)
-  timeZone     String? @db.VarChar(100)
-
+  id                    Int                @id @default(autoincrement())
+  title                 String             @db.VarChar(100)
+  description           String             @db.VarChar(500)
+  latitude              Decimal            @db.Decimal(9, 6)
+  longitude             Decimal            @db.Decimal(9, 6)
+  localClimate          String?            @db.VarChar(500)
+  timeZone              String?            @db.VarChar(100)
   itineraries           Itinerary[]
   reviews               Review[]
   localEvents           LocalEvent[]
@@ -118,15 +119,14 @@ model Review {
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  location    String   @db.VarChar(100)
-  title       String   @db.VarChar(100)
-  price       Decimal? @db.Decimal(5, 2)
-  startTime   DateTime
-  endTime     DateTime
-  duration    String?
-  description String?  @db.VarChar(500)
-
+  id            Int          @id @default(autoincrement())
+  location      String       @db.VarChar(100)
+  title         String       @db.VarChar(100)
+  price         Decimal?     @db.Decimal(5, 2)
+  startTime     DateTime
+  endTime       DateTime
+  duration      String?
+  description   String?      @db.VarChar(500)
   itineraryId   Int
   itinerary     Itinerary    @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   destination   Destination? @relation(fields: [destinationId], references: [id])
