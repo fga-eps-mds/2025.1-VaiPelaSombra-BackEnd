@@ -36,6 +36,17 @@ paths:
       responses:
         '200':
           description: List of users
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    get:
+      summary: Get all users
+      tags:
+        - Users
+      responses:
+        '200':
+          description: List of users
           content:
             application/json:
               schema:
@@ -97,6 +108,240 @@ paths:
           description: Server error
     delete:
       summary: Delete user by ID
+      tags:
+        - TravelPreferences
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+  /users/{userId}/travel-preferences:
+    get:
+      summary: Get travel preference by user ID
+      tags:
+        - TravelPreferences
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Travel preference found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - userId
+                  - travelInterests
+                properties:
+                  userId:
+                    type: integer
+                    example: 1
+                  travelInterests:
+                    type: array
+                    items:
+                      type: integer
+                    example:
+                      - 2
+                      - 3
+        '404':
+          description: Travel preference not found
+        '500':
+          description: Server error
+    post:
+      summary: Create travel preference for user
+      tags:
+        - TravelPreferences
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - travelInterests
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                travelInterests:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 2
+                    - 3
+      responses:
+        '201':
+          description: Travel preference created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelPreference'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    put:
+      summary: Update travel preference for user
+      tags:
+        - TravelPreferences
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - travelInterests
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                travelInterests:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 2
+                    - 3
+      responses:
+        '200':
+          description: Travel preference updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TravelPreference'
+        '400':
+          description: Invalid input
+        '404':
+          description: Travel preference not found
+        '500':
+          description: Server error
+    delete:
+      summary: Delete travel preference for user
+      tags:
+        - TravelPreferences
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Travel preference deleted
+        '404':
+          description: Travel preference not found
+        '500':
+          description: Server error
+  /interests:
+    post:
+      summary: Create a new travel interest
+      operationId: createTravelInterest
+      tags:
+        - TravelInterests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - label
+              properties:
+                label:
+                  type: string
+                  example: Natureza
+      responses:
+        '201':
+          description: Travel interest created
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - label
+                properties:
+                  label:
+                    type: string
+                    example: Natureza
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    get:
+      summary: Get all travel interests
+      operationId: getTravelInterests
+      tags:
+        - TravelInterests
+      responses:
+        '200':
+          description: List of travel interests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Server error
+  /users/{userId}:
+    get:
+      summary: Get user by ID
+                  $ref: '#/components/schemas/TravelInterest'
+        '500':
+          description: Server error
+  /travel-interests/{id}:
+    get:
+      summary: Get travel interest by ID
+      operationId: getTravelInterestById
+      tags:
+        - TravelInterests
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+    put:
+      summary: Update user by ID
       tags:
         - Users
       parameters:
@@ -667,6 +912,7 @@ paths:
         '500':
           description: Server error
   /travel-interests/{id}:
+  /interests/{id}:
     get:
       summary: Get travel interest by ID
       tags:
@@ -685,6 +931,25 @@ paths:
               schema:
                 $ref: '#/components/schemas/TravelInterest'
         '404':
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Travel interest found
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - label
+                properties:
+                  label:
+                    type: string
+                    example: Natureza
+        '404':
           description: Travel interest not found
         '500':
           description: Server error
@@ -695,6 +960,12 @@ paths:
       parameters:
         - in: path
           name: id
+      operationId: updateTravelInterest
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
           required: true
           schema:
             type: integer
@@ -724,6 +995,12 @@ paths:
       parameters:
         - in: path
           name: id
+      operationId: deleteTravelInterest
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
           required: true
           schema:
             type: integer
@@ -734,9 +1011,106 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-  /home:
+  /itineraries/{userId}:
+  /users/{userId}/itineraries:
+    post:
+      summary: Create itinerary for user
+      tags:
+        - Itineraries
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - startDate
+                - endDate
+                - itineraryStatus
+              properties:
+                title:
+                  type: string
+                  example: Viagem para o Rio
+                startDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-01T09:00:00.000Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-10T18:00:00.000Z'
+                itineraryStatus:
+                  type: string
+                  enum:
+                    - PLANNING
+                    - IN_PROGRESS
+                    - COMPLETED
+                  example: PLANNING
+                foodBudget:
+                  type: number
+                  format: float
+                  example: 500
+                lodgingBudget:
+                  type: number
+                  format: float
+                  example: 1200
+                totalBudget:
+                  type: number
+                  format: float
+                  example: 2000
+                userIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                transportIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                activityIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                destinationIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                requiredDocumentIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+      responses:
+        '201':
+          description: Itinerary created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Itinerary'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
     get:
-      summary: Get all destinations or filtered by search
+      summary: Get all itineraries for user
       tags:
         - Home
       parameters:
@@ -748,7 +1122,97 @@ paths:
           description: Filter destinations by partial match in the title (case-insensitive)
       responses:
         '200':
-          description: List of destinations
+          description: Itinerary deleted
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+  users/{userId}/itineraries/{itineraryId}/activities:
+    post:
+      summary: Create activity for itinerary
+      operationId: createActivity
+      tags:
+        - Activities
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: itineraryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - location
+                - startTime
+                - endTime
+              properties:
+                title:
+                  type: string
+                  example: Passeio de barco
+                location:
+                  type: string
+                  example: Rio de Janeiro
+                startTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T09:00:00.000Z'
+                endTime:
+                  type: string
+                  format: date-time
+                  example: '2025-07-02T12:00:00.000Z'
+                price:
+                  type: number
+                  format: float
+                  example: 150
+                duration:
+                  type: string
+                  example: 3h
+                description:
+                  type: string
+                  example: Passeio de barco pela orla.
+                destinationId:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Activity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Itinerary'
+        '404':
+          description: Itinerary not found
+        '500':
+          description: Server error
+  /users/{userId}/itineraries/{itineraryId}/activities:
+    get:
+      summary: Get all activities for an itinerary
+      tags:
+        - Activities
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+        - in: path
+          name: itineraryId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: List of activities
           content:
             application/json:
               schema:
@@ -781,115 +1245,136 @@ paths:
         '404':
           description: Destination not found
         '500':
-          description: Internal server error
-  /transports:
-    post:
-      summary: Create a new transport
-      tags:
-        - Transports
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateTransportInput'
-      responses:
-        '201':
-          description: Transport created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transport'
-        '400':
-          description: Invalid input
-        '500':
           description: Server error
-
-    get:
-      summary: Get all transports
-      tags:
-        - Transports
-      responses:
-        '200':
-          description: List of transports
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transport'
-        '500':
-          description: Server error
-  /transports/{idTransporte}:
-    get:
-      summary: Get transport by ID
-      tags:
-        - Transports
-      parameters:
-        - in: path
-          name: idTransporte
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Transport found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transport'
-        '404':
-          description: Transport not found
-        '500':
-          description: Server error
-
-    put:
-      summary: Update transport by ID
-      tags:
-        - Transports
-      parameters:
-        - in: path
-          name: idTransporte
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateTransportInput'
-      responses:
-        '200':
-          description: Transport updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transport'
-        '400':
-          description: Invalid input
-        '404':
-          description: Transport not found
-        '500':
-          description: Server error
-
     delete:
-      summary: Delete transport by ID
+      summary: Delete travel interest by ID
       tags:
-        - Transports
+        - TravelInterests
       parameters:
         - in: path
-          name: idTransporte
+          name: id
           required: true
           schema:
             type: integer
       responses:
         '204':
-          description: Transport deleted
+          description: Travel interest deleted
         '404':
-          description: Transport not found
+          description: Travel interest not found
         '500':
           description: Server error
+  /transports:
+  post:
+    summary: Create a new transport
+    tags:
+      - Transports
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateTransportInput'
+    responses:
+      '201':
+        description: Transport created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transport'
+      '400':
+        description: Invalid input
+      '500':
+        description: Server error
+
+  get:
+    summary: Get all transports
+    tags:
+      - Transports
+    responses:
+      '200':
+        description: List of transports
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Transport'
+      '500':
+        description: Server error
+
+/transports/{idTransporte}:
+  get:
+    summary: Get transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    responses:
+      '200':
+        description: Transport found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transport'
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
+
+  put:
+    summary: Update transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateTransportInput'
+    responses:
+      '200':
+        description: Transport updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transport'
+      '400':
+        description: Invalid input
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
+
+  delete:
+    summary: Delete transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    responses:
+      '204':
+        description: Transport deleted
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
 components:
   schemas:
     CreateUserInput:

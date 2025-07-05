@@ -1,6 +1,7 @@
 import { Transport } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 import { CreateTransportDTO, UpdateTransportDTO } from '../dtos/transport.dto';
+import { Decimal } from 'decimal.js';
 
 export class TransportService {
   private normalizeDuration(duration: string | Date | null | undefined): string | null {
@@ -9,10 +10,23 @@ export class TransportService {
     return null;
   }
 
+  private normalizeDate(value: string | Date | null | undefined): Date | null {
+    if (value instanceof Date) return value;
+    if (typeof value === 'string') return new Date(value);
+    return null;
+  }
+
+  private normalizeCost(cost: number | undefined): Decimal | undefined {
+    return cost !== undefined ? new Decimal(cost) : undefined;
+  }
+
   async createTransport(data: CreateTransportDTO): Promise<Transport> {
     return prisma.transport.create({
       data: {
         ...data,
+        cost: this.normalizeCost(data.cost)!,
+        departure: this.normalizeDate(data.departure),
+        arrival: this.normalizeDate(data.arrival),
         duration: this.normalizeDuration(data.duration),
       },
     });
@@ -34,6 +48,9 @@ export class TransportService {
       where: { id },
       data: {
         ...data,
+        cost: this.normalizeCost(data.cost),
+        departure: this.normalizeDate(data.departure),
+        arrival: this.normalizeDate(data.arrival),
         duration: this.normalizeDuration(data.duration),
       },
     });

@@ -458,7 +458,7 @@ components:
               url:
                 type: string
 
-    CreateTransportInput:       
+    CreateTransportInput:
       type: object
       required:
         - tipo
