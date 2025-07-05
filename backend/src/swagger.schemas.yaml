@@ -377,9 +377,8 @@ components:
           type: integer
         label:
           type: string
-<<<<<<< HEAD
 
-    CreateTransportInput:       
+    CreateTransportInput:
       type: object
       required:
         - tipo
@@ -440,5 +439,3 @@ components:
           type: string
         descricao:
           type: string
-=======
->>>>>>> 35cdb438e7ad48ece8a72348fd749b7a580102fb

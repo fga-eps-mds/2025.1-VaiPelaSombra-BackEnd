@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const CreateTransportSchema = z.object({
   type: z.string().min(1, 'Tipo é obrigatório'),
-  cost: z.number().nonnegative('Valor deve ser positivo'),
+  cost: z.number().nonnegative('O valor deve ser positivo'),
   itineraryId: z.number(),
   departure: z.union([z.string(), z.date()]).optional(),
   arrival: z.union([z.string(), z.date()]).optional(),

@@ -31,7 +31,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-<<<<<<< HEAD
         '400':
           description: Invalid input
         '500':
@@ -43,7 +42,6 @@ paths:
       responses:
         '200':
           description: List of users
-=======
         '400':
           description: Invalid input
         '500':
@@ -268,7 +266,6 @@ paths:
           description: Travel preference not found
         '500':
           description: Server error
-<<<<<<< HEAD
   /interests:
     post:
       summary: Create a new travel interest
@@ -312,20 +309,17 @@ paths:
       responses:
         '200':
           description: List of travel interests
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
           content:
             application/json:
               schema:
                 type: array
                 items:
-<<<<<<< HEAD
                   $ref: '#/components/schemas/User'
         '500':
           description: Server error
   /users/{userId}:
     get:
       summary: Get user by ID
-=======
                   $ref: '#/components/schemas/TravelInterest'
         '500':
           description: Server error
@@ -333,11 +327,9 @@ paths:
     get:
       summary: Get travel interest by ID
       operationId: getTravelInterestById
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
       tags:
         - TravelInterests
       parameters:
-<<<<<<< HEAD
         - in: path
           name: userId
           required: true
@@ -939,7 +931,6 @@ paths:
                       example: Natureza
         '500':
           description: Server error
-<<<<<<< HEAD
     post:
       summary: Create a new travel interest
       tags:
@@ -962,9 +953,7 @@ paths:
         '500':
           description: Server error
   /travel-interests/{id}:
-=======
   /interests/{id}:
->>>>>>> 3ae82ba (Att yamls para rotas no swagger)
     get:
       summary: Get travel interest by ID
       tags:
@@ -983,7 +972,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/TravelInterest'
         '404':
-=======
         - name: id
           in: path
           required: true
@@ -1003,26 +991,22 @@ paths:
                     type: string
                     example: Natureza
         '404':
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
           description: Travel interest not found
         '500':
           description: Server error
     put:
       summary: Update travel interest by ID
-<<<<<<< HEAD
       tags:
         - TravelInterests
       parameters:
         - in: path
           name: id
-=======
       operationId: updateTravelInterest
       tags:
         - TravelInterests
       parameters:
         - name: id
           in: path
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
           required: true
           schema:
             type: integer
@@ -1059,20 +1043,17 @@ paths:
           description: Server error
     delete:
       summary: Delete travel interest by ID
-<<<<<<< HEAD
       tags:
         - TravelInterests
       parameters:
         - in: path
           name: id
-=======
       operationId: deleteTravelInterest
       tags:
         - TravelInterests
       parameters:
         - name: id
           in: path
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
           required: true
           schema:
             type: integer
@@ -1083,15 +1064,8 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   /itineraries/{userId}:
-=======
-=======
->>>>>>> 6930e63 (feat: adiciona documentação das rotas)
   /users/{userId}/itineraries:
->>>>>>> 3ae82ba (Att yamls para rotas no swagger)
     post:
       summary: Create itinerary for user
       tags:
@@ -1331,14 +1305,10 @@ paths:
       responses:
         '200':
           description: Itinerary deleted
-<<<<<<< HEAD
         '404':
           description: Itinerary not found
         '500':
           description: Server error
-<<<<<<< HEAD
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
-=======
   users/{userId}/itineraries/{itineraryId}/activities:
     post:
       summary: Create activity for itinerary
@@ -1398,8 +1368,6 @@ paths:
       responses:
         '201':
           description: Activity created
-=======
->>>>>>> 6930e63 (feat: adiciona documentação das rotas)
           content:
             application/json:
               schema:
@@ -1645,118 +1613,118 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-<<<<<<< HEAD
   /transports:
-    post:
-      summary: Create a new transport
-      tags:
-        - Transports
-      requestBody:
-        required: true
+  post:
+    summary: Create a new transport
+    tags:
+      - Transports
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateTransportInput'
+    responses:
+      '201':
+        description: Transport created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTransportInput'
-      responses:
-        '201':
-          description: Transport created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transport'
-        '400':
-          description: Invalid input
-        '500':
-          description: Server error
+              $ref: '#/components/schemas/Transport'
+      '400':
+        description: Invalid input
+      '500':
+        description: Server error
 
-    get:
-      summary: Get all transports
-      tags:
-        - Transports
-      responses:
-        '200':
-          description: List of transports
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Transport'
-        '500':
-          description: Server error
-  /transports/{idTransporte}:
-    get:
-      summary: Get transport by ID
-      tags:
-        - Transports
-      parameters:
-        - in: path
-          name: idTransporte
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Transport found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Transport'
-        '404':
-          description: Transport not found
-        '500':
-          description: Server error
-
-    put:
-      summary: Update transport by ID
-      tags:
-        - Transports
-      parameters:
-        - in: path
-          name: idTransporte
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
+  get:
+    summary: Get all transports
+    tags:
+      - Transports
+    responses:
+      '200':
+        description: List of transports
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTransportInput'
-      responses:
-        '200':
-          description: Transport updated
-          content:
-            application/json:
-              schema:
+              type: array
+              items:
                 $ref: '#/components/schemas/Transport'
-        '400':
-          description: Invalid input
-        '404':
-          description: Transport not found
-        '500':
-          description: Server error
+      '500':
+        description: Server error
 
-    delete:
-      summary: Delete transport by ID
-      tags:
-        - Transports
-      parameters:
-        - in: path
-          name: idTransporte
-          required: true
+/transports/{idTransporte}:
+  get:
+    summary: Get transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    responses:
+      '200':
+        description: Transport found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transport'
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
+
+  put:
+    summary: Update transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    requestBody:
+      required: true
+      content:
+        application/json:
           schema:
-            type: integer
-      responses:
-        '204':
-          description: Transport deleted
-        '404':
-          description: Transport not found
-        '500':
-          description: Server error
-=======
->>>>>>> 3ae82ba (Att yamls para rotas no swagger)
->>>>>>> 35cdb438e7ad48ece8a72348fd749b7a580102fb
+            $ref: '#/components/schemas/UpdateTransportInput'
+    responses:
+      '200':
+        description: Transport updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transport'
+      '400':
+        description: Invalid input
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
+
+  delete:
+    summary: Delete transport by ID
+    tags:
+      - Transports
+    parameters:
+      - in: path
+        name: idTransporte
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+    responses:
+      '204':
+        description: Transport deleted
+      '404':
+        description: Transport not found
+      '500':
+        description: Server error
 components:
   schemas:
     CreateUserInput:
