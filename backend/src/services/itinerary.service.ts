@@ -28,6 +28,9 @@ export class ItineraryService {
       requiredDocuments: {
         connect: data.requiredDocumentIds?.map((id) => ({ id })) || [],
       },
+      createdBy: {
+        connect: { id: userId },
+      },
     };
     return prisma.itinerary.create({
       data: {
@@ -67,6 +70,17 @@ export class ItineraryService {
           some: {
             id: userId,
           },
+        },
+      },
+    });
+  }
+
+  async addUserToItinerary(itineraryId: number, userId: number): Promise<Itinerary | null> {
+    return prisma.itinerary.update({
+      where: { id: itineraryId },
+      data: {
+        users: {
+          connect: { id: userId },
         },
       },
     });

@@ -67,3 +67,15 @@ export const updateItinerary = async (req: Request, res: Response, next: NextFun
     next(error);
   }
 };
+
+export const addUserToItinerary = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const itineraryId = parseInt(req.params.itineraryId);
+    const userId = parseInt(req.params.userId);
+    if (isNaN(itineraryId) || isNaN(userId)) throw new BadRequestError('Invalid id');
+    const itinerary = await itineraryService.addUserToItinerary(itineraryId, userId);
+    res.status(200).json(itinerary);
+  } catch (error) {
+    next(error);
+  }
+};
