@@ -9,7 +9,6 @@ export class ItineraryController {
     const userId = parseInt(req.params.userId);
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
     const data = CreateItinerarySchema.parse(req.body);
-    data.totalBudget = (data.foodBudget ?? 0) + (data.lodgingBudget ?? 0);
     const itinerary = await this.itineraryService.create(userId, data);
     res.status(201).json(itinerary);
   };
@@ -35,6 +34,6 @@ export class ItineraryController {
     if (isNaN(userId)) throw new BadRequestError('Invalid user id');
     const data = UpdateItinerarySchema.parse({ ...req.body });
     const itinerary = await this.itineraryService.update(itineraryId, userId, data);
-    res.status(201).json(itinerary);
+    res.status(200).json(itinerary);
   };
 }

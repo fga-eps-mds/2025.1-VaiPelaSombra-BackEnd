@@ -5,6 +5,7 @@ import { BadRequestError, NotFoundError } from '../errors/httpError';
 
 export class ItineraryService {
   async create(userId: number, data: CreateItineraryDTO): Promise<Itinerary> {
+    data.totalBudget = (data.foodBudget ?? 0) + (data.lodgingBudget ?? 0);
     const usersIds = data.usersIds ? Array.from(new Set([userId, ...data.usersIds])) : [userId];
     const prismaData = {
       title: data.title,

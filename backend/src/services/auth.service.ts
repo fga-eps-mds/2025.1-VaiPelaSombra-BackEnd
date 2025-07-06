@@ -19,12 +19,13 @@ export class AuthService {
       throw new BadRequestError('Invalid email or password');
     }
 
-    const tokens = generateTokens({ id: user.id, email: user.email });
+    const tokens = generateTokens({ id: user.id, name: user.name, email: user.email });
 
     return {
       ...tokens,
       user: {
         id: user.id,
+        name: user.name,
         email: user.email,
       },
     };
@@ -39,8 +40,19 @@ export class AuthService {
     if (!user) {
       throw new NotFoundError('User not found');
     }
-    const accessToken = generateAccessToken({ id: decoded.id, email: decoded.email });
-    return { accessToken };
+    const accessToken = generateAccessToken({
+      id: decoded.id,
+      name: user.name,
+      email: decoded.email,
+    });
+    return {
+      accessToken,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    };
   }
   async logout() {
     return { message: 'Logged out successfully' };
