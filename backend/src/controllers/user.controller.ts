@@ -4,6 +4,7 @@ import { TravelPreferenceService } from '../services/travelPreference.service';
 import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
 import bcrypt from 'bcrypt';
+import type { User } from '../generated/prisma';
 
 const userService = new UserService();
 const travelPreferenceService = new TravelPreferenceService();
