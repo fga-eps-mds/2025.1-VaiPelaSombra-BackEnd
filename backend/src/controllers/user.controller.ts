@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { CreateUserSchema, UpdateUserSchema } from '../dtos/user.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
+import type { User } from '../generated/prisma';
 
 const userService = new UserService();
 
@@ -10,7 +11,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const data = CreateUserSchema.parse(req.body);
     const user = await userService.create(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userResponse } = user;
+    const { password, ...userResponse } = user as User;
     res.status(201).json(userResponse);
   } catch (error) {
     next(error);
@@ -28,6 +29,7 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     next(error);
   }
 };
+
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await userService.findAll();
@@ -45,12 +47,13 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     const updatedUser = await userService.update(userId, data);
     if (!updatedUser) throw new NotFoundError('User not found');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...userResponse } = updatedUser;
+    const { password, ...userResponse } = updatedUser as User;
     res.status(200).json(userResponse);
   } catch (error) {
     next(error);
   }
 };
+
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = parseInt(req.params.userId);
