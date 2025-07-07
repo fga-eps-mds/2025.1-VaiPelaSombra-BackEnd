@@ -28,6 +28,7 @@ export class TravelPreferenceService {
     });
   }
 
+  // Tem que fazer o update na tabela que faz a relação também 
   async update(
     userId: number,
     data: Prisma.TravelPreferenceUpdateInput

@@ -31,6 +31,8 @@ export class UserService {
     if (!email) {
       return null;
     }
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword
     return prisma.user.update({
       where: { email: email },
       data,
