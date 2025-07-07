@@ -1,9 +1,12 @@
 import { User } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 import { CreateUserDTO, UpdateUserDTO } from '../dtos/user.dto';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   async create(data: CreateUserDTO): Promise<User> {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    data.password = hashedPassword;
     return prisma.user.create({ data });
   }
 
