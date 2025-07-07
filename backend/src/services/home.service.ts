@@ -18,12 +18,12 @@ export class HomeService {
       select: {
         id: true,
         title: true,
-        images: {
-          take: 1,
-          select: {
-            url: true,
-          },
-        },
+        // images: {
+        //   take: 1,
+        //   select: {
+        //     url: true,
+        //   },
+        // },
       },
       orderBy: {
         title: 'asc',
@@ -33,7 +33,7 @@ export class HomeService {
     return destinations.map((dest) => ({
       id: dest.id,
       title: dest.title,
-      imageUrl: dest.images[0]?.url || null,
+      // imageUrl: dest.images[0]?.url || null,
     }));
   }
 
@@ -41,12 +41,12 @@ export class HomeService {
     const destination = await prisma.destination.findUnique({
       where: { id },
       include: {
-        images: {
-          select: {
-            id: true,
-            url: true,
-          },
-        },
+        // images: {
+        //   select: {
+        //     id: true,
+        //     url: true,
+        //   },
+        // },
       },
     });
 

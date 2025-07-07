@@ -7,15 +7,15 @@ export class DestinationService {
     const prismaData: Prisma.DestinationCreateInput = {
       title: data.title,
       description: data.description,
-      longitude: data.longitude,
-      latitude: data.latitude,
+      longitude: `${data.longitude}`,
+      latitude: `${data.latitude}`,
       localClimate: data.localClimate,
       timeZone: data.timeZone,
       itineraries: {},
       reviews: {},
       localEvents: {},
       survivalTips: {},
-      images: {},
+      // images: {},
     };
 
     return prisma.destination.create({
@@ -37,8 +37,8 @@ export class DestinationService {
     const prismaData: Prisma.DestinationUpdateInput = {
       title: data.title,
       description: data.description,
-      longitude: data.longitude,
-      latitude: data.latitude,
+      longitude: `${data.longitude}`,
+      latitude: `${data.latitude}`,
       localClimate: data.localClimate,
       timeZone: data.timeZone,
     };
@@ -70,20 +70,25 @@ export class DestinationService {
   async uploadDestinationImage(destinationId: number, file: DestinationImageDTO) {
     const imageUrl = `/uploads/${file.filename}`;
 
-    const image = await prisma.destinationImage.create({
-      data: {
-        url: imageUrl,
-        destinationId,
-      },
-    });
-
+    // const image = await prisma.destinationImage.create({
+    //   data: {
+    //     url: imageUrl,
+    //     destinationId,
+    //   },
+    // });
+    console.log(`URL da imagem salva ${imageUrl}`,);
+    const image = imageUrl;
     return image;
   }
+
   async getDestinationImages(destinationId: number) {
-    return prisma.destinationImage.findMany({
-      where: { destinationId },
-      select: { id: true, url: true },
-      orderBy: { id: 'asc' },
-    });
+    // return prisma.destinationImage.findMany({
+    //   where: { destinationId },
+    //   select: { id: true, url: true },
+    //   orderBy: { id: 'asc' },
+    // });
+    const image = "Base64 da imagem que foi buscada no frontend";
+    console.log(`Base64 da imagem buscada ${image}`,);
+    return image
   }
 }
