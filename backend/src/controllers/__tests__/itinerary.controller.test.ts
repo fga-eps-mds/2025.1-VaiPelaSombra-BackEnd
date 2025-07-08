@@ -135,7 +135,7 @@ describe('ItineraryController', () => {
       };
       mockAuthRequest = {
         params: { itineraryId: itineraryId.toString() },
-        user: { id: userId, email: 'test@example.com' },
+        user: { id: userId, email: 'test@example.com', name: 'Rogerio' },
       };
       mockItineraryService.delete = jest.fn().mockResolvedValue(expectedDeletedItinerary);
 
@@ -151,7 +151,7 @@ describe('ItineraryController', () => {
     it('should throw BadRequestError for invalid itinerary id', async () => {
       mockAuthRequest = {
         params: { itineraryId: 'invalid' },
-        user: { id: 1, email: 'test@example.com' },
+        user: { id: 1, email: 'test@example.com', name: 'Rogerio' },
       };
       await expect(
         itineraryController.deleteItinerary(
@@ -186,7 +186,7 @@ describe('ItineraryController', () => {
           itineraryId: itineraryId.toString(),
         },
         body: mockItineraryData,
-        user: { id: userId, email: 'test@example.com' },
+        user: { id: userId, email: 'test@example.com', name: 'Rogerio' },
       };
 
       mockItineraryService.update = jest.fn().mockResolvedValue(expectedItinerary);
@@ -207,7 +207,7 @@ describe('ItineraryController', () => {
     it('should throw BadRequestError for invalid itinerary id', async () => {
       mockAuthRequest = {
         params: { itineraryId: 'invalid' },
-        user: { id: 1, email: 'test@example.com' },
+        user: { id: 1, email: 'test@example.com', name: 'Rogerio' },
       };
       await expect(
         itineraryController.updateItinerary(

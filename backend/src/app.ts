@@ -4,7 +4,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
-import userRouter from './routes/user.routes';
+//import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import destinationRouter from './routes/destination.routes';
 import homeRouter from './routes/home.routes';
@@ -23,6 +23,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 
 // Swagger
 const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));

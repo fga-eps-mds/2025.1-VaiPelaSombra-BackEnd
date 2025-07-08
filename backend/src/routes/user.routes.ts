@@ -2,7 +2,7 @@ import { Router } from 'express';
 import itineraryRouter from './itinerary.routes';
 import travelPreferenceRouter from './travelPreference.routes';
 import { authenticateUser, authorizeUser } from '../middlewares/auth.middleware';
-import { UserController  } from '../controllers/user.controller';
+import { UserController } from '../controllers/user.controller';
 import {
   getTravelInterests,
   getTravelInterestById,

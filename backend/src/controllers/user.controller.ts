@@ -38,6 +38,7 @@ export const UserController = {
       data.password = await bcrypt.hash(data.password, 10);
 
       const user = await userService.create(data);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userResponse } = user;
       res.status(201).json(userResponse);
     } catch (error) {
@@ -53,7 +54,7 @@ export const UserController = {
       const data = UpdateUserSchema.parse(req.body);
       const updatedUser = await userService.update(userId, data);
       if (!updatedUser) throw new NotFoundError('User not found');
-
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...userResponse } = updatedUser;
       res.status(200).json(userResponse);
     } catch (error) {
