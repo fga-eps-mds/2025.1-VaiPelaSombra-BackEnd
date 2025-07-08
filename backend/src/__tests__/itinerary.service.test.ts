@@ -60,7 +60,7 @@ describe('ItineraryService.create', () => {
       foodBudget: 100,
       lodgingBudget: 200,
       totalBudget: 300,
-      userIds: [2, 3, 1, 2], // inclui duplicados e o próprio criador
+      usersIds: [2, 3, 1, 2],
     };
 
     await service.create(1, data as any);

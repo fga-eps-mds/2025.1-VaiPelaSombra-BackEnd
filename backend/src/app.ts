@@ -14,7 +14,6 @@ import authRouter from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
 import intineraryRouter from './routes/itinerary.routes';
 
-
 const app = express();
 
 // Middleware

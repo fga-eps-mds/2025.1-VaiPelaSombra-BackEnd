@@ -1,12 +1,4 @@
 import { Router } from 'express';
-import {
-  addUserToItinerary,
-  createItinerary,
-  deleteItinerary,
-  findByUserId,
-  // findByUserItineraryId,
-  updateItinerary,
-} from '../controllers/itinerary.controller';
 
 import activityRouter from './activity.routes';
 import { ItineraryController } from '../controllers/itinerary.controller';
@@ -22,6 +14,6 @@ router.get('/', itineraryController.findByUserId);
 router.put('/:itineraryId', itineraryController.updateItinerary);
 router.delete('/:itineraryId', itineraryController.deleteItinerary);
 router.use('/:itineraryId/activities', activityRouter);
-router.post('/:itineraryId/users/:userId', addUserToItinerary);
+router.post('/:itineraryId/users/:userId', itineraryController.addUserToItinerary);
 
 export default router;
