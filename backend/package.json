@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "resend": "^4.5.2",
+    "react-email": "4.0.16",
+    "@react-email/components": "^0.0.42",
+    "@react-email/render": "^1.1.2",
+    "react": "^19.1.0",
     "accepts": "^2.0.0",
     "acorn": "^8.14.1",
     "acorn-walk": "^8.3.4",

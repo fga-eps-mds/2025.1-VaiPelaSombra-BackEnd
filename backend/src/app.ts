@@ -9,6 +9,7 @@ import destinationRouter from './routes/destination.routes';
 import homeRouter from './routes/home.routes';
 import { errorHandler } from './errors/midle';
 import loginRouter from './routes/login.routes';
+import emailRouter from './routes/email.routes';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/destinations', destinationRouter);
 app.use('/home', homeRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/login', loginRouter);
+app.use('/email', emailRouter);
 
 app.use(errorHandler);
 
