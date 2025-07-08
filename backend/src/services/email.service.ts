@@ -11,7 +11,10 @@ const userService = new UserService();
 
 class EmailService {
   public async sendRecoveryEmail(userEmail: string): Promise<void> {
-    const novaSenha = 'recuperacoaSenha123';
+    const novaSenha = Array.from({ length: 12 }, () => {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+      return chars.charAt(Math.floor(Math.random() * chars.length));
+    }).join('');
     const user = await userService.findByEmail(userEmail);
     console.log('User found:', user);
 
@@ -28,6 +31,11 @@ class EmailService {
     )
 
     const emailHtml = await render(AccessTokenEmail({ email: userEmail, novaSenha: novaSenha, link: recoveryLink }));
+    user.password = novaSenha
+    userService.update(user.id, {
+        password: user.password,
+      }
+    )
 
     const { data, error } = await resend.emails.send({
       
