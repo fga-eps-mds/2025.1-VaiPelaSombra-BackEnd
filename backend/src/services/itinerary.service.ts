@@ -98,4 +98,15 @@ export class ItineraryService {
       },
     });
   }
+
+  async addUserToItinerary(itineraryId: number, userId: number): Promise<Itinerary | null> {
+    return prisma.itinerary.update({
+      where: { id: itineraryId },
+      data: {
+        users: {
+          connect: { id: userId },
+        },
+      },
+    });
+  }
 }
