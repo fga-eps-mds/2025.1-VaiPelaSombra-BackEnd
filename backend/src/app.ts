@@ -26,12 +26,9 @@ app.use(express.json());
 
 // Swagger
 const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.bundle.yaml'));
-app.use(cookieParser());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Rotas
-app.use('/users', userRouter);
-app.use('/api/user-preferences', userRouter);
 app.use('/interests', travelInterestsRouter);
 app.use('/travel-interests', travelInterestsRouter);
 app.use('/destinations', destinationRouter);

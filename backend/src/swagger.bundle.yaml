@@ -14,6 +14,7 @@ paths:
         - Users
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       parameters:
         - in: path
           name: userId
@@ -41,6 +42,8 @@ paths:
 >>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
 =======
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
       requestBody:
         required: true
         content:
@@ -55,6 +58,7 @@ paths:
               schema:
 <<<<<<< HEAD
                 $ref: '#/components/schemas/User'
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -254,6 +258,8 @@ paths:
 >>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
 =======
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
         '400':
           description: Invalid input
         '500':
@@ -380,6 +386,7 @@ paths:
 <<<<<<< HEAD
       summary: Update user by ID
       tags:
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         - TravelPreferences
@@ -953,6 +960,8 @@ paths:
 >>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
 =======
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
         - Users
 =======
       summary: Atualiza um plano de viagem existente
@@ -1037,6 +1046,7 @@ paths:
       tags:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         - TravelPreferences
 =======
       summary: Exclui um plano de viagem
@@ -1053,6 +1063,9 @@ paths:
 =======
         - Users
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+        - Users
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
       parameters:
         - in: path
           name: userId
@@ -1756,6 +1769,7 @@ paths:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 3ae82ba (Att yamls para rotas no swagger)
 =======
                   user:
@@ -1886,6 +1900,8 @@ paths:
 >>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
 =======
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
 components:
   schemas:
     User:
@@ -1930,8 +1946,11 @@ components:
           format: uri
           example: https://example.com/profile.jpg
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
     PlanoViagem:
       type: object
       properties:
@@ -1952,7 +1971,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+<<<<<<< HEAD
 >>>>>>> bdc9a9a (#22 fix: move a lógica de cálculo do orçamento total para o service, aumenta tempo de expiração do access token de 30s para 15m)
+=======
+>>>>>>> cfba36a35a1208afa773c6d291d54b07a5b0960d
     UpdateUserInput:
       type: object
       properties:
