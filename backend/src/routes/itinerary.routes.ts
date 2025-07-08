@@ -6,7 +6,7 @@ import {
   findByUserId,
   // findByUserItineraryId,
   updateItinerary,
-} from '../controllers/intinerary.controller';
+} from '../controllers/itinerary.controller';
 
 import activityRouter from './activity.routes';
 import { ItineraryController } from '../controllers/itinerary.controller';
