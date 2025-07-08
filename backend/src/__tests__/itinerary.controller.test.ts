@@ -10,12 +10,12 @@ const mockItinerary = {
   endDate: new Date('2025-01-10'),
   itineraryStatus: ItineraryStatus.PLANNING,
   foodBudget: new Decimal(100),
-  lodgingBudget:  new Decimal(200),
+  lodgingBudget: new Decimal(200),
   totalBudget: new Decimal(300),
   createdById: 1,
 };
 
-const mockRequest = (params = {}, body = {}) => ({ params, body } as any);
+const mockRequest = (params = {}, body = {}) => ({ params, body }) as any;
 const mockResponse = () => {
   const res = {} as any;
   res.status = jest.fn().mockReturnValue(res);
@@ -31,11 +31,8 @@ describe('createItinerary (controller original)', () => {
   });
 
   it('should return 201 and created itinerary', async () => {
-
     // Aqui é onde você intercepta o método real
-    jest
-      .spyOn(ItineraryService.prototype, 'create')
-      .mockResolvedValue(mockItinerary);
+    jest.spyOn(ItineraryService.prototype, 'create').mockResolvedValue(mockItinerary);
 
     const req = mockRequest(
       { userId: '1' },
