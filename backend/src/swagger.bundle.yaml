@@ -12,32 +12,6 @@ paths:
       summary: Create a new user
       tags:
         - Users
-<<<<<<< HEAD
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-    get:
-      summary: Retrieve a list of users
-      tags:
-        - Users
-      responses:
-        '200':
-          description: A list of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
-    post:
-      summary: Create a new user
-      tags:
-        - Users
-=======
->>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
       requestBody:
         required: true
         content:
@@ -50,204 +24,7 @@ paths:
           content:
             application/json:
               schema:
-<<<<<<< HEAD
                 $ref: '#/components/schemas/User'
-<<<<<<< HEAD
-<<<<<<< HEAD
-        '400':
-          description: Invalid input
-        '500':
-          description: Server error
-    get:
-      summary: Get all users
-      tags:
-        - Users
-=======
-                $ref: '#/components/schemas/CreateUserInput'
-  /users/{id}:
-    get:
-      summary: Retrieve a single user by ID
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      responses:
-        '200':
-          description: A single user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateUserInput'
-    put:
-      summary: Update an existing user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserInput'
-      responses:
-        '200':
-          description: The user was successfully updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreateUserInput'
-    delete:
-      summary: Delete a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      responses:
-        '200':
-          description: The user was successfully deleted
-  /users/{id}/preferences:
-    get:
-      summary: Retrieve travel preferences for a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: The user ID
-      responses:
-        '200':
-          description: Travel preferences for the user
-    post:
-      summary: Save or update a user's travel preferences
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelPreferences:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                      enum:
-                        - AVENTUREIRO
-                        - CULTURAL
-                        - RELAXAMENTO
-                        - GASTRONOMICO
-                      example: AVENTUREIRO
-                    travelFrequency:
-                      type: string
-                      enum:
-                        - BIMESTRAL
-                        - TRIMESTRAL
-                        - SEMESTRAL
-                        - ANUAL
-                      example: ANUAL
-                    averageBudget:
-                      type: number
-                      example: 0
-      responses:
-        '200':
-          description: Preferences saved successfully
-    put:
-      summary: Update a user's travel preferences
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelPreferences:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                      enum:
-                        - AVENTUREIRO
-                        - CULTURAL
-                        - RELAXAMENTO
-                        - GASTRONOMICO
-                      example: RELAXAMENTO
-                    travelFrequency:
-                      type: string
-                      enum:
-                        - BIMESTRAL
-                        - TRIMESTRAL
-                        - SEMESTRAL
-                        - ANUAL
-                      example: SEMESTRAL
-                    averageBudget:
-                      type: number
-                      example: 3500
-      responses:
-        '200':
-          description: Preferences updated successfully
-        '400':
-          description: Invalid input
-        '404':
-          description: Preferences not found
-  /users/{id}/interests:
-    get:
-      summary: Get travel interests selected by a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-          example: 1
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      responses:
-        '200':
-          description: List of users
-=======
-=======
->>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
         '400':
           description: Invalid input
         '500':
@@ -264,7 +41,6 @@ paths:
               schema:
                 type: array
                 items:
-<<<<<<< HEAD
                   $ref: '#/components/schemas/User'
         '500':
           description: Server error
@@ -273,91 +49,12 @@ paths:
       summary: Get user by ID
       tags:
         - Users
-=======
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 2
-                    name:
-                      type: string
-                      example: CULTURAL
-        '404':
-          description: Preferences not found
-    post:
-      summary: Save travel interests for a user (first-time setup)
-<<<<<<< HEAD
-      tags: [Users]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
-<<<<<<< HEAD
-=======
-=======
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelInterestsIds:
-                  type: array
-                  items:
-                    type: integer
-                  example:
-                    - 1
-                    - 3
-                    - 4
-      responses:
-        '201':
-          description: Interests saved successfully
-        '400':
-          description: No interests selected
-    put:
-      summary: Update travel interests for a user
-      tags:
-        - Users
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          example: 1
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                travelInterestsIds:
-                  type: array
-                  items:
-                    type: integer
-<<<<<<< HEAD
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-                  example:
-                    - 2
-                    - 4
-                    - 5
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
       responses:
         '200':
           description: User found
@@ -366,20 +63,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '404':
-<<<<<<< HEAD
           description: User not found
         '500':
           description: Server error
     put:
-<<<<<<< HEAD
       summary: Update user by ID
       tags:
-<<<<<<< HEAD
-        - TravelPreferences
-=======
-      summary: Update travel interests for a user
-      tags: [Users]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
+        - Users
       parameters:
         - in: path
           name: userId
@@ -408,7 +98,7 @@ paths:
     delete:
       summary: Delete user by ID
       tags:
-        - TravelPreferences
+        - Users
       parameters:
         - in: path
           name: userId
@@ -427,710 +117,15 @@ paths:
       summary: Get travel preference by user ID
       tags:
         - TravelPreferences
-=======
-          description: Preferences not found
-  /planoViagem/{userId}:
-    get:
-      summary: Retorna todos os planos de viagem de um usuário
-      tags:
-        - PlanoViagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
       parameters:
         - in: path
           name: userId
           required: true
           schema:
             type: integer
-          description: ID do usuário
       responses:
         '200':
           description: Travel preference found
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - userId
-                  - travelInterests
-                properties:
-                  userId:
-                    type: integer
-                    example: 1
-                  travelInterests:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 2
-                      - 3
-        '404':
-          description: Travel preference not found
-        '500':
-          description: Server error
-    post:
-      summary: Create travel preference for user
-      tags:
-        - TravelPreferences
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - userId
-                - travelInterests
-              properties:
-                userId:
-                  type: integer
-                  example: 1
-                travelInterests:
-                  type: array
-                  items:
-                    type: integer
-<<<<<<< HEAD
-                  example:
-                    - 2
-                    - 3
-=======
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-      responses:
-        '201':
-          description: Travel preference created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TravelPreference'
-        '400':
-<<<<<<< HEAD
-          description: Invalid input
-        '500':
-          description: Server error
-    put:
-      summary: Update travel preference for user
-      tags:
-        - TravelPreferences
-=======
-          description: No interests selected
-        '404':
-          description: Preferences not found
-
-  /planoViagem/{userId}:
-    get:
-      summary: Retorna todos os planos de viagem de um usuário
-      tags: [PlanoViagem]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - userId
-                - travelInterests
-              properties:
-                userId:
-                  type: integer
-                  example: 1
-                travelInterests:
-                  type: array
-                  items:
-                    type: integer
-                  example:
-                    - 2
-                    - 3
-=======
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-      responses:
-        '200':
-          description: Travel preference updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TravelPreference'
-        '400':
-          description: Invalid input
-        '404':
-          description: Travel preference not found
-        '500':
-          description: Server error
-    delete:
-      summary: Delete travel preference for user
-      tags:
-        - TravelPreferences
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Travel preference deleted
-        '404':
-          description: Travel preference not found
-        '500':
-          description: Server error
-<<<<<<< HEAD
-  /interests:
-    post:
-      summary: Create a new travel interest
-      operationId: createTravelInterest
-      tags:
-        - TravelInterests
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - label
-              properties:
-                label:
-                  type: string
-                  example: Natureza
-      responses:
-        '201':
-          description: Travel interest created
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - label
-                properties:
-                  label:
-                    type: string
-                    example: Natureza
-        '400':
-          description: Invalid input
-        '500':
-          description: Server error
-    get:
-      summary: Get all travel interests
-      operationId: getTravelInterests
-      tags:
-        - TravelInterests
-      responses:
-        '200':
-          description: List of travel interests
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  $ref: '#/components/schemas/User'
-        '500':
-          description: Server error
-  /users/{userId}:
-    get:
-      summary: Get user by ID
-=======
-                  $ref: '#/components/schemas/TravelInterest'
-        '500':
-          description: Server error
-  /travel-interests/{id}:
-    get:
-      summary: Get travel interest by ID
-      operationId: getTravelInterestById
->>>>>>> c7aa2df (Update prisma schema and add itinerary and activitys services+controller+router)
-      tags:
-        - TravelInterests
-=======
-                  $ref: '#/components/schemas/PlanoViagem'
-        '404':
-          description: Usuário não encontrado
-    post:
-      summary: Cria um novo plano de viagem
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-  /login:
-    post:
-      summary: Authenticate user
-<<<<<<< HEAD
-=======
-      tags:
-        - Login
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - email
-                - password
-              properties:
-                email:
-                  type: string
-                  example: joao@email.com
-                password:
-                  description: password to login
-                  type: string
-                  example: S3NH@SEGURS
-      responses:
-        '200':
-          description: sucessfly loggged
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: jxaslcbhdjhasijis
-                  user:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      email:
-                        type: string
-                        example: joao@email.com
-        '201':
-          description: Plano de viagem criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanoViagem'
-        '400':
-          description: Dados inválidos
-  /planoViagem/{userId}/{id}:
-    get:
-      summary: Retorna um plano de viagem específico
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      responses:
-        '200':
-          description: Detalhes do plano de viagem
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanoViagem'
-        '404':
-          description: Plano de viagem não encontrado
-    put:
-      summary: Atualiza um plano de viagem existente
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nome:
-                  type: string
-                  description: Nome do plano de viagem
-                destino:
-                  type: string
-                  nullable: true
-                  description: Destino da viagem
-                dataInicio:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de início da viagem
-                dataFim:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de término da viagem
-              required:
-                - nome
-      responses:
-        '200':
-          description: Plano de viagem atualizado com sucesso
-        '404':
-          description: Plano de viagem não encontrado
-    delete:
-      summary: Exclui um plano de viagem
-      tags:
-        - PlanoViagem
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do usuário
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      responses:
-        '200':
-          description: Plano de viagem excluído com sucesso
-        '404':
-          description: Plano de viagem não encontrado
-  /users/me:
-    get:
-      summary: Get authenticated user's profile
->>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Authenticated user profile
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update authenticated user's profile
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                profileBio:
-                  type: string
-                profileImage:
-                  type: string
-                travelPreferencesData:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                    travelFrequency:
-                      type: string
-                    averageBudget:
-                      type: number
-      responses:
-        '200':
-          description: Updated user profile
-          content:
-            application/json:
-              schema:
-<<<<<<< HEAD
-                type: object
-                properties:
-                  token:
-                    type: string
-                    example: jxaslcbhdjhasijis
-                  user:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      email:
-                        type: string
-                        example: joao@email.com
-        '201':
-          description: Plano de viagem criado com sucesso
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanoViagem'
-        '400':
-          description: Dados inválidos
-  /planoViagem/{userId}/{id}:
-    get:
-      summary: Retorna um plano de viagem específico
-<<<<<<< HEAD
-      tags: [PlanoViagem]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-      tags:
-        - PlanoViagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      parameters:
-<<<<<<< HEAD
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-          description: ID do usuário
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-          description: ID do plano de viagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      responses:
-        '200':
-          description: User found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: User not found
-        '500':
-          description: Server error
-    put:
-<<<<<<< HEAD
-      summary: Update user by ID
-      tags:
-=======
->>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
-        - Users
-=======
-      summary: Atualiza um plano de viagem existente
-<<<<<<< HEAD
-      tags: [PlanoViagem]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-      tags:
-        - PlanoViagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
-          description: ID do usuário
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-          description: ID do plano de viagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-<<<<<<< HEAD
-              $ref: '#/components/schemas/UpdateUserInput'
-=======
-              type: object
-              properties:
-                nome:
-                  type: string
-                  description: Nome do plano de viagem
-                destino:
-                  type: string
-                  nullable: true
-                  description: Destino da viagem
-                dataInicio:
-                  type: string
-                  format: date-time
-                  nullable: true
-                  description: Data de início da viagem
-                dataFim:
-                  type: string
-                  format: date-time
-                  nullable: true
-<<<<<<< HEAD
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-                  description: Data de término da viagem
-              required:
-                - nome
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-      responses:
-        '200':
-          description: User updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid input
-        '404':
-          description: User not found
-        '500':
-          description: Server error
-    delete:
-<<<<<<< HEAD
-      summary: Delete user by ID
-      tags:
-<<<<<<< HEAD
-        - TravelPreferences
-=======
-      summary: Exclui um plano de viagem
-<<<<<<< HEAD
-      tags: [PlanoViagem]
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-      tags:
-        - PlanoViagem
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-=======
-        - Users
->>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-<<<<<<< HEAD
-<<<<<<< HEAD
-      responses:
-        '204':
-          description: User deleted
-        '404':
-          description: User not found
-        '500':
-          description: Server error
-  /users/{userId}/travel-preferences:
-    get:
-      summary: Get travel preference by user ID
-      tags:
-        - TravelPreferences
-      parameters:
-=======
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-          description: ID do usuário
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: integer
-          description: ID do plano de viagem
-      responses:
-        '200':
-<<<<<<< HEAD
-          description: Travel preference found
-=======
-          description: Plano de viagem excluído com sucesso
-        '404':
-          description: Plano de viagem não encontrado
-  /users/me:
-    get:
-      summary: Get authenticated user's profile
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: Authenticated user profile
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '401':
-          description: Unauthorized
-    put:
-      summary: Update authenticated user's profile
-      tags:
-        - Users
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-                profileBio:
-                  type: string
-                profileImage:
-                  type: string
-                travelPreferencesData:
-                  type: object
-                  properties:
-                    travelerType:
-                      type: string
-                    travelFrequency:
-                      type: string
-                    averageBudget:
-                      type: number
-      responses:
-        '200':
-<<<<<<< HEAD
-          description: Successfully logged in
->>>>>>> 8ce8bcc (Implementação a US48 backend)
           content:
             application/json:
               schema:
@@ -1409,7 +404,6 @@ paths:
                 properties:
                   title:
                     type: string
-<<<<<<< HEAD
                     example: Viagem para o Rio
                   startDate:
                     type: string
@@ -1740,31 +734,6 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 3ae82ba (Att yamls para rotas no swagger)
-=======
-                  user:
-                    $ref: '#/components/schemas/User'
-
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
-          description: Updated user profile
-          content:
-            application/json:
-              schema:
-=======
->>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid input
-        '401':
-          description: Unauthorized
-<<<<<<< HEAD
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
-=======
->>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
-=======
   /home:
     get:
       summary: Get all destinations or filtered by search
@@ -1776,7 +745,7 @@ paths:
           required: false
           schema:
             type: string
-          description: Filter destinations by partial match in the title(case-insensitive)
+          description: Filter destinations by partial match in the title (case-insensitive)
       responses:
         '200':
           description: List of destinations
@@ -1785,14 +754,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    title:
-                      type: string
-                      example: Paris
+                  $ref: '#/components/schemas/HomeDestination'
         '500':
           description: Internal server error
   /home/{id}:
@@ -1813,80 +775,15 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 4
-                  title:
-                    type: string
-                    example: Brasília
-                  description:
-                    type: string
-                    example: A capital do Brasil.
-                  latitude:
-                    type: string
-                    example: '51.503'
-                  longitude:
-                    type: string
-                    example: '17.122'
-                  localClimate:
-                    type: string
-                    example: tropical
-                  timeZone:
-                    type: string
-                    example: GMT-3
-                  itineraries:
-                    type: array
-                    items:
-                      type: object
-                    example: []
-                  reviews:
-                    type: array
-                    items:
-                      type: object
-                    example: []
-                  localEvents:
-                    type: array
-                    items:
-                      type: object
-                    example: []
-                  survivalTips:
-                    type: array
-                    items:
-                      type: object
-                    example: []
-                  recommendedActivities:
-                    type: array
-                    items:
-                      type: object
-                    example: []
+                $ref: '#/components/schemas/FullDestination'
         '400':
           description: Invalid destination ID
         '404':
           description: Destination not found
         '500':
           description: Internal server error
->>>>>>> c973f38 (implementação do teste unitário para home.controller e documentação dos endpoints /home e /home/{id} no swagger)
-=======
->>>>>>> 8d2ecb0 (atualização no backend e testes da home para incluir as imagens e incremento da documentação no swagger.)
 components:
   schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        profileBio:
-          type: string
-          nullable: true
-        profileImage:
-          type: string
-          nullable: true
     CreateUserInput:
       type: object
       required:
@@ -1901,19 +798,32 @@ components:
           format: email
         password:
           type: string
-<<<<<<< HEAD
-<<<<<<< HEAD
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
           nullable: true
-          format: uri
-          example: https://example.com/profile.jpg
-
+    PlanoViagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     UpdateUserInput:
       type: object
       properties:
@@ -2117,17 +1027,6 @@ components:
           items:
             type: integer
     Itinerary:
-=======
-=======
->>>>>>> 90cb735086943d13bbbc35ca27617ddb4aa18211
-        profileBio:
-          type: string
-          nullable: true
-        profileImage:
-          type: string
-          nullable: true
-    PlanoViagem:
->>>>>>> 8ce8bcc (Implementação a US48 backend)
       type: object
       properties:
         id:
@@ -2151,7 +1050,6 @@ components:
         userIds:
           type: array
           items:
-<<<<<<< HEAD
             type: integer
         activityIds:
           type: array
@@ -2217,17 +1115,10 @@ components:
         description:
           type: string
     Activity:
-=======
-            $ref: '#/components/schemas/User'
-<<<<<<< HEAD
-
-    User:
->>>>>>> 8ce8bcc (Implementação a US48 backend)
       type: object
       properties:
         id:
           type: integer
-<<<<<<< HEAD
         location:
           type: string
         title:
@@ -2265,23 +1156,79 @@ components:
           type: integer
         label:
           type: string
-=======
-        name:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    HomeDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
           type: string
-        email:
-          type: string
-        profileBio:
+          example: Paris
+        imageUrl:
           type: string
           nullable: true
-        profileImage:
+          example: /uploads/paris.jpg
+    FullDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
           type: string
-          nullable: true
-
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
->>>>>>> 8ce8bcc (Implementação a US48 backend)
-=======
->>>>>>> 00594f8 (Retirada do sistema de autenticacao para testar se precisa de usuario logado)
+          example: Brasília
+        description:
+          type: string
+          example: A capital do Brasil
+        latitude:
+          type: string
+          example: '51.503'
+        longitude:
+          type: string
+          example: '17.122'
+        localClimate:
+          type: string
+          example: tropical
+        timeZone:
+          type: string
+          example: GMT-3
+        itineraries:
+          type: array
+          items:
+            type: object
+            example: {}
+        reviews:
+          type: array
+          items:
+            type: object
+            example: {}
+        localEvents:
+          type: array
+          items:
+            type: object
+            example: {}
+        survivalTips:
+          type: array
+          items:
+            type: object
+            example: {}
+        recommendedActivities:
+          type: array
+          items:
+            type: object
+            example: {}
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              url:
+                type: string
