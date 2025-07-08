@@ -17,10 +17,11 @@ const mockItinerary = {
   ownerId: 1,
 };
 
-const mockRequest = (params = {}, body = {}) => ({
-  params,
-  body,
-} as unknown as Request);
+const mockRequest = (params = {}, body = {}) =>
+  ({
+    params,
+    body,
+  }) as unknown as Request;
 
 const mockResponse = (): Response => {
   const res = {} as any;

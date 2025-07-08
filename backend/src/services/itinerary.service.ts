@@ -15,7 +15,7 @@ export class ItineraryService {
       itineraryStatus: data.itineraryStatus,
       foodBudget: data.foodBudget ? new Decimal(data.foodBudget) : undefined,
       lodgingBudget: data.lodgingBudget ? new Decimal(data.lodgingBudget) : undefined,
-      totalBudget: data.totalBudget ? new Decimal(data.totalBudget): undefined,
+      totalBudget: data.totalBudget ? new Decimal(data.totalBudget) : undefined,
       createdBy: {
         connect: { id: userId },
       },
