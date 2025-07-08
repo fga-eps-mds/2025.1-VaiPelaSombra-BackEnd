@@ -1039,6 +1039,12 @@ paths:
       parameters:
         - in: path
           name: id
+      operationId: deleteTravelInterest
+      tags:
+        - TravelInterests
+      parameters:
+        - name: id
+          in: path
           required: true
           schema:
             type: integer

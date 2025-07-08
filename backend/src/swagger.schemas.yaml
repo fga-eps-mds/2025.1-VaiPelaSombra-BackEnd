@@ -458,64 +458,93 @@ components:
               url:
                 type: string
 
-    CreateTransportInput:
-      type: object
-      required:
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
-      properties:
-        tipo:
-          type: string
-        valor:
-          type: number
-        dataCsaida:
-          type: string
-          format: date-time
-        dataChegada:
-          type: string
-          format: date-time
-        duracao:
-          type: string
-        descricao:
-          type: string
+  CreateTransportInput:
+    type: object
+    required:
+       - tipo
+       - valor
+       - dataCsaida
+       - dataChegada
+       - duracao
+       - itineraryId
+  properties:
+    tipo:
+      type: string
+      example: Avião
+    valor:
+      type: number
+      format: float
+      example: 1234.56
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-01T08:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-01T12:00:00Z
+    duracao:
+      type: string
+      example: "4h"
+    descricao:
+      type: string
+      example: "Voo direto para o destino"
+    itineraryId:
+      type: integer
+      example: 1
 
-    UpdateTransportInput:
-      type: object
-      properties:
-        tipo:
-          type: string
-        valor:
-          type: number
-        dataCsaida:
-          type: string
-          format: date-time
-        dataChegada:
-          type: string
-          format: date-time
-        duracao:
-          type: string
-        descricao:
-          type: string
+UpdateTransportInput:
+  type: object
+  properties:
+    tipo:
+      type: string
+      example: Ônibus
+    valor:
+      type: number
+      format: float
+      example: 250.00
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-03T07:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-03T13:00:00Z
+    duracao:
+      type: string
+      example: "6h"
+    descricao:
+      type: string
+      example: "Viagem de ônibus com paradas"
 
-    Transport:
-      type: object
-      properties:
-        idTransporte:
-          type: integer
-        tipo:
-          type: string
-        valor:
-          type: number
-        dataCsaida:
-          type: string
-          format: date-time
-        dataChegada:
-          type: string
-          format: date-time
-        duracao:
-          type: string
-        descricao:
-          type: string
+Transport:
+  type: object
+  properties:
+    idTransporte:
+      type: integer
+      example: 5
+    tipo:
+      type: string
+      example: Avião
+    valor:
+      type: number
+      format: float
+      example: 1234.56
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-01T08:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-01T12:00:00Z
+    duracao:
+      type: string
+      example: "4h"
+    descricao:
+      type: string
+      example: "Voo direto para o destino"
+    itineraryId:
+      type: integer
+      example: 1
