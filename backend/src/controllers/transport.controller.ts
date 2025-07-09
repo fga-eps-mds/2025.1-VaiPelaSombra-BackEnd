@@ -6,7 +6,8 @@ import { BadRequestError, NotFoundError } from '../errors/httpError';
 const transportService = new TransportService();
 
 export class TransportController {
-  constructor(private service = transportService) {}
+  service: TransportService = transportService;
+  constructor() {}
 
   async createTransport(req: Request, res: Response, next: NextFunction) {
     try {
