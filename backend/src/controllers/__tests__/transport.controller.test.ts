@@ -1,17 +1,17 @@
 import { TransportController } from '../transport.controller';
 import { Request, Response, NextFunction } from 'express';
-import { NotFoundError, BadRequestError } from '../../errors/httpError';
+import { BadRequestError } from '../../errors/httpError';
 
-type TransportServiceMock = {
-  createTransport: jest.Mock;
-  getTransportById: jest.Mock;
-  updateTransport: jest.Mock;
-  deleteTransport: jest.Mock;
-  normalizeDuration: jest.Mock;
-  normalizeDate: jest.Mock;
-  normalizeCost: jest.Mock;
-  getAllTransports: jest.Mock;
-};
+// type TransportServiceMock = {
+//   createTransport: jest.Mock;
+//   getTransportById: jest.Mock;
+//   updateTransport: jest.Mock;
+//   deleteTransport: jest.Mock;
+//   normalizeDuration: jest.Mock;
+//   normalizeDate: jest.Mock;
+//   normalizeCost: jest.Mock;
+//   getAllTransports: jest.Mock;
+// };
 
 const mockResponse = (): jest.Mocked<Response> => {
   const res = {} as jest.Mocked<Response>;
@@ -25,21 +25,21 @@ const mockNext: NextFunction = jest.fn();
 
 describe('TransportController', () => {
   let controller: TransportController;
-  let service: TransportServiceMock;
+  // let service: TransportServiceMock;
   let req: Partial<Request>;
   let res: jest.Mocked<Response>;
 
   beforeEach(() => {
-    service = {
-      createTransport: jest.fn(),
-      getTransportById: jest.fn(),
-      updateTransport: jest.fn(),
-      deleteTransport: jest.fn(),
-      normalizeDuration: jest.fn(),
-      normalizeDate: jest.fn(),
-      normalizeCost: jest.fn(),
-      getAllTransports: jest.fn(),
-    };
+    // service = {
+    //   createTransport: jest.fn(),
+    //   getTransportById: jest.fn(),
+    //   updateTransport: jest.fn(),
+    //   deleteTransport: jest.fn(),
+    //   normalizeDuration: jest.fn(),
+    //   normalizeDate: jest.fn(),
+    //   normalizeCost: jest.fn(),
+    //   getAllTransports: jest.fn(),
+    // };
 
     controller = new TransportController();
     req = {};
