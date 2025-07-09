@@ -18,6 +18,7 @@ export const CreateItinerarySchema = z.object({
   transportIds: z.array(z.number()).optional(),
   requiredDocumentIds: z.array(z.number()).optional(),
 });
+
 export const UpdateItinerarySchema = z.object({
   title: z.string().optional(),
   startDate: dateSchema.optional(),

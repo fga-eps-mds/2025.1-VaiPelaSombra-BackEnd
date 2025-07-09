@@ -12,6 +12,7 @@ import homeRouter from './routes/home.routes';
 import { errorHandler } from './errors/errorHandler';
 import authRouter from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
+import intineraryRouter from './routes/itinerary.routes';
 
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/destinations', destinationRouter);
 app.use('/home', homeRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/auth', authRouter);
+app.use('/itineraries', intineraryRouter);
 app.use(errorHandler);
 
 export default app;
