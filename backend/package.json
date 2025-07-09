@@ -203,6 +203,7 @@
     "jest-mock-extended": "^4.0.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
+    "supertest": "^7.1.1",
     "prisma": "^6.11.1",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
