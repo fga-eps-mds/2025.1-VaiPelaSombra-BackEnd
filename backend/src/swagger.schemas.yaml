@@ -374,16 +374,16 @@ components:
         label:
           type: string
     securitySchemes:
-        bearerAuth:
-          type: http
-          scheme: bearer
-          bearerFormat: JWT  
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
     # (removido para testes)
     #securitySchemes:
     #    bearerAuth:
     #     type: http
     #      scheme: bearer
-    #      bearerFormat: JWT  
+    #      bearerFormat: JWT
 
     HomeDestination:
       type: object
@@ -413,10 +413,10 @@ components:
           example: A capital do Brasil
         latitude:
           type: string
-          example: "51.503"
+          example: '51.503'
         longitude:
           type: string
-          example: "17.122"
+          example: '17.122'
         localClimate:
           type: string
           example: tropical

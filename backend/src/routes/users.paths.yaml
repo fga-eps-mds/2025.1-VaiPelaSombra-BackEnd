@@ -3,14 +3,14 @@
     summary: Retrieve a list of users
     tags: [Users]
     responses:
-      "200":
+      '200':
         description: A list of users
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: "#/components/schemas/User"  # em vez de CreateUserInput
+                $ref: '#/components/schemas/User' # em vez de CreateUserInput
   post:
     summary: Create a new user
     tags: [Users]
@@ -19,14 +19,14 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/CreateUserInput"
+            $ref: '#/components/schemas/CreateUserInput'
     responses:
-      "201":
+      '201':
         description: The user was successfully created
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserInput"
+              $ref: '#/components/schemas/CreateUserInput'
 /users/{id}:
   get:
     summary: Retrieve a single user by ID
@@ -39,12 +39,12 @@
           type: string
         description: The user ID
     responses:
-      "200":
+      '200':
         description: A single user
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserInput"
+              $ref: '#/components/schemas/CreateUserInput'
   put:
     summary: Update an existing user
     tags: [Users]
@@ -60,14 +60,14 @@
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/CreateUserInput"
+            $ref: '#/components/schemas/CreateUserInput'
     responses:
-      "200":
+      '200':
         description: The user was successfully updated
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateUserInput"
+              $ref: '#/components/schemas/CreateUserInput'
   delete:
     summary: Delete a user
     tags: [Users]
@@ -79,7 +79,7 @@
           type: string
         description: The user ID
     responses:
-      "200":
+      '200':
         description: The user was successfully deleted
 /users/{id}/preferences:
   get:
@@ -93,7 +93,7 @@
           type: string
         description: The user ID
     responses:
-      "200":
+      '200':
         description: Travel preferences for the user
   post:
     summary: Save or update a user's travel preferences
@@ -127,7 +127,7 @@
                     type: number
                     example: 0
     responses:
-      "200":
+      '200':
         description: Preferences saved successfully
   put:
     summary: Update a user's travel preferences
@@ -161,11 +161,11 @@
                     type: number
                     example: 3500
     responses:
-      "200":
+      '200':
         description: Preferences updated successfully
-      "404":
+      '404':
         description: Preferences not found
-      "400":
+      '400':
         description: Invalid input
 /users/{id}/interests:
   get:
@@ -179,7 +179,7 @@
           type: integer
         example: 1
     responses:
-      "200":
+      '200':
         description: List of travel interests selected by the user
         content:
           application/json:
@@ -194,7 +194,7 @@
                   name:
                     type: string
                     example: CULTURAL
-      "404":
+      '404':
         description: Preferences not found
   post:
     summary: Save travel interests for a user (first-time setup)
@@ -219,9 +219,9 @@
                   type: integer
                 example: [1, 3, 4]
     responses:
-      "201":
+      '201':
         description: Interests saved successfully
-      "400":
+      '400':
         description: No interests selected
   put:
     summary: Update travel interests for a user
@@ -246,13 +246,12 @@
                   type: integer
                 example: [2, 4, 5]
     responses:
-      "200":
+      '200':
         description: Interests updated successfully
-      "400":
+      '400':
         description: No interests selected
-      "404":
+      '404':
         description: Preferences not found
-
 
 /planoViagem/{userId}:
   get:
@@ -266,7 +265,7 @@
           type: integer
         description: ID do usuário
     responses:
-      "200":
+      '200':
         description: Lista de planos de viagem
         content:
           application/json:
@@ -274,7 +273,7 @@
               type: array
               items:
                 $ref: '#/components/schemas/PlanoViagem'
-      "404":
+      '404':
         description: Usuário não encontrado
 
   post:
@@ -303,13 +302,13 @@
             properties:
               email:
                 type: string
-                example: "joao@email.com"
+                example: 'joao@email.com'
               password:
                 description: password to login
                 type: string
-                example: "S3NH@SEGURS"
+                example: 'S3NH@SEGURS'
     responses:
-      "200":
+      '200':
         description: sucessfly loggged
         content:
           application/json:
@@ -318,7 +317,7 @@
               properties:
                 token:
                   type: string
-                  example: "jxaslcbhdjhasijis"
+                  example: 'jxaslcbhdjhasijis'
                 user:
                   type: object
                   properties:
@@ -327,14 +326,14 @@
                       example: 1
                     email:
                       type: string
-                      example: "joao@email.com"
-      "201":
+                      example: 'joao@email.com'
+      '201':
         description: Plano de viagem criado com sucesso
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PlanoViagem'
-      "400":
+      '400':
         description: Dados inválidos
 
 /planoViagem/{userId}/{id}:
@@ -355,13 +354,13 @@
           type: integer
         description: ID do plano de viagem
     responses:
-      "200":
+      '200':
         description: Detalhes do plano de viagem
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PlanoViagem'
-      "404":
+      '404':
         description: Plano de viagem não encontrado
 
   put:
@@ -407,9 +406,9 @@
             required:
               - nome
     responses:
-      "200":
+      '200':
         description: Plano de viagem atualizado com sucesso
-      "404":
+      '404':
         description: Plano de viagem não encontrado
 
   delete:
@@ -429,9 +428,9 @@
           type: integer
         description: ID do plano de viagem
     responses:
-      "200":
+      '200':
         description: Plano de viagem excluído com sucesso
-      "404":
+      '404':
         description: Plano de viagem não encontrado
 
 /users/me:
@@ -441,13 +440,13 @@
     security:
       - bearerAuth: []
     responses:
-      "200":
+      '200':
         description: Authenticated user profile
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
-      "401":
+              $ref: '#/components/schemas/User'
+      '401':
         description: Unauthorized
 
   put:
@@ -480,17 +479,13 @@
                   averageBudget:
                     type: number
     responses:
-      "200":
+      '200':
         description: Updated user profile
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
-      "400":
+              $ref: '#/components/schemas/User'
+      '400':
         description: Invalid input
-      "401":
+      '401':
         description: Unauthorized
-
-
-
-
