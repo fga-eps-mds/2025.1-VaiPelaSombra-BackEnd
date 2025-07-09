@@ -9,6 +9,17 @@ type TransportServiceMock = {
   deleteTransport: jest.Mock;
 };
 
+
+// Mocked TransportController that accepts a mocked TransportService
+class MockTransportController extends TransportController {
+  constructor(mockService: TransportServiceMock) {
+    super();
+    // Override the service property with the mock
+    // @ts-ignore
+    this.service = mockService;
+  }
+}
+
 const mockResponse = (): jest.Mocked<Response> => {
   const res = {} as jest.Mocked<Response>;
   res.status = jest.fn().mockReturnValue(res);
@@ -33,7 +44,7 @@ describe('TransportController', () => {
       deleteTransport: jest.fn(),
     };
 
-    controller = new TransportController(service as any);
+    controller = new MockTransportController(service);
     req = {};
     res = mockResponse();
     jest.clearAllMocks();
