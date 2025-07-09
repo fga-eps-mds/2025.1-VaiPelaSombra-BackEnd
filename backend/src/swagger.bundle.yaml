@@ -734,54 +734,156 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
-  /home:
-    get:
-      summary: Get all destinations or filtered by search
+  /transports:
+    post:
+      summary: Create a new transport
       tags:
-        - Home
-      parameters:
-        - in: query
-          name: search
-          required: false
-          schema:
-            type: string
-          description: Filter destinations by partial match in the title (case-insensitive)
+        - Transports
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransportInput'
+      responses:
+        '201':
+          description: Transport created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+    get:
+      summary: Get all transports
+      tags:
+        - Transports
       responses:
         '200':
-          description: List of destinations
+          description: List of transports
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/HomeDestination'
+                  $ref: '#/components/schemas/Transport'
         '500':
-          description: Internal server error
-  /home/{id}:
+          description: Server error
+
+  /transports/{id}:
     get:
-      summary: Get destination by ID
+      summary: Get transport by ID
       tags:
-        - Home
+        - Transports
       parameters:
         - in: path
           name: id
           required: true
           schema:
             type: integer
-          description: ID of the destination
       responses:
         '200':
-          description: Destination found
+          description: Transport found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullDestination'
+                $ref: '#/components/schemas/Transport'
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+
+    put:
+      summary: Update transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransportInput'
+      responses:
+        '200':
+          description: Transport updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
         '400':
           description: Invalid destination ID
         '404':
-          description: Destination not found
+          description: Transport not found
         '500':
-          description: Internal server error
+          description: Server error
+
+    delete:
+      summary: Delete transport by ID
+      tags:
+        - Transports
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transport deleted
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+  /auth/login:
+    post:
+      summary: Authenticate user
+      tags: [Login]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "joao@email.com"
+                password:
+                  description: password to login
+                  type: string
+                  example: "S3NH@SEGURS"
+      responses:
+        "200":
+          description: sucessfly loggged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "jxaslcbhdjhasijis"
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: "joao@email.com"
 components:
   schemas:
     CreateUserInput:
@@ -804,6 +906,8 @@ components:
         profileImage:
           type: string
           nullable: true
+          format: uri
+          example: https://example.com/profile.jpg
     PlanoViagem:
       type: object
       properties:
@@ -1156,79 +1260,91 @@ components:
           type: integer
         label:
           type: string
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
-    HomeDestination:
+    CreateTransportInput:
       type: object
+      required:
+        - type
+        - cost
+        - departure
+        - arrival
+        - duration
+        - itineraryId
       properties:
-        id:
+        type:
+          type: string
+          example: Avião
+        cost:
+          type: number
+          format: float
+          example: 1234.56
+        departure:
+          type: string
+          format: date-time
+          example: '2025-08-01T08:00:00Z'
+        arrival:
+          type: string
+          format: date-time
+          example: '2025-08-01T12:00:00Z'
+        duration:
+          type: string
+          example: 4h
+        descricao:
+          type: string
+          example: Voo direto para o destino
+        itineraryId:
           type: integer
           example: 1
-        title:
-          type: string
-          example: Paris
-        imageUrl:
-          type: string
-          nullable: true
-          example: /uploads/paris.jpg
-    FullDestination:
+    UpdateTransportInput:
       type: object
       properties:
-        id:
+        type:
+          type: string
+          example: Ônibus
+        cost:
+          type: number
+          format: float
+          example: 250
+        departure:
+          type: string
+          format: date-time
+          example: '2025-08-03T07:00:00Z'
+        arrival:
+          type: string
+          format: date-time
+          example: '2025-08-03T13:00:00Z'
+        duration:
+          type: string
+          example: 6h
+        descricao:
+          type: string
+          example: Viagem de ônibus com paradas
+    Transport:
+      type: object
+      properties:
+        idTransporte:
           type: integer
-          example: 4
-        title:
+          example: 5
+        tipo:
           type: string
-          example: Brasília
-        description:
+          example: Avião
+        valor:
+          type: number
+          format: float
+          example: 1234.56
+        dataCsaida:
           type: string
-          example: A capital do Brasil
-        latitude:
+          format: date-time
+          example: '2025-08-01T08:00:00Z'
+        dataChegada:
           type: string
-          example: '51.503'
-        longitude:
+          format: date-time
+          example: '2025-08-01T12:00:00Z'
+        duracao:
           type: string
-          example: '17.122'
-        localClimate:
+          example: 4h
+        descricao:
           type: string
-          example: tropical
-        timeZone:
-          type: string
-          example: GMT-3
-        itineraries:
-          type: array
-          items:
-            type: object
-            example: {}
-        reviews:
-          type: array
-          items:
-            type: object
-            example: {}
-        localEvents:
-          type: array
-          items:
-            type: object
-            example: {}
-        survivalTips:
-          type: array
-          items:
-            type: object
-            example: {}
-        recommendedActivities:
-          type: array
-          items:
-            type: object
-            example: {}
-        images:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-              url:
-                type: string
+          example: Voo direto para o destino
+        itineraryId:
+          type: integer
+          example: 1

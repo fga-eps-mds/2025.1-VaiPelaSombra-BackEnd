@@ -46,6 +46,9 @@ async function main() {
           travelInterests: {
             connect: interests.map((i) => ({ id: i.id })),
           },
+          averageBudget: 2000,
+          travelFrequency: 'ALWAYS',
+          travelerType: 'ADVENTURE',
         },
       })
     )
@@ -81,7 +84,7 @@ async function main() {
           totalBudget: 2000 + i * 200,
           users: { connect: { id: user.id } },
           destinations: { connect: { id: destinos[i % destinos.length].id } },
-          createdBy: { connect: { id: user.id } },
+          ownerId: user.id,
         },
       })
     )

@@ -92,10 +92,10 @@ model Transport {
   cost        Decimal   @db.Decimal(6, 2)
   departure   DateTime?
   arrival     DateTime?
-  duration    DateTime?
+  duration    String?   @db.VarChar(20)
   description String?   @db.VarChar(500)
   itineraryId Int
-  Itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id]) 
 }
 
 model Destination {
