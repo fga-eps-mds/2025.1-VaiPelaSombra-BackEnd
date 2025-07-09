@@ -155,8 +155,8 @@
     "migrate:dev": "prisma migrate dev",
     "migrate:prod": "prisma migrate deploy",
     "studio": "prisma studio",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "jest",
     "serve": "node dist/server.js",
     "seed": "ts-node prisma/seed.ts"
