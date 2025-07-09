@@ -34,6 +34,7 @@ describe('ItineraryController', () => {
         itineraryStatus: 'PLANNING' as const,
         foodBudget: 500,
         lodgingBudget: 1000,
+        totalBudget: 1500,
       };
 
       const expectedItinerary = {

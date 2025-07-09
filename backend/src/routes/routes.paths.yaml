@@ -252,19 +252,19 @@
             properties:
               title:
                 type: string
-                example: "Viagem para o Rio"
+                example: 'Viagem para o Rio'
               startDate:
                 type: string
                 format: date-time
-                example: "2025-07-01T09:00:00.000Z"
+                example: '2025-07-01T09:00:00.000Z'
               endDate:
                 type: string
                 format: date-time
-                example: "2025-07-10T18:00:00.000Z"
+                example: '2025-07-10T18:00:00.000Z'
               itineraryStatus:
                 type: string
                 enum: [PLANNING, IN_PROGRESS, COMPLETED]
-                example: "PLANNING"
+                example: 'PLANNING'
               foodBudget:
                 type: number
                 format: float
@@ -370,19 +370,19 @@
               properties:
                 title:
                   type: string
-                  example: "Viagem para o Rio"
+                  example: 'Viagem para o Rio'
                 startDate:
                   type: string
                   format: date-time
-                  example: "2025-07-01T09:00:00.000Z"
+                  example: '2025-07-01T09:00:00.000Z'
                 endDate:
                   type: string
                   format: date-time
-                  example: "2025-07-10T18:00:00.000Z"
+                  example: '2025-07-10T18:00:00.000Z'
                 itineraryStatus:
                   type: string
                   enum: [PLANNING, IN_PROGRESS, COMPLETED]
-                  example: "PLANNING"
+                  example: 'PLANNING'
                 foodBudget:
                   type: number
                   format: float
