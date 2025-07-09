@@ -4,7 +4,7 @@ import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
-//import userRouter from './routes/user.routes';
+import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import transportRouter from './routes/transport.routes';
 import destinationRouter from './routes/destination.routes';
@@ -13,7 +13,6 @@ import homeRouter from './routes/home.routes';
 import { errorHandler } from './errors/errorHandler';
 import authRouter from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
-import loginRouter from './routes/login.routes';
 
 const app = express();
 
@@ -42,7 +41,7 @@ app.use('/home', homeRouter);
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 app.use('/auth', authRouter);
 app.use('/transports', transportRouter);
-app.use('/login', loginRouter);
+// app.use('/login', loginRouter);
 app.use(errorHandler);
 
 export default app;
