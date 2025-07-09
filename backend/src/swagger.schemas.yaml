@@ -21,16 +21,12 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
           nullable: true
-          format: uri
-          example: "https://example.com/profile.jpg"
 
     PlanoViagem:
       type: object
@@ -476,3 +472,87 @@ components:
         itineraryId:
           type: integer
           example: 1
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    # (removido para testes)
+    #securitySchemes:
+    #    bearerAuth:
+    #     type: http
+    #      scheme: bearer
+    #      bearerFormat: JWT
+
+    HomeDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Paris
+        imageUrl:
+          type: string
+          nullable: true
+          example: /uploads/paris.jpg
+
+    FullDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: Brasília
+        description:
+          type: string
+          example: A capital do Brasil
+        latitude:
+          type: string
+          example: '51.503'
+        longitude:
+          type: string
+          example: '17.122'
+        localClimate:
+          type: string
+          example: tropical
+        timeZone:
+          type: string
+          example: GMT-3
+        itineraries:
+          type: array
+          items:
+            type: object
+            example: {}
+        reviews:
+          type: array
+          items:
+            type: object
+            example: {}
+        localEvents:
+          type: array
+          items:
+            type: object
+            example: {}
+        survivalTips:
+          type: array
+          items:
+            type: object
+            example: {}
+        recommendedActivities:
+          type: array
+          items:
+            type: object
+            example: {}
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              url:
+                type: string

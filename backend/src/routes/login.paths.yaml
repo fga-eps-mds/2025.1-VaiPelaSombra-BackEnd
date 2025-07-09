@@ -14,13 +14,13 @@
             properties:
               email:
                 type: string
-                example: "joao@email.com"
+                example: 'joao@email.com'
               password:
                 description: password to login
                 type: string
-                example: "S3NH@SEGURS"
+                example: 'S3NH@SEGURS'
     responses:
-      "200":
+      '200':
         description: sucessfly loggged
         content:
           application/json:
@@ -29,7 +29,7 @@
               properties:
                 token:
                   type: string
-                  example: "jxaslcbhdjhasijis"
+                  example: 'jxaslcbhdjhasijis'
                 user:
                   type: object
                   properties:
@@ -38,7 +38,4 @@
                       example: 1
                     email:
                       type: string
-                      example: "joao@email.com"
-
-
-
+                      example: 'joao@email.com'

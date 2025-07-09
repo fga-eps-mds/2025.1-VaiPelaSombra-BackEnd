@@ -19,5 +19,6 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'no-var': 'off', // ⛔ Desativa a regra que proíbe o uso de var
+    '@typescript-eslint/no-explicit-any': 'off',
   },
 };

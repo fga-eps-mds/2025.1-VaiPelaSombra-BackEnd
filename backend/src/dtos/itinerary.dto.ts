@@ -12,12 +12,13 @@ export const CreateItinerarySchema = z.object({
   foodBudget: z.number().optional(),
   lodgingBudget: z.number().optional(),
   totalBudget: z.number().optional(),
-  userIds: z.array(z.number()).optional(),
+  usersIds: z.array(z.number()).optional(),
   activityIds: z.array(z.number()).optional(),
   destinationIds: z.array(z.number()).optional(),
   transportIds: z.array(z.number()).optional(),
   requiredDocumentIds: z.array(z.number()).optional(),
 });
+
 export const UpdateItinerarySchema = z.object({
   title: z.string().optional(),
   startDate: dateSchema.optional(),
@@ -26,7 +27,7 @@ export const UpdateItinerarySchema = z.object({
   foodBudget: z.number().optional(),
   lodgingBudget: z.number().optional(),
   totalBudget: z.number().optional(),
-  userIds: z.array(z.number()).optional(),
+  usersIds: z.array(z.number()).optional(),
   activityIds: z.array(z.number()).optional(),
   destinationIds: z.array(z.number()).optional(),
   transportIds: z.array(z.number()).optional(),

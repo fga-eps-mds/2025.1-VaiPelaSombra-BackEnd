@@ -829,9 +829,52 @@ paths:
             type: integer
       responses:
         '204':
-          description: Transport deleted successfully
+          description: Transport deleted
         '404':
           description: Transport not found
+        '500':
+          description: Server error
+  /auth/login:
+    post:
+      summary: Authenticate user
+      tags: [Login]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "joao@email.com"
+                password:
+                  description: password to login
+                  type: string
+                  example: "S3NH@SEGURS"
+      responses:
+        "200":
+          description: sucessfly loggged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "jxaslcbhdjhasijis"
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: "joao@email.com"
 components:
   schemas:
     CreateUserInput:
@@ -848,11 +891,9 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
           nullable: true
@@ -1213,29 +1254,29 @@ components:
     CreateTransportInput:
       type: object
       required:
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
+        - type
+        - cost
+        - departure
+        - arrival
+        - duration
         - itineraryId
       properties:
-        tipo:
+        type:
           type: string
           example: Avião
-        valor:
+        cost:
           type: number
           format: float
           example: 1234.56
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        dataChegada:
+        arrival:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duracao:
+        duration:
           type: string
           example: 4h
         descricao:
@@ -1247,22 +1288,22 @@ components:
     UpdateTransportInput:
       type: object
       properties:
-        tipo:
+        type:
           type: string
           example: Ônibus
-        valor:
+        cost:
           type: number
           format: float
           example: 250
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-03T07:00:00Z'
-        dataChegada:
+        arrival:
           type: string
           format: date-time
           example: '2025-08-03T13:00:00Z'
-        duracao:
+        duration:
           type: string
           example: 6h
         descricao:
