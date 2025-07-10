@@ -47,9 +47,38 @@ export class ItineraryService {
     const ownerId = await this.getOwnerId(itineraryId);
     if (userId !== ownerId) throw new BadRequestError('Only the owner can update the itinerary');
 
+    const usersIds = data.usersIds ? Array.from(new Set([userId, ...data.usersIds])) : [userId];
+    const prismaData = {
+      title: data.title,
+      startDate: data.startDate,
+      endDate: data.endDate,
+      itineraryStatus: data.itineraryStatus,
+      foodBudget: data.foodBudget ? new Decimal(data.foodBudget) : undefined,
+      lodgingBudget: data.lodgingBudget ? new Decimal(data.lodgingBudget) : undefined,
+      totalBudget: data.totalBudget ? new Decimal(data.totalBudget) : undefined,
+      createdBy: {
+        connect: { id: userId },
+      },
+      users: {
+        connect: usersIds.map((id) => ({ id })),
+      },
+      transports: {
+        connect: data.transportIds?.map((id) => ({ id })) || [],
+      },
+      activities: {
+        connect: data.activityIds?.map((id) => ({ id })) || [],
+      },
+      destinations: {
+        connect: data.destinationIds?.map((id) => ({ id })) || [],
+      },
+      requiredDocuments: {
+        connect: data.requiredDocumentIds?.map((id) => ({ id })) || [],
+      },
+    };
+
     return prisma.itinerary.update({
       where: { id: itineraryId },
-      data,
+      data: prismaData,
     });
   }
 

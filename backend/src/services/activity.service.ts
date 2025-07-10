@@ -29,6 +29,7 @@ export class ActivityService {
       endTime,
       duration: durationString,
       itinerary: { connect: { id: itineraryId } },
+      destination: { connect: { id: data.destination } }
     };
     return prisma.activity.create({ data: prismaData });
   }
@@ -64,7 +65,12 @@ export class ActivityService {
 
     return prisma.activity.update({
       where: { id: activityId },
-      data,
+      data: {
+      ...data,
+      destination: data.destination
+        ? { connect: { id: data.destination } }
+        : undefined,
+      },
     });
   }
   async findAllOrderedByDate(itineraryId: number, userId: number): Promise<Activity[]> {
