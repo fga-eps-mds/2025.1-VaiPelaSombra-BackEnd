@@ -49,15 +49,15 @@ export const errorHandler: ErrorRequestHandler = (
         break;
     }
   }
-  
+
   if (error.name === 'PrismaClientValidationError') {
     error = new InternalServerError('Validation database error occurred');
   }
-  
+
   if (error.name === 'PrismaClientInitializationError') {
     error = new InternalServerError('Connection database error occurred');
   }
-  
+
   if (error.name === 'PrismaClientUnknownRequestError') {
     error = new InternalServerError('Unknown database error occurred');
   }

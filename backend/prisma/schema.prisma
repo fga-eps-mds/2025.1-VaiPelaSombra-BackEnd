@@ -43,13 +43,13 @@ model User {
 }
 
 model TravelPreference {
-  id               Int              @id @default(autoincrement())
-  userId           Int              @unique
-  user             User             @relation(fields: [userId], references: [id])
-  travelInterests  TravelInterest[]
-  travelerType     TravelerType
-  travelFrequency  TravelFrequency
-  averageBudget    Int
+  id              Int              @id @default(autoincrement())
+  userId          Int              @unique
+  user            User             @relation(fields: [userId], references: [id])
+  travelInterests TravelInterest[]
+  travelerType    TravelerType
+  travelFrequency TravelFrequency
+  averageBudget   Int
 }
 
 model TravelInterest {
@@ -139,7 +139,7 @@ model Activity {
   duration      String?
   description   String?      @db.VarChar(500)
   itineraryId   Int
-  itinerary     Itinerary   @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  itinerary     Itinerary    @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   destination   Destination? @relation(fields: [destinationId], references: [id])
   destinationId Int?
 }
