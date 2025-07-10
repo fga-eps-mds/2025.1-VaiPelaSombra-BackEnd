@@ -17,14 +17,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserInput'
+              type: object
       responses:
         '201':
           description: User created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
         '400':
           description: Invalid input
         '500':
@@ -41,7 +41,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/User'
+                  type: object
         '500':
           description: Server error
   /users/{userId}:
@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
         '404':
           description: User not found
         '500':
@@ -81,14 +81,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUserInput'
+              type: object
       responses:
         '200':
           description: User updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
         '400':
           description: Invalid input
         '404':
@@ -184,7 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelPreference'
+                type: object
         '400':
           description: Invalid input
         '500':
@@ -225,7 +225,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelPreference'
+                type: object
         '400':
           description: Invalid input
         '404':
@@ -341,7 +341,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Itinerary'
+                type: object
         '400':
           description: Invalid input
         '500':
@@ -364,7 +364,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Itinerary'
+                  type: object
         '500':
           description: Server error
   /users/{userId}/itineraries/{itineraryId}:
@@ -384,93 +384,86 @@ paths:
           schema:
             type: integer
       requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateItineraryInput'
-      responses:
-        '200':
-          description: Itinerary updated
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - title
-                  - startDate
-                  - endDate
-                  - itineraryStatus
-                properties:
-                  title:
-                    type: string
-                    example: Viagem para o Rio
-                  startDate:
-                    type: string
-                    format: date-time
-                    example: '2025-07-01T09:00:00.000Z'
-                  endDate:
-                    type: string
-                    format: date-time
-                    example: '2025-07-10T18:00:00.000Z'
-                  itineraryStatus:
-                    type: string
-                    enum:
-                      - PLANNING
-                      - IN_PROGRESS
-                      - COMPLETED
-                    example: PLANNING
-                  foodBudget:
-                    type: number
-                    format: float
-                    example: 500
-                  lodgingBudget:
-                    type: number
-                    format: float
-                    example: 1200
-                  totalBudget:
-                    type: number
-                    format: float
-                    example: 2000
-                  userIds:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 1
-                      - 2
-                  transportIds:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 1
-                  activityIds:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 1
-                      - 2
-                  destinationIds:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 1
-                  requiredDocumentIds:
-                    type: array
-                    items:
-                      type: integer
-                    example:
-                      - 1
-                      - 2
         '400':
           description: Invalid input
         '404':
           description: Itinerary not found
         '500':
           description: Server error
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - startDate
+                - endDate
+                - itineraryStatus
+              properties:
+                title:
+                  type: string
+                  example: Viagem para o Rio
+                startDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-01T09:00:00.000Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  example: '2025-07-10T18:00:00.000Z'
+                itineraryStatus:
+                  type: string
+                  enum:
+                    - PLANNING
+                    - IN_PROGRESS
+                    - COMPLETED
+                  example: PLANNING
+                foodBudget:
+                  type: number
+                  format: float
+                  example: 500
+                lodgingBudget:
+                  type: number
+                  format: float
+                  example: 1200
+                totalBudget:
+                  type: number
+                  format: float
+                  example: 2000
+                userIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                transportIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                activityIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
+                destinationIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                requiredDocumentIds:
+                  type: array
+                  items:
+                    type: integer
+                  example:
+                    - 1
+                    - 2
     delete:
       summary: Delete itinerary by ID
       tags:
@@ -492,7 +485,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Itinerary'
+                type: object
         '404':
           description: Itinerary not found
         '500':
@@ -521,7 +514,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Activity'
+                  type: object
         '400':
           description: Invalid input
         '500':
@@ -546,14 +539,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateActivityInput'
+              type: object
       responses:
         '201':
           description: Activity created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activity'
+                type: object
         '400':
           description: Invalid input
         '500':
@@ -584,14 +577,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateActivityInput'
+              type: object
       responses:
         '200':
           description: Activity updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activity'
+                type: object
         '400':
           description: Invalid input
         '404':
@@ -624,7 +617,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activity'
+                type: object
         '404':
           description: Activity not found
         '500':
@@ -642,7 +635,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TravelInterest'
+                  type: object
         '500':
           description: Server error
     post:
@@ -654,14 +647,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTravelInterestInput'
+              type: object
       responses:
         '201':
           description: Travel interest created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
         '400':
           description: Invalid input
         '500':
@@ -683,7 +676,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
         '404':
           description: Travel interest not found
         '500':
@@ -703,14 +696,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTravelInterestInput'
+              type: object
       responses:
         '200':
           description: Travel interest updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
         '400':
           description: Invalid input
         '404':
@@ -754,7 +747,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/HomeDestination'
+                  type: object
         '500':
           description: Internal server error
   /home/{id}:
@@ -775,7 +768,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FullDestination'
+                type: object
         '400':
           description: Invalid destination ID
         '404':
@@ -783,452 +776,8 @@ paths:
         '500':
           description: Internal server error
 components:
-  schemas:
-    CreateUserInput:
-      type: object
-      required:
-        - name
-        - email
-        - password
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-        profileBio:
-          type: string
-          nullable: true
-        profileImage:
-          type: string
-          nullable: true
-    PlanoViagem:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        image:
-          type: string
-        date:
-          type: string
-          format: date-time
-        daysLeft:
-          type: integer
-        faded:
-          type: boolean
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-    UpdateUserInput:
-      type: object
-      properties:
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-        password:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        profileBio:
-          type: string
-        profileImage:
-          type: string
-          format: uri
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        profileBio:
-          type: string
-        profileImage:
-          type: string
-          format: uri
-    CreateTravelPreferenceInput:
-      type: object
-      required:
-        - userId
-        - transport
-        - accommodation
-        - activities
-      properties:
-        userId:
-          type: integer
-        transport:
-          type: string
-        accommodation:
-          type: string
-        activities:
-          type: array
-          items:
-            type: string
-        budget:
-          type: number
-        duration:
-          type: integer
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-    UpdateTravelPreferenceInput:
-      type: object
-      properties:
-        userId:
-          type: integer
-        transport:
-          type: string
-        accommodation:
-          type: string
-        activities:
-          type: array
-          items:
-            type: string
-        budget:
-          type: number
-        duration:
-          type: integer
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-    TravelPreference:
-      type: object
-      properties:
-        id:
-          type: integer
-        userId:
-          type: integer
-        transport:
-          type: string
-        accommodation:
-          type: string
-        activities:
-          type: array
-          items:
-            type: string
-        budget:
-          type: number
-        duration:
-          type: integer
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-    CreateItineraryInput:
-      type: object
-      required:
-        - title
-        - startDate
-        - endDate
-        - itineraryStatus
-      properties:
-        title:
-          type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        itineraryStatus:
-          type: string
-          enum:
-            - PLANNING
-            - IN_PROGRESS
-            - COMPLETED
-        foodBudget:
-          type: number
-        lodgingBudget:
-          type: number
-        totalBudget:
-          type: number
-        userIds:
-          type: array
-          items:
-            type: integer
-        activityIds:
-          type: array
-          items:
-            type: integer
-        destinationIds:
-          type: array
-          items:
-            type: integer
-        transportIds:
-          type: array
-          items:
-            type: integer
-        requiredDocumentIds:
-          type: array
-          items:
-            type: integer
-    UpdateItineraryInput:
-      type: object
-      properties:
-        title:
-          type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        itineraryStatus:
-          type: string
-          enum:
-            - PLANNING
-            - IN_PROGRESS
-            - COMPLETED
-        foodBudget:
-          type: number
-        lodgingBudget:
-          type: number
-        totalBudget:
-          type: number
-        userIds:
-          type: array
-          items:
-            type: integer
-        activityIds:
-          type: array
-          items:
-            type: integer
-        destinationIds:
-          type: array
-          items:
-            type: integer
-        transportIds:
-          type: array
-          items:
-            type: integer
-        requiredDocumentIds:
-          type: array
-          items:
-            type: integer
-    Itinerary:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        itineraryStatus:
-          type: string
-        foodBudget:
-          type: number
-        lodgingBudget:
-          type: number
-        totalBudget:
-          type: number
-        userIds:
-          type: array
-          items:
-            type: integer
-        activityIds:
-          type: array
-          items:
-            type: integer
-        destinationIds:
-          type: array
-          items:
-            type: integer
-        transportIds:
-          type: array
-          items:
-            type: integer
-        requiredDocumentIds:
-          type: array
-          items:
-            type: integer
-    CreateActivityInput:
-      type: object
-      required:
-        - location
-        - title
-        - price
-        - startTime
-        - endTime
-        - itineraryId
-      properties:
-        location:
-          type: string
-        title:
-          type: string
-        price:
-          type: number
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-        duration:
-          type: string
-        description:
-          type: string
-        itineraryId:
-          type: integer
-    UpdateActivityInput:
-      type: object
-      properties:
-        location:
-          type: string
-        title:
-          type: string
-        price:
-          type: number
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-        duration:
-          type: string
-        description:
-          type: string
-    Activity:
-      type: object
-      properties:
-        id:
-          type: integer
-        location:
-          type: string
-        title:
-          type: string
-        price:
-          type: number
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-        duration:
-          type: string
-        description:
-          type: string
-        itineraryId:
-          type: integer
-    CreateTravelInterestInput:
-      type: object
-      required:
-        - label
-      properties:
-        label:
-          type: string
-    UpdateTravelInterestInput:
-      type: object
-      properties:
-        label:
-          type: string
-    TravelInterest:
-      type: object
-      properties:
-        id:
-          type: integer
-        label:
-          type: string
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
-    HomeDestination:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        title:
-          type: string
-          example: Paris
-        imageUrl:
-          type: string
-          nullable: true
-          example: /uploads/paris.jpg
-    FullDestination:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 4
-        title:
-          type: string
-          example: Brasília
-        description:
-          type: string
-          example: A capital do Brasil
-        latitude:
-          type: string
-          example: '51.503'
-        longitude:
-          type: string
-          example: '17.122'
-        localClimate:
-          type: string
-          example: tropical
-        timeZone:
-          type: string
-          example: GMT-3
-        itineraries:
-          type: array
-          items:
-            type: object
-            example: {}
-        reviews:
-          type: array
-          items:
-            type: object
-            example: {}
-        localEvents:
-          type: array
-          items:
-            type: object
-            example: {}
-        survivalTips:
-          type: array
-          items:
-            type: object
-            example: {}
-        recommendedActivities:
-          type: array
-          items:
-            type: object
-            example: {}
-        images:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: integer
-              url:
-                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,4 +1,4 @@
-import { TravelerType, TravelFrequency } from '../generated/prisma';
+import { TravelerType, TravelFrequency } from '@prisma/client';
 
 interface TravelInterestModel {
   id: number;

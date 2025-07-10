@@ -1,6 +1,6 @@
 import { DestinationService } from '../../services/destination.service';
 import { Request, Response } from 'express';
-import { Decimal } from '../../generated/prisma/runtime/library';
+import { Decimal } from '@prisma/client/runtime/library';
 import { BadRequestError, NotFoundError } from '../../errors/httpError';
 import { destinationImageSchema } from '../../dtos/destinationImage.dto';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../../dtos/destination.dto';

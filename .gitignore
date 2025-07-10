@@ -4,4 +4,5 @@ backend/.env
 backend/src/generated/
 backend/nul
 backend/uploads
+backend/dist
 backend/package-lock.json

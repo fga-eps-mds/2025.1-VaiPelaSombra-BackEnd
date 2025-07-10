@@ -7,14 +7,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateUserInput'
+            type: object
     responses:
       '201':
         description: User created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
       '400':
         description: Invalid input
       '500':
@@ -30,7 +30,7 @@
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/User'
+                type: object
       '500':
         description: Server error
 
@@ -50,7 +50,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
       '404':
         description: User not found
       '500':
@@ -69,14 +69,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateUserInput'
+            type: object
     responses:
       '200':
         description: User updated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              type: object
       '400':
         description: Invalid input
       '404':
@@ -166,7 +166,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelPreference'
+              type: object
       '400':
         description: Invalid input
       '500':
@@ -204,7 +204,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelPreference'
+              type: object
       '400':
         description: Invalid input
       '404':
@@ -308,7 +308,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Itinerary'
+              type: object
       '400':
         description: Invalid input
       '500':
@@ -330,7 +330,7 @@
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Itinerary'
+                type: object
       '500':
         description: Server error
 
@@ -354,72 +354,65 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateItineraryInput'
-    responses:
-      '200':
-        description: Itinerary updated
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - title
-                - startDate
-                - endDate
-                - itineraryStatus
-              properties:
-                title:
-                  type: string
-                  example: "Viagem para o Rio"
-                startDate:
-                  type: string
-                  format: date-time
-                  example: "2025-07-01T09:00:00.000Z"
-                endDate:
-                  type: string
-                  format: date-time
-                  example: "2025-07-10T18:00:00.000Z"
-                itineraryStatus:
-                  type: string
-                  enum: [PLANNING, IN_PROGRESS, COMPLETED]
-                  example: "PLANNING"
-                foodBudget:
-                  type: number
-                  format: float
-                  example: 500.00
-                lodgingBudget:
-                  type: number
-                  format: float
-                  example: 1200.00
-                totalBudget:
-                  type: number
-                  format: float
-                  example: 2000.00
-                userIds:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1, 2]
-                transportIds:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1]
-                activityIds:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1, 2]
-                destinationIds:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1]
-                requiredDocumentIds:
-                  type: array
-                  items:
-                    type: integer
-                  example: [1, 2]
+            type: object
+            required:
+              - title
+              - startDate
+              - endDate
+              - itineraryStatus
+            properties:
+              title:
+                type: string
+                example: "Viagem para o Rio"
+              startDate:
+                type: string
+                format: date-time
+                example: "2025-07-01T09:00:00.000Z"
+              endDate:
+                type: string
+                format: date-time
+                example: "2025-07-10T18:00:00.000Z"
+              itineraryStatus:
+                type: string
+                enum: [PLANNING, IN_PROGRESS, COMPLETED]
+                example: "PLANNING"
+              foodBudget:
+                type: number
+                format: float
+                example: 500.00
+              lodgingBudget:
+                type: number
+                format: float
+                example: 1200.00
+              totalBudget:
+                type: number
+                format: float
+                example: 2000.00
+              userIds:
+                type: array
+                items:
+                  type: integer
+                example: [1, 2]
+              transportIds:
+                type: array
+                items:
+                  type: integer
+                example: [1]
+              activityIds:
+                type: array
+                items:
+                  type: integer
+                example: [1, 2]
+              destinationIds:
+                type: array
+                items:
+                  type: integer
+                example: [1]
+              requiredDocumentIds:
+                type: array
+                items:
+                  type: integer
+                example: [1, 2]
       '400':
         description: Invalid input
       '404':
@@ -446,7 +439,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Itinerary'
+              type: object
       '404':
         description: Itinerary not found
       '500':
@@ -475,7 +468,7 @@
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Activity'
+                type: object
       '400':
         description: Invalid input
       '500':
@@ -499,14 +492,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateActivityInput'
+            type: object
     responses:
       '201':
         description: Activity created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activity'
+              type: object
       '400':
         description: Invalid input
       '500':
@@ -537,14 +530,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateActivityInput'
+            type: object
     responses:
       '200':
         description: Activity updated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activity'
+              type: object
       '400':
         description: Invalid input
       '404':
@@ -576,7 +569,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Activity'
+              type: object
       '404':
         description: Activity not found
       '500':
@@ -594,7 +587,7 @@
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/TravelInterest'
+                type: object
       '500':
         description: Server error
   post:
@@ -605,14 +598,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateTravelInterestInput'
+            type: object
     responses:
       '201':
         description: Travel interest created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelInterest'
+              type: object
       '400':
         description: Invalid input
       '500':
@@ -634,7 +627,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelInterest'
+              type: object
       '404':
         description: Travel interest not found
       '500':
@@ -653,14 +646,14 @@
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateTravelInterestInput'
+            type: object
     responses:
       '200':
         description: Travel interest updated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TravelInterest'
+              type: object
       '404':
         description: Travel interest not found
       '400':
@@ -703,7 +696,7 @@
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/HomeDestination'
+                type: object
       '500':
         description: Internal server error
 
@@ -724,7 +717,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FullDestination'
+              type: object
       '400':
         description: Invalid destination ID
       '404':

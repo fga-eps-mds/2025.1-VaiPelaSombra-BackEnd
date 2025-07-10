@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^6.8.2",
     "accepts": "^2.0.0",
     "acorn": "^8.14.1",
     "acorn-walk": "^8.3.4",
@@ -99,6 +100,7 @@
     "path-parse": "^1.0.7",
     "path-to-regexp": "^8.2.0",
     "picomatch": "^2.3.1",
+    "prisma": "^6.8.2",
     "proxy-addr": "^2.0.7",
     "qs": "^6.14.0",
     "range-parser": "^1.2.1",
@@ -144,15 +146,13 @@
     "yamljs": "^0.3.0",
     "yn": "^3.1.1",
     "z-schema": "^5.0.5",
-    "zod": "^3.25.42",
-    "@prisma/client": "^6.8.2",
-    "prisma": "^6.8.2"
+    "zod": "^3.25.42"
   },
   "scripts": {
     "swagger:bundle": "npx redocly bundle --force src/swagger.schemas.yaml -o src/swagger.bundle.yaml",
     "dev": "npm run swagger:bundle && nodemon src/server.ts",
     "start": "node dist/server.js",
-    "build": "tsc",
+    "build": "npm run swagger:bundle && tsc && cp src/swagger.bundle.yaml dist/",
     "deploy": "npx prisma generate && npx prisma migrate deploy && npm run build",
     "generate": "prisma generate",
     "migrate:dev": "prisma migrate dev",
@@ -177,7 +177,7 @@
   "homepage": "https://github.com/fga-eps-mds/2025.1-VaiPelaSombra-API#readme",
   "description": "",
   "devDependencies": {
-    "@redocly/cli": "^1.34.3",
+    "@redocly/cli": "^1.34.4",
     "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.5",
     "@types/cookie-parser": "^1.4.9",

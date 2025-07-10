@@ -1,7 +1,7 @@
 import { UserService } from '../services/user.service';
-import { PrismaClient } from '../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 
-jest.mock('../generated/prisma', () => {
+jest.mock('@prisma/client', () => {
   const mPrismaClient = {
     user: {
       delete: jest.fn(),

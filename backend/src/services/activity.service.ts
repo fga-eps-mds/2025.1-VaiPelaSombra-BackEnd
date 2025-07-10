@@ -1,7 +1,7 @@
 import { prisma } from '../data/prismaClient';
 import { CreateActivityDTO, UpdateActivityDTO } from '../dtos/activity.dto';
 import { BadRequestError, ConflictError, NotFoundError } from '../errors/httpError';
-import { Activity, Prisma } from '../generated/prisma';
+import { Activity, Prisma } from '@prisma/client';
 import { differenceInMinutes } from 'date-fns';
 
 export class ActivityService {
