@@ -50,4 +50,8 @@ export class UserService {
       throw error;
     }
   }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return prisma.user.findUnique({ where: { email } });
+  }
 }
