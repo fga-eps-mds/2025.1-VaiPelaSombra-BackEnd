@@ -165,12 +165,29 @@ paths:
             schema:
               type: object
               required:
-                - userId
                 - travelInterests
               properties:
-                userId:
-                  type: integer
-                  example: 1
+                travelerType:
+                  type: string
+                  enum:
+                    - ADVENTURE
+                    - RELAX
+                    - CULTURAL
+                    - NATURE
+                    - LUXURY
+                  example: ADVENTURE
+                travelFrequency:
+                  type: string
+                  enum:
+                    - RARE
+                    - OCCASIONAL
+                    - FREQUENT
+                    - ALWAYS
+                  example: RARE
+                averageBudget:
+                  type: number
+                  format: integer
+                  example: 1500
                 travelInterests:
                   type: array
                   items:
@@ -206,12 +223,29 @@ paths:
             schema:
               type: object
               required:
-                - userId
                 - travelInterests
               properties:
-                userId:
-                  type: integer
-                  example: 1
+                travelerType:
+                  type: string
+                  enum:
+                    - ADVENTURE
+                    - RELAX
+                    - CULTURAL
+                    - NATURE
+                    - LUXURY
+                  example: ADVENTURE
+                travelFrequency:
+                  type: string
+                  enum:
+                    - RARE
+                    - OCCASIONAL
+                    - FREQUENT
+                    - ALWAYS
+                  example: RARE
+                averageBudget:
+                  type: number
+                  format: integer
+                  example: 1500
                 travelInterests:
                   type: array
                   items:
@@ -956,14 +990,12 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
         profileImage:
           type: string
           format: uri
+          example: https://example.com/profile.jpg
     User:
       type: object
       properties:
@@ -1132,22 +1164,32 @@ components:
           type: array
           items:
             type: integer
+          example:
+            - 1
         activityIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         destinationIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         transportIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         requiredDocumentIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
     Itinerary:
       type: object
       properties:
@@ -1197,7 +1239,6 @@ components:
         - price
         - startTime
         - endTime
-        - itineraryId
       properties:
         location:
           type: string
@@ -1215,8 +1256,9 @@ components:
           type: string
         description:
           type: string
-        itineraryId:
-          type: integer
+        destination:
+          type: number
+          example: 1
     UpdateActivityInput:
       type: object
       properties:
@@ -1236,6 +1278,9 @@ components:
           type: string
         description:
           type: string
+        destination:
+          type: number
+          example: 1
     Activity:
       type: object
       properties:

@@ -83,7 +83,7 @@ model RequiredDocument {
   id          Int       @id @default(autoincrement())
   content     String    @db.VarChar(800)
   itineraryId Int
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
 model Transport {
@@ -95,7 +95,7 @@ model Transport {
   duration    String?   @db.VarChar(20)
   description String?   @db.VarChar(500)
   itineraryId Int
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id]) 
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade) 
 }
 
 model Destination {

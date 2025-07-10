@@ -21,10 +21,14 @@ import {
 const router = Router();
 
 //router.get('/', (req, res) => UserController.getAllUsers(req, res));
+// router.get('/:userId', UserController.getUserById);
 router.get('/:userId', authenticateUser, authorizeUser, UserController.getUserById);
 router.post('/', UserController.createUser);
+// router.put('/:userId', UserController.updateUser);
 router.put('/:userId', authenticateUser, authorizeUser, UserController.updateUser);
+// router.delete('/:userId', UserController.deleteUser);
 router.delete('/:userId', authenticateUser, authorizeUser, UserController.deleteUser);
+// router.get('/', UserController.getAllUsers);
 router.get('/', authenticateUser, UserController.getAllUsers);
 
 router.get('/:userId/preferences', getTravelPreferenceByUserId);
@@ -38,7 +42,9 @@ router.post('/interests', createTravelInterest);
 router.put('/interests/:id', updateTravelInterest);
 router.delete('/interests/:id', deleteTravelInterest);
 
+// router.use('/:userId/itineraries', itineraryRouter);
 router.use('/:userId/itineraries', authenticateUser, authorizeUser, itineraryRouter);
+// router.use('/:userId/travel-preferences', travelPreferenceRouter);
 router.use('/:userId/travel-preferences', authenticateUser, authorizeUser, travelPreferenceRouter);
 
 router.get('/:id/profile', UserController.getUserProfile); // router.get('/me', authMiddleware, getUserProfile);

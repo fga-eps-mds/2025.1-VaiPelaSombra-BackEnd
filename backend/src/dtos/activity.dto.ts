@@ -13,6 +13,7 @@ export const CreateActivitySchema = z.object({
   duration: z.string().optional(),
   description: z.string().optional(),
   itineraryId: z.number(),
+  destination: z.number(),
 });
 
 export const UpdateActivitySchema = z.object({
@@ -23,6 +24,7 @@ export const UpdateActivitySchema = z.object({
   endTime: dateSchema.optional(),
   duration: z.string().optional(),
   description: z.string().optional(),
+  destination: z.number().optional(),
 });
 
 export type CreateActivityDTO = z.infer<typeof CreateActivitySchema>;
