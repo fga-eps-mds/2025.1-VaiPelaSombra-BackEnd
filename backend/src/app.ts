@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-// import bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
@@ -8,7 +7,6 @@ import userRouter from './routes/user.routes';
 import travelInterestsRouter from './routes/travelInterests.routes';
 import destinationRouter from './routes/destination.routes';
 import homeRouter from './routes/home.routes';
-// import loginRouter from './routes/login.routes';
 import { errorHandler } from './errors/errorHandler';
 import authRouter from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
@@ -18,7 +16,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     credentials: true,
   })
 );
