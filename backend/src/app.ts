@@ -14,6 +14,7 @@ import { errorHandler } from './errors/errorHandler';
 import authRouter from './routes/auth.routes';
 import cookieParser from 'cookie-parser';
 import intineraryRouter from './routes/itinerary.routes';
+import emailRouter from './routes/email.routes';
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/auth', authRouter);
 app.use('/transports', transportRouter);
 // app.use('/login', loginRouter);
 app.use('/itineraries', intineraryRouter);
+app.use('/email', emailRouter);
 app.use(errorHandler);
 
 export default app;

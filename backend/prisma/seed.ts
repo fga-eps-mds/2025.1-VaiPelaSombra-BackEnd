@@ -1,4 +1,6 @@
 import { PrismaClient, ItineraryStatus } from '../src/generated/prisma';
+import bcrypt from 'bcrypt';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -16,13 +18,14 @@ async function main() {
   await prisma.user.deleteMany();
 
   console.log('👤 Criando usuários...');
+  const hashedPassword = await bcrypt.hash('senha123', 10);
   const users = await Promise.all(
     Array.from({ length: 5 }).map((_, i) =>
       prisma.user.create({
         data: {
           name: `Usuário ${i + 1}`,
           email: `user${i + 1}@teste.com`,
-          password: 'senha123',
+          password: hashedPassword,
           profileBio: 'Aventureiro por natureza.',
           profileImage: `https://example.com/avatar${i + 1}.jpg`,
         },
