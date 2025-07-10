@@ -2,6 +2,7 @@ import { Destination, Prisma } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 import { CreateDestinationDTO, UpdateDestinationDTO } from '../dtos/destination.dto';
 import { DestinationImageDTO } from '../dtos/destinationImage.dto';
+
 export class DestinationService {
   async create(data: CreateDestinationDTO): Promise<Destination> {
     const prismaData: Prisma.DestinationCreateInput = {
@@ -11,11 +12,6 @@ export class DestinationService {
       latitude: data.latitude,
       localClimate: data.localClimate,
       timeZone: data.timeZone,
-      itineraries: {},
-      reviews: {},
-      localEvents: {},
-      survivalTips: {},
-      images: {},
     };
 
     return prisma.destination.create({
@@ -60,6 +56,7 @@ export class DestinationService {
       },
     });
   }
+
   async getDestinationById(destinationId: number): Promise<Destination | null> {
     return prisma.destination.findUnique({
       where: {
@@ -67,6 +64,7 @@ export class DestinationService {
       },
     });
   }
+
   async uploadDestinationImage(destinationId: number, file: DestinationImageDTO) {
     const imageUrl = `/uploads/${file.filename}`;
 
@@ -79,6 +77,7 @@ export class DestinationService {
 
     return image;
   }
+
   async getDestinationImages(destinationId: number) {
     return prisma.destinationImage.findMany({
       where: { destinationId },

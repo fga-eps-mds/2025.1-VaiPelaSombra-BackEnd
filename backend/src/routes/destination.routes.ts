@@ -12,10 +12,12 @@ router.get('/', destinationController.getAllDestinations);
 router.get('/:destinationId', destinationController.getDestinationById);
 router.put('/:destinationId', destinationController.updateDestination);
 router.delete('/:destinationId', destinationController.deleteDestination);
+
 router.post(
   '/:destinationId/images',
   upload.single('file'),
   destinationController.uploadDestinationImage
 );
 router.get('/:destinationId/images', destinationController.getDestinationImages);
+
 export default router;

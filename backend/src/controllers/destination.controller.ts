@@ -5,13 +5,16 @@ import { DestinationImageDTO, destinationImageSchema } from '../dtos/destination
 import { validateMIMEType } from 'validate-image-type';
 import fs from 'fs/promises';
 import { DestinationService } from '../services/destination.service';
+
 export class DestinationController {
   constructor(private destinationService: DestinationService) {}
+
   createDestination = async (req: Request, res: Response) => {
     const data = CreateDestinationSchema.parse(req.body);
     const destination = await this.destinationService.create(data);
     res.status(201).json(destination);
   };
+
   deleteDestination = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
@@ -19,6 +22,7 @@ export class DestinationController {
     const deletedDestination = await this.destinationService.deleteDestination(destinationId);
     res.status(200).json(deletedDestination);
   };
+
   updateDestination = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
@@ -27,10 +31,12 @@ export class DestinationController {
     const updatedDestination = await this.destinationService.update(destinationId, data);
     res.status(200).json(updatedDestination);
   };
+
   getAllDestinations = async (req: Request, res: Response) => {
     const destinations = await this.destinationService.getAllDestinations();
     res.status(200).json(destinations);
   };
+
   getDestinationById = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
@@ -68,6 +74,7 @@ export class DestinationController {
     );
     res.status(201).json(savedImage);
   };
+
   getDestinationImages = async (req: Request, res: Response) => {
     const destinationId = parseInt(req.params.destinationId);
     if (isNaN(destinationId) || destinationId <= 0)
