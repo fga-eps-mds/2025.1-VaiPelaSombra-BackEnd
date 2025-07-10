@@ -149,8 +149,8 @@
   "scripts": {
     "swagger:bundle": "npx redocly bundle --force src/swagger.schemas.yaml -o src/swagger.bundle.yaml",
     "dev": "npm run swagger:bundle && nodemon src/server.ts",
-    "start": "npm run swagger:bundle && ts-node src/server.ts",
-    "build": "npm run swagger:bundle && npm run generate && tsc",
+    "start": "ts-node src/server.ts",
+    "build": "npm run generate && tsc",
     "generate": "prisma generate",
     "migrate:dev": "prisma migrate dev",
     "migrate:prod": "prisma migrate deploy",
