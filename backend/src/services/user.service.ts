@@ -1,6 +1,7 @@
-import { User } from '../generated/prisma';
 import { prisma } from '../data/prismaClient';
 import { CreateUserDTO, UpdateUserDTO } from '../dtos/user.dto';
+
+export type User = Awaited<ReturnType<typeof prisma.user.create>>;
 
 export class UserService {
   async create(data: CreateUserDTO): Promise<User> {
@@ -34,7 +35,23 @@ export class UserService {
     });
   }
 
+  // async update(id: number, data: UpdateUserDTO): Promise<User | null> {
+  //   return prisma.user.update({
+  //     where: { id },
+  //     data,
+  //   });
+  // }
+
   async delete(id: number): Promise<User | null> {
-    return prisma.user.delete({ where: { id } });
+    try {
+      return await prisma.user.delete({ where: { id } });
+    } catch (error) {
+      console.error('Erro ao deletar usuário:', error);
+      throw error;
+    }
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    return prisma.user.findUnique({ where: { email } });
   }
 }

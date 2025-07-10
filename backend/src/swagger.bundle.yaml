@@ -165,12 +165,29 @@ paths:
             schema:
               type: object
               required:
-                - userId
                 - travelInterests
               properties:
-                userId:
-                  type: integer
-                  example: 1
+                travelerType:
+                  type: string
+                  enum:
+                    - ADVENTURE
+                    - RELAX
+                    - CULTURAL
+                    - NATURE
+                    - LUXURY
+                  example: ADVENTURE
+                travelFrequency:
+                  type: string
+                  enum:
+                    - RARE
+                    - OCCASIONAL
+                    - FREQUENT
+                    - ALWAYS
+                  example: RARE
+                averageBudget:
+                  type: number
+                  format: integer
+                  example: 1500
                 travelInterests:
                   type: array
                   items:
@@ -206,12 +223,29 @@ paths:
             schema:
               type: object
               required:
-                - userId
                 - travelInterests
               properties:
-                userId:
-                  type: integer
-                  example: 1
+                travelerType:
+                  type: string
+                  enum:
+                    - ADVENTURE
+                    - RELAX
+                    - CULTURAL
+                    - NATURE
+                    - LUXURY
+                  example: ADVENTURE
+                travelFrequency:
+                  type: string
+                  enum:
+                    - RARE
+                    - OCCASIONAL
+                    - FREQUENT
+                    - ALWAYS
+                  example: RARE
+                averageBudget:
+                  type: number
+                  format: integer
+                  example: 1500
                 travelInterests:
                   type: array
                   items:
@@ -734,6 +768,174 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
+  /transports:
+    post:
+      summary: Create a new transport
+      tags:
+        - Transports
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransportInput'
+      responses:
+        '201':
+          description: Transport created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+
+    get:
+      summary: Get all transports
+      tags:
+        - Transports
+      responses:
+        '200':
+          description: List of transports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
+        '500':
+          description: Server error
+
+  /transports/{id}:
+    get:
+      summary: Get transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Transport found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+
+    put:
+      summary: Update transport by ID
+      tags:
+        - Transports
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransportInput'
+      responses:
+        '200':
+          description: Transport updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transport'
+        '400':
+          description: Invalid destination ID
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+
+    delete:
+      summary: Delete transport by ID
+      tags:
+        - Transports
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Transport deleted
+        '404':
+          description: Transport not found
+        '500':
+          description: Server error
+  /auth/login:
+    post:
+      summary: Authenticate user
+      tags: [Login]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  example: "joao@email.com"
+                password:
+                  description: password to login
+                  type: string
+                  example: "S3NH@SEGURS"
+      responses:
+        "200":
+          description: sucessfly loggged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "jxaslcbhdjhasijis"
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      email:
+                        type: string
+                        example: "joao@email.com"
+  /email/sendRecoveryEmail:
+    get:
+      summary: Send email for password recovery
+      tags:
+        - Email
+      parameters:
+        - in: query
+          name: email
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Email sent successfully
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
 components:
   schemas:
     CreateUserInput:
@@ -750,14 +952,34 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
+          nullable: true
           format: uri
+          example: https://example.com/profile.jpg
+    PlanoViagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     UpdateUserInput:
       type: object
       properties:
@@ -768,14 +990,12 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
         profileImage:
           type: string
           format: uri
+          example: https://example.com/profile.jpg
     User:
       type: object
       properties:
@@ -944,22 +1164,32 @@ components:
           type: array
           items:
             type: integer
+          example:
+            - 1
         activityIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         destinationIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         transportIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
         requiredDocumentIds:
           type: array
           items:
             type: integer
+          example:
+            - 1
     Itinerary:
       type: object
       properties:
@@ -1009,7 +1239,6 @@ components:
         - price
         - startTime
         - endTime
-        - itineraryId
       properties:
         location:
           type: string
@@ -1027,8 +1256,9 @@ components:
           type: string
         description:
           type: string
-        itineraryId:
-          type: integer
+        destination:
+          type: number
+          example: 1
     UpdateActivityInput:
       type: object
       properties:
@@ -1048,6 +1278,9 @@ components:
           type: string
         description:
           type: string
+        destination:
+          type: number
+          example: 1
     Activity:
       type: object
       properties:
@@ -1090,3 +1323,91 @@ components:
           type: integer
         label:
           type: string
+    CreateTransportInput:
+      type: object
+      required:
+        - type
+        - cost
+        - departure
+        - arrival
+        - duration
+        - itineraryId
+      properties:
+        type:
+          type: string
+          example: Avião
+        cost:
+          type: number
+          format: float
+          example: 1234.56
+        departure:
+          type: string
+          format: date-time
+          example: '2025-08-01T08:00:00Z'
+        arrival:
+          type: string
+          format: date-time
+          example: '2025-08-01T12:00:00Z'
+        duration:
+          type: string
+          example: 4h
+        descricao:
+          type: string
+          example: Voo direto para o destino
+        itineraryId:
+          type: integer
+          example: 1
+    UpdateTransportInput:
+      type: object
+      properties:
+        type:
+          type: string
+          example: Ônibus
+        cost:
+          type: number
+          format: float
+          example: 250
+        departure:
+          type: string
+          format: date-time
+          example: '2025-08-03T07:00:00Z'
+        arrival:
+          type: string
+          format: date-time
+          example: '2025-08-03T13:00:00Z'
+        duration:
+          type: string
+          example: 6h
+        descricao:
+          type: string
+          example: Viagem de ônibus com paradas
+    Transport:
+      type: object
+      properties:
+        idTransporte:
+          type: integer
+          example: 5
+        tipo:
+          type: string
+          example: Avião
+        valor:
+          type: number
+          format: float
+          example: 1234.56
+        dataCsaida:
+          type: string
+          format: date-time
+          example: '2025-08-01T08:00:00Z'
+        dataChegada:
+          type: string
+          format: date-time
+          example: '2025-08-01T12:00:00Z'
+        duracao:
+          type: string
+          example: 4h
+        descricao:
+          type: string
+          example: Voo direto para o destino
+        itineraryId:
+          type: integer
+          example: 1

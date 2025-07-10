@@ -21,14 +21,33 @@ components:
           format: email
         password:
           type: string
-        createdAt:
-          type: string
-          format: date-time
         profileBio:
           type: string
+          nullable: true
         profileImage:
           type: string
-          format: uri
+          nullable: true
+
+    PlanoViagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        image:
+          type: string
+        date:
+          type: string
+          format: date-time
+        daysLeft:
+          type: integer
+        faded:
+          type: boolean
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
 
     UpdateUserInput:
       type: object
@@ -354,3 +373,178 @@ components:
           type: integer
         label:
           type: string
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
+    # (removido para testes)
+    #securitySchemes:
+    #    bearerAuth:
+    #     type: http
+    #      scheme: bearer
+    #      bearerFormat: JWT
+
+    HomeDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Paris
+        imageUrl:
+          type: string
+          nullable: true
+          example: /uploads/paris.jpg
+
+    FullDestination:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        title:
+          type: string
+          example: Brasília
+        description:
+          type: string
+          example: A capital do Brasil
+        latitude:
+          type: string
+          example: '51.503'
+        longitude:
+          type: string
+          example: '17.122'
+        localClimate:
+          type: string
+          example: tropical
+        timeZone:
+          type: string
+          example: GMT-3
+        itineraries:
+          type: array
+          items:
+            type: object
+            example: {}
+        reviews:
+          type: array
+          items:
+            type: object
+            example: {}
+        localEvents:
+          type: array
+          items:
+            type: object
+            example: {}
+        survivalTips:
+          type: array
+          items:
+            type: object
+            example: {}
+        recommendedActivities:
+          type: array
+          items:
+            type: object
+            example: {}
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              url:
+                type: string
+
+  CreateTransportInput:
+    type: object
+    required:
+       - tipo
+       - valor
+       - dataCsaida
+       - dataChegada
+       - duracao
+       - itineraryId
+  properties:
+    tipo:
+      type: string
+      example: Avião
+    valor:
+      type: number
+      format: float
+      example: 1234.56
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-01T08:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-01T12:00:00Z
+    duracao:
+      type: string
+      example: "4h"
+    descricao:
+      type: string
+      example: "Voo direto para o destino"
+    itineraryId:
+      type: integer
+      example: 1
+
+UpdateTransportInput:
+  type: object
+  properties:
+    tipo:
+      type: string
+      example: Ônibus
+    valor:
+      type: number
+      format: float
+      example: 250.00
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-03T07:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-03T13:00:00Z
+    duracao:
+      type: string
+      example: "6h"
+    descricao:
+      type: string
+      example: "Viagem de ônibus com paradas"
+
+Transport:
+  type: object
+  properties:
+    idTransporte:
+      type: integer
+      example: 5
+    tipo:
+      type: string
+      example: Avião
+    valor:
+      type: number
+      format: float
+      example: 1234.56
+    dataCsaida:
+      type: string
+      format: date-time
+      example: 2025-08-01T08:00:00Z
+    dataChegada:
+      type: string
+      format: date-time
+      example: 2025-08-01T12:00:00Z
+    duracao:
+      type: string
+      example: "4h"
+    descricao:
+      type: string
+      example: "Voo direto para o destino"
+    itineraryId:
+      type: integer
+      example: 1
