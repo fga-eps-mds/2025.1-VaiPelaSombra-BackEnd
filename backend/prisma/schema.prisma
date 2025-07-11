@@ -95,7 +95,7 @@ model Transport {
   duration    String?   @db.VarChar(20)
   description String?   @db.VarChar(500)
   itineraryId Int
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id]) 
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id])
 }
 
 model Destination {

@@ -734,6 +734,7 @@ paths:
           description: Travel interest not found
         '500':
           description: Server error
+
   /transports:
     get:
       tags:
@@ -746,7 +747,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Transports'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transport'
 
     post:
       tags:
@@ -834,6 +837,7 @@ paths:
           description: Transport not found
         '500':
           description: Server error
+
   /auth/login:
     post:
       summary: Authenticate user
@@ -1254,29 +1258,29 @@ components:
     CreateTransportInput:
       type: object
       required:
-        - type
-        - cost
-        - departure
-        - arrival
-        - duration
+        - tipo
+        - valor
+        - dataCsaida
+        - dataChegada
+        - duracao
         - itineraryId
       properties:
-        type:
+        tipo:
           type: string
           example: Avião
-        cost:
+        valor:
           type: number
           format: float
           example: 1234.56
-        departure:
+        dataCsaida:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        arrival:
+        dataChegada:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duration:
+        duracao:
           type: string
           example: 4h
         descricao:
@@ -1285,25 +1289,26 @@ components:
         itineraryId:
           type: integer
           example: 1
+
     UpdateTransportInput:
       type: object
       properties:
-        type:
+        tipo:
           type: string
           example: Ônibus
-        cost:
+        valor:
           type: number
           format: float
           example: 250
-        departure:
+        dataCsaida:
           type: string
           format: date-time
           example: '2025-08-03T07:00:00Z'
-        arrival:
+        dataChegada:
           type: string
           format: date-time
           example: '2025-08-03T13:00:00Z'
-        duration:
+        duracao:
           type: string
           example: 6h
         descricao:
