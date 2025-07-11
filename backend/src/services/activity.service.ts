@@ -8,8 +8,7 @@ export class ActivityService {
   async create(data: CreateActivityDTO): Promise<Activity> {
     const { itineraryId, destination, startTime, endTime, ...rest } = data;
 
-    if (startTime >= endTime)
-      throw new BadRequestError('Invalid start/end time');
+    if (startTime >= endTime) throw new BadRequestError('Invalid start/end time');
 
     const conflictingActivities = await this.findConflictingActivities(
       itineraryId,
@@ -51,14 +50,12 @@ export class ActivityService {
     data: UpdateActivityDTO
   ): Promise<Activity | null> {
     const existingActivity = await this.findById(activityId);
-    if (!existingActivity)
-      throw new NotFoundError('Activity not found');
+    if (!existingActivity) throw new NotFoundError('Activity not found');
 
     const startTime = data.startTime ?? existingActivity.startTime;
     const endTime = data.endTime ?? existingActivity.endTime;
 
-    if (startTime >= endTime)
-      throw new BadRequestError('Invalid start/end time');
+    if (startTime >= endTime) throw new BadRequestError('Invalid start/end time');
 
     const conflictingActivities = await this.findConflictingActivities(
       itineraryId,
@@ -105,10 +102,7 @@ export class ActivityService {
     return prisma.activity.findMany({
       where: {
         itineraryId,
-        AND: [
-          { startTime: { lte: endTime } },
-          { endTime: { gte: startTime } },
-        ],
+        AND: [{ startTime: { lte: endTime } }, { endTime: { gte: startTime } }],
       },
     });
   }
