@@ -1,5 +1,5 @@
 import { ItineraryService } from '../services/itinerary.service';
-import { ItineraryStatus } from '../generated/prisma';
+import { ItineraryStatus } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 import { Decimal } from '../generated/prisma/runtime/library';
 

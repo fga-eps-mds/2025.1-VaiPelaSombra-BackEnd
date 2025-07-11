@@ -9,7 +9,7 @@ import {
   UnprocessableEntityError,
   ForbiddenError,
 } from './httpError';
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export const errorHandler: ErrorRequestHandler = (
@@ -29,8 +29,9 @@ export const errorHandler: ErrorRequestHandler = (
     }
   }
 
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    switch (error.code) {
+  if (error.name === 'PrismaClientKnownRequestError') {
+    const prismaError = error as unknown as { code: string };
+    switch (prismaError.code)  {
       case 'P2002':
         error = new ConflictError('A record with this unique field already exists.');
         break;
@@ -48,13 +49,13 @@ export const errorHandler: ErrorRequestHandler = (
         break;
     }
   }
-  if (error instanceof Prisma.PrismaClientValidationError) {
+  if (error.name === 'PrismaClientValidationError') {
     error = new InternalServerError('Validation database error occurred');
   }
-  if (error instanceof Prisma.PrismaClientInitializationError) {
+  if (error.name === 'PrismaClientInitializationError') {
     error = new InternalServerError('Connection database error occurred ');
   }
-  if (error instanceof Prisma.PrismaClientUnknownRequestError) {
+  if (error.name === 'PrismaClientUnknownRequestError') {
     error = new InternalServerError('Unknown database error occurred');
   }
   if (error instanceof HttpError) {

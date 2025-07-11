@@ -52,6 +52,7 @@ export const UserController = {
       if (isNaN(userId)) throw new BadRequestError('Invalid user id');
 
       const data = UpdateUserSchema.parse(req.body);
+      data.password = await bcrypt.hash(data.password, 10);
       const updatedUser = await userService.update(userId, data);
       if (!updatedUser) throw new NotFoundError('User not found');
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
