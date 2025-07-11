@@ -3,6 +3,7 @@ import { ItineraryController } from '../itinerary.controller';
 import { ItineraryService } from '../../services/itinerary.service';
 import { BadRequestError } from '../../errors/httpError';
 import { AuthRequest } from '../../middlewares/auth.middleware';
+
 jest.mock('../../services/itinerary.service');
 
 describe('ItineraryController', () => {
@@ -40,7 +41,6 @@ describe('ItineraryController', () => {
       const expectedItinerary = {
         id: 1,
         ...mockItineraryData,
-        totalBudget: 1500,
         ownerId: userId,
       };
 
@@ -53,6 +53,7 @@ describe('ItineraryController', () => {
 
       await itineraryController.createItinerary(mockRequest as Request, mockResponse as Response);
 
+      // ✅ Corrigido: a entrada não tem totalBudget (é gerado dentro da service)
       expect(mockItineraryService.create).toHaveBeenCalledWith(userId, mockItineraryData);
       expect(mockResponse.status).toHaveBeenCalledWith(201);
       expect(mockResponse.json).toHaveBeenCalledWith(expectedItinerary);
@@ -76,8 +77,9 @@ describe('ItineraryController', () => {
       expect(mockItineraryService.create).not.toHaveBeenCalled();
     });
   });
+
   describe('findByUserId', () => {
-    it('should find itinerary by used id successfully', async () => {
+    it('should find itinerary by user id successfully', async () => {
       const userId = 1;
 
       const expectedItineraries = [
@@ -107,6 +109,7 @@ describe('ItineraryController', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith(expectedItineraries);
     });
+
     it('should throw BadRequestError for invalid user id', async () => {
       mockRequest = {
         params: {
@@ -119,8 +122,9 @@ describe('ItineraryController', () => {
       ).rejects.toThrow(BadRequestError);
     });
   });
+
   describe('deleteItinerary', () => {
-    it('should delete a itinerary successfully', async () => {
+    it('should delete an itinerary successfully', async () => {
       const userId = 1;
       const itineraryId = 1;
       const expectedDeletedItinerary = {
@@ -149,6 +153,7 @@ describe('ItineraryController', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith(expectedDeletedItinerary);
     });
+
     it('should throw BadRequestError for invalid itinerary id', async () => {
       mockAuthRequest = {
         params: { itineraryId: 'invalid' },
@@ -162,6 +167,7 @@ describe('ItineraryController', () => {
       ).rejects.toThrow(BadRequestError);
     });
   });
+
   describe('updateItinerary', () => {
     it('should update itinerary successfully', async () => {
       const userId = 1;
@@ -205,6 +211,7 @@ describe('ItineraryController', () => {
       expect(mockResponse.status).toHaveBeenCalledWith(200);
       expect(mockResponse.json).toHaveBeenCalledWith(expectedItinerary);
     });
+
     it('should throw BadRequestError for invalid itinerary id', async () => {
       mockAuthRequest = {
         params: { itineraryId: 'invalid' },

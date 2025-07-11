@@ -1,4 +1,4 @@
-import { Prisma } from '../generated/prisma';
+import { Prisma } from '@prisma/client';
 import request from 'supertest';
 import app from '../app';
 import { HomeService } from '../services/home.service';

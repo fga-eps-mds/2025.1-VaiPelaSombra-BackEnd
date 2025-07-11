@@ -1,4 +1,4 @@
-import { Destination, Prisma } from '../generated/prisma';
+import { Destination, Prisma } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 import { CreateDestinationDTO, UpdateDestinationDTO } from '../dtos/destination.dto';
 import { DestinationImageDTO } from '../dtos/destinationImage.dto';

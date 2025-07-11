@@ -1,4 +1,4 @@
-import { Transport } from '../generated/prisma';
+import { Transport } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 import { CreateTransportDTO, UpdateTransportDTO } from '../dtos/transport.dto';
 import { Decimal } from 'decimal.js';
