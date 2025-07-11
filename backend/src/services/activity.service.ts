@@ -6,9 +6,11 @@ import { differenceInMinutes } from 'date-fns';
 
 export class ActivityService {
   async create(data: CreateActivityDTO): Promise<Activity> {
-    const { itineraryId, startTime, endTime, ...rest } = data;
+    const { itineraryId, destination, startTime, endTime, ...rest } = data;
 
-    if (startTime >= endTime) throw new BadRequestError('Invalid start/end time');
+    if (startTime >= endTime)
+      throw new BadRequestError('Invalid start/end time');
+
     const conflictingActivities = await this.findConflictingActivities(
       itineraryId,
       startTime,
@@ -21,7 +23,9 @@ export class ActivityService {
     const durationInMinutes = differenceInMinutes(endTime, startTime);
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = durationInMinutes % 60;
-    const durationString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    const durationString = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
 
     const prismaData: Prisma.ActivityCreateInput = {
       ...rest,
@@ -29,7 +33,9 @@ export class ActivityService {
       endTime,
       duration: durationString,
       itinerary: { connect: { id: itineraryId } },
+      ...(destination && { destination: { connect: { id: destination } } }),
     };
+
     return prisma.activity.create({ data: prismaData });
   }
 
@@ -38,35 +44,45 @@ export class ActivityService {
       where: { id },
     });
   }
+
   async update(
     activityId: number,
     itineraryId: number,
     data: UpdateActivityDTO
   ): Promise<Activity | null> {
     const existingActivity = await this.findById(activityId);
+    if (!existingActivity)
+      throw new NotFoundError('Activity not found');
 
-    if (!existingActivity) throw new NotFoundError('Activity not found');
+    const startTime = data.startTime ?? existingActivity.startTime;
+    const endTime = data.endTime ?? existingActivity.endTime;
 
-    const startTime = data.startTime ? data.startTime : existingActivity.startTime;
-    const endTime = data.endTime ? data.endTime : existingActivity.endTime;
+    if (startTime >= endTime)
+      throw new BadRequestError('Invalid start/end time');
 
-    if (startTime >= endTime) throw new BadRequestError('Invalid start/end time');
     const conflictingActivities = await this.findConflictingActivities(
       itineraryId,
       startTime,
       endTime
     );
 
-    const otherActivities = conflictingActivities.filter((activity) => activity.id !== activityId);
-
+    const otherActivities = conflictingActivities.filter((a) => a.id !== activityId);
     if (otherActivities.length > 0)
       throw new ConflictError('Activity conflicts with existing activities in the itinerary');
 
+    const { destination, ...rest } = data;
+
+    const updateData: Prisma.ActivityUpdateInput = {
+      ...rest,
+      ...(destination && { destination: { connect: { id: destination } } }),
+    };
+
     return prisma.activity.update({
       where: { id: activityId },
-      data,
+      data: updateData,
     });
   }
+
   async findAllOrderedByDate(itineraryId: number, userId: number): Promise<Activity[]> {
     return prisma.activity.findMany({
       where: {
@@ -90,20 +106,13 @@ export class ActivityService {
       where: {
         itineraryId,
         AND: [
-          {
-            startTime: {
-              lte: endTime,
-            },
-          },
-          {
-            endTime: {
-              gte: startTime,
-            },
-          },
+          { startTime: { lte: endTime } },
+          { endTime: { gte: startTime } },
         ],
       },
     });
   }
+
   async findById(id: number): Promise<Activity | null> {
     return prisma.activity.findUnique({
       where: { id },

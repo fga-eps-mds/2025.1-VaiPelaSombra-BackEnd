@@ -1,7 +1,7 @@
 import { ItineraryService } from '../services/itinerary.service';
 import { ItineraryStatus } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
-import { Decimal } from '../generated/prisma/runtime/library';
+import { Decimal } from '@prisma/client/runtime/library';
 
 jest.mock('../data/prismaClient', () => ({
   prisma: {
