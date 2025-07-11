@@ -152,7 +152,8 @@
     "yamljs": "^0.3.0",
     "yn": "^3.1.1",
     "z-schema": "^5.0.5",
-    "zod": "^3.25.42"
+    "zod": "^3.25.42",
+    "@prisma/client": "^6.11.1"
   },
   "scripts": {
     "swagger:bundle": "npx redocly bundle --force src/swagger.schemas.yaml -o src/swagger.bundle.yaml 2> nul",
