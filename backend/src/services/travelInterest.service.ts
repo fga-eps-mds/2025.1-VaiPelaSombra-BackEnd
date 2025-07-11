@@ -1,4 +1,4 @@
-import { TravelInterest, Prisma } from '../generated/prisma';
+import { TravelInterest, Prisma } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 
 export class TravelInterestService {
