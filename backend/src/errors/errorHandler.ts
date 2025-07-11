@@ -9,7 +9,7 @@ import {
   UnprocessableEntityError,
   ForbiddenError,
 } from './httpError';
-import { Prisma } from '@prisma/client';
+//import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 export const errorHandler: ErrorRequestHandler = (
@@ -31,7 +31,7 @@ export const errorHandler: ErrorRequestHandler = (
 
   if (error.name === 'PrismaClientKnownRequestError') {
     const prismaError = error as unknown as { code: string };
-    switch (prismaError.code)  {
+    switch (prismaError.code) {
       case 'P2002':
         error = new ConflictError('A record with this unique field already exists.');
         break;
