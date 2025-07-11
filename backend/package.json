@@ -156,7 +156,7 @@
   "scripts": {
     "swagger:bundle": "npx redocly bundle --force src/swagger.schemas.yaml -o src/swagger.bundle.yaml 2> nul",
     "dev": "nodemon src/server.ts",
-    "start": "node dist/server.js",  
+    "start": "node dist/server.js",
     "build": "npm run generate && tsc",
     "deploy": "npx prisma generate && npx prisma migrate deploy && npm run build",
     "generate": "prisma generate",
@@ -209,6 +209,7 @@
     "jest-mock-extended": "^4.0.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
+    "prisma": "^6.11.1",
     "supertest": "^7.1.1",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
