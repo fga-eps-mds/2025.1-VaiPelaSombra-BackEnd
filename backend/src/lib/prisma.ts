@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '../generated/prisma';
+import { PrismaClient, Prisma } from '@prisma/client';
 
 // Declaração global para evitar conflitos de tipo
 declare global {

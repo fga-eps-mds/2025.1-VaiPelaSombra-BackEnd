@@ -1,5 +1,6 @@
 import { prismaMock } from '../data/prismaMock';
 import { HomeService } from '../services/home.service';
+import { Prisma } from '@prisma/client';
 
 const homeService = new HomeService();
 
@@ -7,9 +8,27 @@ describe('Testes para HomeService', () => {
   describe('funcao: findDestinations()', () => {
     it('deve retornar todos destinos quando search está vazio(undfined)', async () => {
       const mockDestinations = [
-        { id: 1, title: 'Paris', images: [{ url: '/uploads/paris.jpg' }] },
-        { id: 2, title: 'Rio de Janeiro', images: [] },
-      ];
+        { 
+          id: 1, 
+          title: 'Paris', 
+          description: 'City of Light',
+          latitude: new Prisma.Decimal(48.8566),
+          longitude: new Prisma.Decimal(2.3522),
+          localClimate: 'Temperate',
+          timeZone: 'CET',
+          images: [{ url: '/uploads/paris.jpg' }] 
+        },
+        { 
+          id: 2, 
+          title: 'Rio de Janeiro',
+          description: 'Marvelous City',
+          latitude: new Prisma.Decimal(-22.9068),
+          longitude: new Prisma.Decimal(-43.1729),
+          localClimate: 'Tropical',
+          timeZone: 'BRT',
+          images: [] 
+        },
+      ]; 
       prismaMock.destination.findMany.mockResolvedValue(mockDestinations);
 
       const mockExpectedDestinations = [
@@ -40,8 +59,26 @@ describe('Testes para HomeService', () => {
     it('deve retornar os destinos filtrados, quando search tem uma string alfabética', async () => {
       const search = 'P';
       const mockResponse = [
-        { id: 1, title: 'Paris', images: [{ url: '/uploads/paris.jpg' }] },
-        { id: 3, title: 'Porto', images: [{ url: '/uploads/porto.jpg' }] },
+        { 
+          id: 1, 
+          title: 'Paris', 
+          description: 'City of Light',
+          latitude: new Prisma.Decimal(48.8566),
+          longitude: new Prisma.Decimal(2.3522),
+          localClimate: 'Temperate',
+          timeZone: 'CET',
+          images: [{ url: '/uploads/paris.jpg' }] 
+        },
+        { 
+          id: 3, 
+          title: 'Porto', 
+          description: 'Beautiful Portuguese city',
+          latitude: new Prisma.Decimal(41.1579),
+          longitude: new Prisma.Decimal(-8.6291),
+          localClimate: 'Mediterranean',
+          timeZone: 'WET',
+          images: [{ url: '/uploads/porto.jpg' }] 
+        },
       ];
 
       prismaMock.destination.findMany.mockResolvedValue(mockResponse);
@@ -85,7 +122,16 @@ describe('Testes para HomeService', () => {
       const mockResponse = [{ id: 1, title: 'Paris', images: [{ url: '/uploads/paris.jpg' }] }];
       prismaMock.destination.findMany.mockResolvedValue(mockResponse);
 
-      const mockExpectedResult = [{ id: 1, title: 'Paris', imageUrl: '/uploads/paris.jpg' }];
+      const mockResponse = [{ 
+        id: 1, 
+        title: 'Paris', 
+        description: 'City of Light',
+        latitude: new Prisma.Decimal(48.8566),
+        longitude: new Prisma.Decimal(2.3522),
+        localClimate: 'Temperate',
+        timeZone: 'CET',
+        images: [{ url: '/uploads/paris.jpg' }] 
+      }];
 
       const destinations = await homeService.findDestinations(search);
 
@@ -105,8 +151,26 @@ describe('Testes para HomeService', () => {
 
     it('deve tratar uma busca com apenas espaços(string vazia que gera falsy) como uma busca sem filtro', async () => {
       const mockDestinations = [
-        { id: 1, title: 'Paris', images: [{ url: '/uploads/paris.jpg' }] },
-        { id: 2, title: 'Rio de Janeiro', images: [{ url: '/uploads/riodejaneiro.jpg' }] },
+        { 
+          id: 1, 
+          title: 'Paris', 
+          description: 'City of Light',
+          latitude: new Prisma.Decimal(48.8566),
+          longitude: new Prisma.Decimal(2.3522),
+          localClimate: 'Temperate',
+          timeZone: 'CET',
+          images: [{ url: '/uploads/paris.jpg' }] 
+        },
+        { 
+          id: 2, 
+          title: 'Rio de Janeiro', 
+          description: 'Marvelous City',
+          latitude: new Prisma.Decimal(-22.9068),
+          longitude: new Prisma.Decimal(-43.1729),
+          localClimate: 'Tropical',
+          timeZone: 'BRT',
+          images: [{ url: '/uploads/riodejaneiro.jpg' }] 
+        },
       ];
       prismaMock.destination.findMany.mockResolvedValue(mockDestinations);
 

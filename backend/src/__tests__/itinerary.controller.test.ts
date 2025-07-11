@@ -1,6 +1,6 @@
 import { ItineraryController } from '../controllers/itinerary.controller';
 import { ItineraryService } from '../services/itinerary.service';
-import { ItineraryStatus } from '../generated/prisma';
+import { ItineraryStatus } from '@prisma/client';
 import { Decimal } from '../generated/prisma/runtime/library';
 import { Request, Response } from 'express';
 

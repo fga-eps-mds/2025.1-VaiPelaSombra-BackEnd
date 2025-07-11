@@ -1,7 +1,7 @@
 import { prisma } from '../data/prismaClient';
 import { CreateActivityDTO, UpdateActivityDTO } from '../dtos/activity.dto';
 import { BadRequestError, ConflictError, NotFoundError } from '../errors/httpError';
-import { Activity, Prisma } from '../generated/prisma';
+import { Activity, Prisma } from '@prisma/client';
 import { differenceInMinutes } from 'date-fns';
 
 export class ActivityService {
@@ -29,7 +29,6 @@ export class ActivityService {
       endTime,
       duration: durationString,
       itinerary: { connect: { id: itineraryId } },
-      destination: { connect: { id: data.destination } },
     };
     return prisma.activity.create({ data: prismaData });
   }
@@ -65,10 +64,7 @@ export class ActivityService {
 
     return prisma.activity.update({
       where: { id: activityId },
-      data: {
-        ...data,
-        destination: data.destination ? { connect: { id: data.destination } } : undefined,
-      },
+      data,
     });
   }
   async findAllOrderedByDate(itineraryId: number, userId: number): Promise<Activity[]> {
