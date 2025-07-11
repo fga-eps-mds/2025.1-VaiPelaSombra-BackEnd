@@ -1,8 +1,8 @@
 import { ItineraryController } from '../controllers/itinerary.controller';
 import { ItineraryService } from '../services/itinerary.service';
-import { ItineraryStatus } from '@prisma/client';
-import { Decimal } from '../generated/prisma/runtime/library';
+import { ItineraryStatus} from '@prisma/client';
 import { Request, Response } from 'express';
+import { Decimal } from '@prisma/client/runtime/library';
 
 const mockItinerary = {
   id: 1,

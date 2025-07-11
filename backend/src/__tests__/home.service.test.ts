@@ -119,9 +119,6 @@ describe('Testes para HomeService', () => {
 
     it('deve retornar destinos correspondentes ignorando letras maiusculas e minusculas', async () => {
       const search = 'pARiS';
-      const mockResponse = [{ id: 1, title: 'Paris', images: [{ url: '/uploads/paris.jpg' }] }];
-      prismaMock.destination.findMany.mockResolvedValue(mockResponse);
-
       const mockResponse = [{ 
         id: 1, 
         title: 'Paris', 
@@ -132,6 +129,11 @@ describe('Testes para HomeService', () => {
         timeZone: 'CET',
         images: [{ url: '/uploads/paris.jpg' }] 
       }];
+      prismaMock.destination.findMany.mockResolvedValue(mockResponse);
+
+      const mockExpectedResult = [
+        { id: 1, title: 'Paris', imageUrl: '/uploads/paris.jpg' }
+      ];
 
       const destinations = await homeService.findDestinations(search);
 
@@ -189,8 +191,8 @@ describe('Testes para HomeService', () => {
         id: 4,
         title: 'Brasilia',
         description: 'A capital do Brasil.',
-        latitude: 51.503,
-        longitude: 17.122,
+        latitude: new Prisma.Decimal(51.503),
+        longitude: new Prisma.Decimal(17.122),
         localClimate: 'tropical',
         timeZone: 'GMT-3',
         itineraries: [],

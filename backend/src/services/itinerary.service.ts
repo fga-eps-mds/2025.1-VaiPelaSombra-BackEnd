@@ -2,7 +2,7 @@ import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
 import { Itinerary } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
-import { Decimal } from '../generated/prisma/runtime/library';
+import { Decimal } from '@prisma/client/runtime/library';
 
 export class ItineraryService {
   async create(userId: number, data: CreateItineraryDTO): Promise<Itinerary> {
