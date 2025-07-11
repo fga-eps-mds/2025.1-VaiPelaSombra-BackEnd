@@ -1,4 +1,4 @@
-import { Prisma, TravelPreference } from '../generated/prisma';
+import { Prisma, TravelPreference } from '@prisma/client';
 import { prisma } from '../data/prismaClient';
 
 export class TravelPreferenceService {
