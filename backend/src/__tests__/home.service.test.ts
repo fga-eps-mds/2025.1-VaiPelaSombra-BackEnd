@@ -150,9 +150,7 @@ describe('Testes para HomeService', () => {
       }];
       prismaMock.destination.findMany.mockResolvedValue(mockResponse);
 
-      const mockExpectedResult = [
-        { id: 1, title: 'Paris', imageUrl: '/uploads/paris.jpg' }
-      ];
+      const mockExpectedResult = [{ id: 1, title: 'Paris', imageUrl: '/uploads/paris.jpg' }];
 
       const destinations = await homeService.findDestinations(search);
 
