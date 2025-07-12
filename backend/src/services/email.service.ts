@@ -8,6 +8,7 @@ class EmailService {
   public async sendRecoveryEmail(userEmail: string): Promise<void> {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
+      secure: true,
       auth: {
         user: 'vaipelasombra102@gmail.com',
         pass: 'taho bjvz ivyr pyxb',
