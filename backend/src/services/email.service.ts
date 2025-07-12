@@ -1,6 +1,3 @@
-import { Resend } from 'resend';
-import { render } from '@react-email/render';
-import AccessTokenEmail from '../utils/emailLayout';
 import { UserService } from './user.service';
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
@@ -32,9 +29,7 @@ class EmailService {
 
     const recoveryLink = `http://localhost:5174/recover-password?userId=${user.id}`;
 
-
     try {
-
       const emailHtml = `
         <html>
           <body style="background:#f5f6fa;padding:40px 0;">
@@ -51,14 +46,14 @@ class EmailService {
           </body>
         </html>
       `;
-      
+
       await transporter.sendMail({
         from: 'VaiPelaSombra <vaipelasombra102@gmail.com>',
         to: userEmail,
         subject: 'Recuperação de Senha',
         html: emailHtml,
       });
-  
+
       user.password = criptedPassword;
       userService.update(user.id, {
         password: user.password,
@@ -70,4 +65,4 @@ class EmailService {
   }
 }
 
-export const emailService = new EmailService()
+export const emailService = new EmailService();
