@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserController } from '../controllers/user.controller';
-import { UserService } from '../services/user.service';
-import { NotFoundError } from '../errors/httpError';
+import { UserController } from '../../controllers/user.controller';
+import { UserService } from '../../services/user.service';
+import { NotFoundError } from '../../errors/httpError';
 
 describe('UserController', () => {
   let req: Partial<Request>;
