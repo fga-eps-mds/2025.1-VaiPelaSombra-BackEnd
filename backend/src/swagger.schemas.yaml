@@ -373,17 +373,6 @@ components:
           type: integer
         label:
           type: string
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
-    # (removido para testes)
-    #securitySchemes:
-    #    bearerAuth:
-    #     type: http
-    #      scheme: bearer
-    #      bearerFormat: JWT
 
     HomeDestination:
       type: object
@@ -461,99 +450,107 @@ components:
     CreateTransportInput:
       type: object
       required:
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
+        - type
+        - cost
         - itineraryId
       properties:
-        tipo:
+        type:
           type: string
-          example: Avião
-        valor:
+          example: Airplane
+        cost:
           type: number
           format: float
           example: 1234.56
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 4h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Voo direto para o destino
+          example: Direct flight to destination
+          nullable: true
         itineraryId:
           type: integer
-          example: 1
+
     UpdateTransportInput:
       type: object
       properties:
-        tipo:
+        type:
           type: string
-          example: Ônibus
-        valor:
+          example: Bus
+        cost:
           type: number
           format: float
           example: 250
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-03T07:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-03T13:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 6h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Viagem de ônibus com paradas
+          example: Bus trip with stops
+          nullable: true
         itineraryId:
           type: integer
-          example: 1
+          nullable: true
+
     Transport:
       type: object
-      required:
-        - idTransporte
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
-        - itineraryId
       properties:
-        idTransporte:
+        id:
           type: integer
           example: 5
-        tipo:
+        type:
           type: string
-          example: Avião
-        valor:
+          example: Airplane
+        cost:
           type: number
           format: float
           example: 1234.56
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 4h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Voo direto para o destino
+          example: Direct flight to destination
+          nullable: true
         itineraryId:
           type: integer
           example: 1
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

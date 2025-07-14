@@ -44,6 +44,7 @@ paths:
                   $ref: '#/components/schemas/User'
         '500':
           description: Server error
+
   /users/{userId}:
     get:
       summary: Get user by ID
@@ -112,6 +113,7 @@ paths:
           description: User not found
         '500':
           description: Server error
+
   /users/{userId}/travel-preferences:
     get:
       summary: Get travel preference by user ID
@@ -176,8 +178,8 @@ paths:
                   items:
                     type: integer
                   example:
-                    - 2
-                    - 3
+                  - 2
+                  - 3
       responses:
         '201':
           description: Travel preference created
@@ -217,8 +219,8 @@ paths:
                   items:
                     type: integer
                   example:
-                    - 2
-                    - 3
+                  - 2
+                  - 3
       responses:
         '200':
           description: Travel preference updated
@@ -249,6 +251,7 @@ paths:
           description: Travel preference not found
         '500':
           description: Server error
+
   /users/{userId}/itineraries:
     post:
       summary: Create itinerary for user
@@ -286,9 +289,9 @@ paths:
                 itineraryStatus:
                   type: string
                   enum:
-                    - PLANNING
-                    - IN_PROGRESS
-                    - COMPLETED
+                  - PLANNING
+                  - IN_PROGRESS
+                  - COMPLETED
                   example: PLANNING
                 foodBudget:
                   type: number
@@ -307,34 +310,34 @@ paths:
                   items:
                     type: integer
                   example:
-                    - 1
-                    - 2
+                  - 1
+                  - 2
                 transportIds:
                   type: array
                   items:
                     type: integer
                   example:
-                    - 1
+                  - 1
                 activityIds:
                   type: array
                   items:
                     type: integer
                   example:
-                    - 1
-                    - 2
+                  - 1
+                  - 2
                 destinationIds:
                   type: array
                   items:
                     type: integer
                   example:
-                    - 1
+                  - 1
                 requiredDocumentIds:
                   type: array
                   items:
                     type: integer
                   example:
-                    - 1
-                    - 2
+                  - 1
+                  - 2
       responses:
         '201':
           description: Itinerary created
@@ -367,6 +370,7 @@ paths:
                   $ref: '#/components/schemas/Itinerary'
         '500':
           description: Server error
+
   /users/{userId}/itineraries/{itineraryId}:
     put:
       summary: Update itinerary by ID
@@ -416,9 +420,9 @@ paths:
                   itineraryStatus:
                     type: string
                     enum:
-                      - PLANNING
-                      - IN_PROGRESS
-                      - COMPLETED
+                    - PLANNING
+                    - IN_PROGRESS
+                    - COMPLETED
                     example: PLANNING
                   foodBudget:
                     type: number
@@ -437,34 +441,34 @@ paths:
                     items:
                       type: integer
                     example:
-                      - 1
-                      - 2
+                    - 1
+                    - 2
                   transportIds:
                     type: array
                     items:
                       type: integer
                     example:
-                      - 1
+                    - 1
                   activityIds:
                     type: array
                     items:
                       type: integer
                     example:
-                      - 1
-                      - 2
+                    - 1
+                    - 2
                   destinationIds:
                     type: array
                     items:
                       type: integer
                     example:
-                      - 1
+                    - 1
                   requiredDocumentIds:
                     type: array
                     items:
                       type: integer
                     example:
-                      - 1
-                      - 2
+                    - 1
+                    - 2
         '400':
           description: Invalid input
         '404':
@@ -497,6 +501,7 @@ paths:
           description: Itinerary not found
         '500':
           description: Server error
+
   /users/{userId}/itineraries/{itineraryId}/activities:
     get:
       summary: Get all activities for an itinerary
@@ -558,6 +563,7 @@ paths:
           description: Invalid input
         '500':
           description: Server error
+
   /users/{userId}/itineraries/{itineraryId}/activities/{activityId}:
     put:
       summary: Update an activity
@@ -629,6 +635,7 @@ paths:
           description: Activity not found
         '500':
           description: Server error
+
   /travel-interests:
     get:
       summary: Get all travel interests
@@ -666,6 +673,7 @@ paths:
           description: Invalid input
         '500':
           description: Server error
+
   /travel-interests/{id}:
     get:
       summary: Get travel interest by ID
@@ -735,27 +743,40 @@ paths:
         '500':
           description: Server error
 
-  /transports:
+  /itineraries/{itineraryId}/transports:
     get:
       tags:
         - Transports
-      summary: Get all transports
-      operationId: getTransports
+      summary: Get all transports for a given itinerary
+      operationId: getTransportsByItinerary
+      parameters:
+        - name: itineraryId
+          in: path
+          required: true
+          description: ID of the itinerary to fetch transports for
+          schema:
+            type: integer
       responses:
         '200':
-          description: A list of transports
+          description: A list of transports for the itinerary
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Transport'
-
     post:
       tags:
         - Transports
-      summary: Create a new transport
+      summary: Create a new transport for an itinerary
       operationId: createTransport
+      parameters:
+        - name: itineraryId
+          in: path
+          required: true
+          description: ID of the itinerary to associate the transport with
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -770,7 +791,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Transport'
 
-  /transports/{id}:
+  /transport/{id}:
     get:
       tags:
         - Transports
@@ -780,6 +801,7 @@ paths:
         - name: id
           in: path
           required: true
+          description: ID of the transport
           schema:
             type: integer
       responses:
@@ -791,7 +813,6 @@ paths:
                 $ref: '#/components/schemas/Transport'
         '404':
           description: Transport not found
-
     put:
       tags:
         - Transports
@@ -801,6 +822,7 @@ paths:
         - name: id
           in: path
           required: true
+          description: ID of the transport to update
           schema:
             type: integer
       requestBody:
@@ -818,7 +840,6 @@ paths:
                 $ref: '#/components/schemas/Transport'
         '404':
           description: Transport not found
-
     delete:
       tags:
         - Transports
@@ -828,11 +849,12 @@ paths:
         - name: id
           in: path
           required: true
+          description: ID of the transport to delete
           schema:
             type: integer
       responses:
         '204':
-          description: Transport deleted
+          description: Transport deleted successfully
         '404':
           description: Transport not found
         '500':
@@ -841,7 +863,8 @@ paths:
   /auth/login:
     post:
       summary: Authenticate user
-      tags: [Login]
+      tags:
+        - Login
       requestBody:
         required: true
         content:
@@ -854,14 +877,14 @@ paths:
               properties:
                 email:
                   type: string
-                  example: "joao@email.com"
+                  example: joao@email.com
                 password:
                   description: password to login
                   type: string
-                  example: "S3NH@SEGURS"
+                  example: S3NH@SEGURS
       responses:
-        "200":
-          description: sucessfly loggged
+        '200':
+          description: Successfully logged
           content:
             application/json:
               schema:
@@ -869,7 +892,7 @@ paths:
                 properties:
                   token:
                     type: string
-                    example: "jxaslcbhdjhasijis"
+                    example: jxaslcbhdjhasijis
                   user:
                     type: object
                     properties:
@@ -878,7 +901,8 @@ paths:
                         example: 1
                       email:
                         type: string
-                        example: "joao@email.com"
+                        example: joao@email.com
+
 components:
   schemas:
     CreateUserInput:
@@ -903,6 +927,7 @@ components:
           nullable: true
           format: uri
           example: https://example.com/profile.jpg
+
     PlanoViagem:
       type: object
       properties:
@@ -923,6 +948,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
+
     UpdateUserInput:
       type: object
       properties:
@@ -941,6 +967,7 @@ components:
         profileImage:
           type: string
           format: uri
+
     User:
       type: object
       properties:
@@ -958,6 +985,7 @@ components:
         profileImage:
           type: string
           format: uri
+
     CreateTravelPreferenceInput:
       type: object
       required:
@@ -986,6 +1014,7 @@ components:
         endDate:
           type: string
           format: date-time
+
     UpdateTravelPreferenceInput:
       type: object
       properties:
@@ -1009,6 +1038,7 @@ components:
         endDate:
           type: string
           format: date-time
+
     TravelPreference:
       type: object
       properties:
@@ -1034,6 +1064,7 @@ components:
         endDate:
           type: string
           format: date-time
+
     CreateItineraryInput:
       type: object
       required:
@@ -1082,6 +1113,7 @@ components:
           type: array
           items:
             type: integer
+
     UpdateItineraryInput:
       type: object
       properties:
@@ -1125,6 +1157,7 @@ components:
           type: array
           items:
             type: integer
+
     Itinerary:
       type: object
       properties:
@@ -1166,6 +1199,7 @@ components:
           type: array
           items:
             type: integer
+
     CreateActivityInput:
       type: object
       required:
@@ -1194,6 +1228,7 @@ components:
           type: string
         itineraryId:
           type: integer
+
     UpdateActivityInput:
       type: object
       properties:
@@ -1213,6 +1248,7 @@ components:
           type: string
         description:
           type: string
+
     Activity:
       type: object
       properties:
@@ -1236,6 +1272,7 @@ components:
           type: string
         itineraryId:
           type: integer
+
     CreateTravelInterestInput:
       type: object
       required:
@@ -1243,11 +1280,13 @@ components:
       properties:
         label:
           type: string
+
     UpdateTravelInterestInput:
       type: object
       properties:
         label:
           type: string
+
     TravelInterest:
       type: object
       properties:
@@ -1255,103 +1294,105 @@ components:
           type: integer
         label:
           type: string
+
     CreateTransportInput:
       type: object
       required:
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
+        - type
+        - cost
         - itineraryId
       properties:
-        tipo:
+        type:
           type: string
-          example: Avião
-        valor:
+          example: Airplane
+        cost:
           type: number
           format: float
           example: 1234.56
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 4h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Voo direto para o destino
+          example: Direct flight to destination
+          nullable: true
         itineraryId:
           type: integer
-          example: 1
 
     UpdateTransportInput:
       type: object
       properties:
-        tipo:
+        type:
           type: string
-          example: Ônibus
-        valor:
+          example: Bus
+        cost:
           type: number
           format: float
           example: 250
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-03T07:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-03T13:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 6h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Viagem de ônibus com paradas
+          example: Bus trip with stops
+          nullable: true
         itineraryId:
           type: integer
-          example: 1
+          nullable: true
+
     Transport:
       type: object
-      required:
-        - idTransporte
-        - tipo
-        - valor
-        - dataCsaida
-        - dataChegada
-        - duracao
-        - itineraryId
       properties:
-        idTransporte:
+        id:
           type: integer
           example: 5
-        tipo:
+        type:
           type: string
-          example: Avião
-        valor:
+          example: Airplane
+        cost:
           type: number
           format: float
           example: 1234.56
-        dataCsaida:
+        departure:
           type: string
           format: date-time
           example: '2025-08-01T08:00:00Z'
-        dataChegada:
+          nullable: true
+        arrival:
           type: string
           format: date-time
           example: '2025-08-01T12:00:00Z'
-        duracao:
+          nullable: true
+        duration:
           type: string
           example: 4h
-        descricao:
+          nullable: true
+        description:
           type: string
-          example: Voo direto para o destino
+          example: Direct flight to destination
+          nullable: true
         itineraryId:
           type: integer
           example: 1

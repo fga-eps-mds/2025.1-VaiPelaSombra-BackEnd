@@ -36,8 +36,11 @@ export class TransportService {
     return prisma.transport.findUnique({ where: { id } });
   }
 
-  async getAllTransports(): Promise<Transport[]> {
-    return prisma.transport.findMany();
+  async getTransportsByItinerary(itineraryId: number): Promise<Transport[]> {
+    return prisma.transport.findMany({
+      where: { itineraryId },
+      orderBy: { departure: 'asc' },
+    });
   }
 
   async updateTransport(id: number, data: UpdateTransportDTO): Promise<Transport | null> {

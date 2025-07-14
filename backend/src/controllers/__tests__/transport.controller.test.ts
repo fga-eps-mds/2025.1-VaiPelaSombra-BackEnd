@@ -1,17 +1,9 @@
 import { TransportController } from '../transport.controller';
 import { Request, Response, NextFunction } from 'express';
-import { BadRequestError } from '../../errors/httpError';
+import { BadRequestError, NotFoundError } from '../../errors/httpError';
+import { TransportService } from '../../services/transport.service';
 
-// type TransportServiceMock = {
-//   createTransport: jest.Mock;
-//   getTransportById: jest.Mock;
-//   updateTransport: jest.Mock;
-//   deleteTransport: jest.Mock;
-//   normalizeDuration: jest.Mock;
-//   normalizeDate: jest.Mock;
-//   normalizeCost: jest.Mock;
-//   getAllTransports: jest.Mock;
-// };
+jest.mock('../../services/transport.service');
 
 const mockResponse = (): jest.Mocked<Response> => {
   const res = {} as jest.Mocked<Response>;
@@ -25,112 +17,90 @@ const mockNext: NextFunction = jest.fn();
 
 describe('TransportController', () => {
   let controller: TransportController;
-  // let service: TransportServiceMock;
+  let service: jest.Mocked<TransportService>;
   let req: Partial<Request>;
   let res: jest.Mocked<Response>;
 
   beforeEach(() => {
-    // service = {
-    //   createTransport: jest.fn(),
-    //   getTransportById: jest.fn(),
-    //   updateTransport: jest.fn(),
-    //   deleteTransport: jest.fn(),
-    //   normalizeDuration: jest.fn(),
-    //   normalizeDate: jest.fn(),
-    //   normalizeCost: jest.fn(),
-    //   getAllTransports: jest.fn(),
-    // };
-
+    service = new TransportService() as jest.Mocked<TransportService>;
     controller = new TransportController();
+    controller['service'] = service;
+
     req = {};
     res = mockResponse();
     jest.clearAllMocks();
   });
 
-  // it('deve criar um transporte com sucesso', async () => {
-  //   const body = {
-  //     type: 'Avião',
-  //     cost: 400,
-  //     departure: new Date().toISOString(),
-  //     arrival: new Date().toISOString(),
-  //     duration: '2h',
-  //     description: 'Voo para o Rio',
-  //     itineraryId: 1,
-  //   };
-  //   req.body = body;
+  it('deve criar um transporte com sucesso', async () => {
+    req.body = { type: 'teste', cost: 1, itineraryId: 1 };
+    service.createTransport.mockResolvedValue({} as any);
 
-  //   const created = { id: 1, ...body };
-  //   service.createTransport.mockResolvedValue(created);
+    await controller.createTransport(req as Request, res, mockNext);
 
-  //   await controller.createTransport(req as Request, res, mockNext);
+    expect(service.createTransport).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(201);
+    expect(res.json).toHaveBeenCalled();
+  });
 
-  //   expect(service.createTransport).toHaveBeenCalledWith(body);
-  //   expect(res.status).toHaveBeenCalledWith(201);
-  //   expect(res.json).toHaveBeenCalledWith(created);
-  // });
+  it('deve retornar um transporte por ID', async () => {
+    req.params = { id: '1' };
+    service.getTransportById.mockResolvedValue({} as any);
 
-  // it('deve retornar um transporte por ID', async () => {
-  //   req.params = { id: '1' };
+    await controller.getTransportById(req as Request, res, mockNext);
 
-  //   const found = {
-  //     id: 1,
-  //     type: 'Ônibus',
-  //     cost: 120,
-  //     departure: new Date().toISOString(),
-  //     arrival: new Date().toISOString(),
-  //     duration: '6h',
-  //     description: 'Viagem longa',
-  //     itineraryId: 2,
-  //   };
-  //   service.getTransportById.mockResolvedValue(found);
+    expect(service.getTransportById).toHaveBeenCalledWith(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalled();
+  });
 
-  //   await controller.getTransportById(req as Request, res, mockNext);
+  it('deve atualizar um transporte existente', async () => {
+    req.params = { id: '1' };
+    req.body = { type: 'teste' };
+    service.updateTransport.mockResolvedValue({} as any);
 
-  //   expect(service.getTransportById).toHaveBeenCalledWith(1);
-  //   expect(res.status).toHaveBeenCalledWith(200);
-  //   expect(res.json).toHaveBeenCalledWith(found);
-  // });
+    await controller.updateTransport(req as Request, res, mockNext);
 
-  // it('deve atualizar um transporte existente', async () => {
-  //   req.params = { id: '1' };
-  //   req.body = { type: 'Trem', cost: 250, description: 'Atualizado' };
+    expect(service.updateTransport).toHaveBeenCalledWith(1, req.body);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalled();
+  });
 
-  //   const updated = { id: 1, ...req.body };
-  //   service.updateTransport.mockResolvedValue(updated);
+  it('deve deletar um transporte', async () => {
+    req.params = { id: '1' };
+    service.deleteTransport.mockResolvedValue(true);
 
-  //   await controller.updateTransport(req as Request, res, mockNext);
+    await controller.deleteTransport(req as Request, res, mockNext);
 
-  //   expect(service.updateTransport).toHaveBeenCalledWith(1, req.body);
-  //   expect(res.status).toHaveBeenCalledWith(200);
-  //   expect(res.json).toHaveBeenCalledWith(updated);
-  // });
+    expect(service.deleteTransport).toHaveBeenCalledWith(1);
+    expect(res.status).toHaveBeenCalledWith(204);
+    expect(res.end).toHaveBeenCalled();
+  });
 
-  // it('deve deletar um transporte', async () => {
-  //   req.params = { id: '1' };
-  //   service.deleteTransport.mockResolvedValue(true);
+  it('deve retornar NotFoundError se transporte não existir', async () => {
+    req.params = { id: '999' };
+    service.getTransportById.mockResolvedValue(null);
 
-  //   await controller.deleteTransport(req as Request, res, mockNext);
+    await controller.getTransportById(req as Request, res, mockNext);
 
-  //   expect(service.deleteTransport).toHaveBeenCalledWith(1);
-  //   expect(res.status).toHaveBeenCalledWith(204);
-  //   expect(res.end).toHaveBeenCalled();
-  // });
+    expect(mockNext).toHaveBeenCalledWith(expect.any(NotFoundError));
+  });
 
-  // it('deve acionar NotFoundError para transporte inexistente', async () => {
-  //   req.params = { id: '999' };
-  //   service.getTransportById.mockResolvedValue(null);
-
-  //   await controller.getTransportById(req as Request, res, mockNext);
-
-  //   expect(mockNext).toHaveBeenCalledWith(expect.any(NotFoundError));
-  //   expect((mockNext as jest.Mock).mock.calls[0][0]).toBeInstanceOf(NotFoundError);
-  // });
-
-  it('deve acionar BadRequestError para ID inválido', async () => {
+  it('deve retornar BadRequestError para ID inválido', async () => {
     req.params = { id: 'abc' };
 
     await controller.getTransportById(req as Request, res, mockNext);
 
     expect(mockNext).toHaveBeenCalledWith(expect.any(BadRequestError));
+  });
+
+  it('deve listar transportes de um itinerário', async () => {
+    req.params = { itineraryId: '1' };
+    service.getTransportsByItinerary.mockResolvedValue([] as any);
+
+    await controller.getTransportsByItinerary(req as Request, res, mockNext);
+
+    expect(service.getTransportsByItinerary).toHaveBeenCalledWith(1);
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalled();
   });
 });
