@@ -95,12 +95,13 @@ model Transport {
   duration    String?   @db.VarChar(20)
   description String?   @db.VarChar(500)
   itineraryId Int
-  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade) 
+  itinerary   Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
 }
 
 model Destination {
   id                    Int                @id @default(autoincrement())
   title                 String             @db.VarChar(100)
+  locationName          String             @db.VarChar(100)
   description           String             @db.VarChar(500)
   latitude              Decimal            @db.Decimal(9, 6)
   longitude             Decimal            @db.Decimal(9, 6)
