@@ -48,4 +48,9 @@ app.use('/itineraries', intineraryRouter);
 app.use('/email', emailRouter);
 app.use(errorHandler);
 
+app.get('/test', (req, res) => {
+    console.log("Rota /test acessada!");
+    res.status(200).send("Servidor está funcionando!");
+});
+
 export default app;

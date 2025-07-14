@@ -12,6 +12,7 @@ router.get('/', destinationController.getAllDestinations);
 router.get('/:destinationId', destinationController.getDestinationById);
 router.put('/:destinationId', destinationController.updateDestination);
 router.delete('/:destinationId', destinationController.deleteDestination);
+router.post('/:destinationId/favorite', destinationController.toggleDestinationFavorite); 
 
 router.post(
   '/:destinationId/images',

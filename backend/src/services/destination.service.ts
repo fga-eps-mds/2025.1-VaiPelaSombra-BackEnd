@@ -85,4 +85,12 @@ export class DestinationService {
       orderBy: { id: 'asc' },
     });
   }
+
+    async toggleFavoriteStatus(destinationId: number, isFavorited: boolean /*, userId?: string */): Promise<boolean> {
+        
+
+        console.log(`[Service] Ação de favorito para Destino ID: ${destinationId}, Novo estado: ${isFavorited}`);
+
+        return isFavorited;
+    }
 }

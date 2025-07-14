@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response,NextFunction } from 'express';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../dtos/destination.dto';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
 import { DestinationImageDTO, destinationImageSchema } from '../dtos/destinationImage.dto';
@@ -82,4 +82,52 @@ export class DestinationController {
     const images = await this.destinationService.getDestinationImages(destinationId);
     res.status(200).json(images);
   };
+   async toggleDestinationFavorite(req: Request, res: Response, next: NextFunction) {
+        const { destinationId } = req.params;
+        const { isFavorited } = req.body; // Supondo que o frontend envia { isFavorited: true/false }
+
+        // Validação do ID do destino
+        if (isNaN(Number(destinationId))) {
+            // Use o seu sistema de erros ou retorne um erro Bad Request
+            // return next(new BadRequestError('ID do destino inválido.'));
+            return next(new Error('ID do destino inválido.'));
+        }
+
+        // Validação do payload (se isFavorited é um booleano)
+        if (typeof isFavorited !== 'boolean') {
+            // return next(new BadRequestError('O campo isFavorited é obrigatório e deve ser um booleano.'));
+            return next(new Error('O campo isFavorited é obrigatório e deve ser um booleano.'));
+        }
+
+        try {
+            // Aqui você chamaria um método no seu DestinationService
+            // que lida com a lógica de marcar/desmarcar como favorito.
+            // Este método no service precisaria de:
+            // 1. O destinationId
+            // 2. O estado `isFavorited` (true para favoritar, false para desfavoritar)
+            // 3. O ID do usuário (se a funcionalidade de favorito for por usuário)
+
+            // Exemplo (você precisará implementar 'toggleFavoriteStatus' no seu service):
+            // Assumindo que você tem acesso ao usuário autenticado via req.user (se usar autenticação)
+            // const userId = (req as any).user?.id; // Ajuste conforme sua implementação de autenticação
+            // if (!userId) {
+            //     return next(new Error('Usuário não autenticado.'));
+            // }
+
+            const updatedFavoriteStatus = await this.destinationService.toggleFavoriteStatus(
+                Number(destinationId),
+                isFavorited
+                // userId // Passe o userId se necessário
+            );
+
+            res.status(200).json({ 
+                message: isFavorited ? 'Destino adicionado aos favoritos.' : 'Destino removido dos favoritos.',
+                isFavorited: updatedFavoriteStatus // Opcional: retornar o status atualizado
+            });
+
+        } catch (error) {
+            console.error("Erro ao favoritar/desfavoritar destino:", error); // Log para depuração
+            next(error); // Encaminha o erro para o middleware de tratamento de erros
+        }
+    }
 }
