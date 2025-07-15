@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import request from 'supertest';
-import app from '../app';
-import { HomeService } from '../services/home.service';
+import app from '../../app';
+import { HomeService } from '../../services/home.service';
 
 describe('Testes de integração para HomeController', () => {
   afterEach(() => {
