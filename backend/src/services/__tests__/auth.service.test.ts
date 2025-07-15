@@ -45,14 +45,18 @@ describe('AuthService', () => {
     it('should throw BadRequestError if user not found', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(authService.login('invalid@example.com', '123')).rejects.toThrow(BadRequestError);
+      await expect(authService.login('invalid@example.com', '123')).rejects.toThrow(
+        BadRequestError
+      );
     });
 
     it('should throw BadRequestError if password is invalid', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
-      await expect(authService.login(mockUser.email, 'wrong-password')).rejects.toThrow(BadRequestError);
+      await expect(authService.login(mockUser.email, 'wrong-password')).rejects.toThrow(
+        BadRequestError
+      );
     });
 
     it('should return tokens and user info on valid login', async () => {

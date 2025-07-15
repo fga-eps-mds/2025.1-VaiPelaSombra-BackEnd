@@ -82,14 +82,14 @@ describe('AuthController', () => {
 
     it('should refresh the access token if refresh token is present', async () => {
       req.cookies = { refreshToken: 'valid-refresh-token' };
-     const mockAccessToken = {
+      const mockAccessToken = {
         accessToken: 'new-access-token',
         user: {
-            id: 1,
-            name: 'Pablo',
-            email: 'pablo@example.com',
+          id: 1,
+          name: 'Pablo',
+          email: 'pablo@example.com',
         },
-    };
+      };
 
       mockAuthService.refreshToken.mockResolvedValue(mockAccessToken);
 

@@ -51,7 +51,9 @@ describe('ActivityController', () => {
         itineraryId: 1,
       };
 
-      const createSpy = jest.spyOn(ActivityService.prototype, 'create').mockResolvedValue(createdActivity);
+      const createSpy = jest
+        .spyOn(ActivityService.prototype, 'create')
+        .mockResolvedValue(createdActivity);
 
       await ActivityController.createActivity(req as Request, res as Response, next);
 

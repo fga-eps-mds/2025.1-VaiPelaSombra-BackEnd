@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { TransportController } from '../../controllers/transport.controller';
 import { TransportService } from '../../services/transport.service';
 import { BadRequestError, NotFoundError } from '../../errors/httpError';
-import { Decimal } from 'decimal.js'; 
+import { Decimal } from 'decimal.js';
 
 jest.mock('../../dtos/transport.dto', () => ({
   CreateTransportSchema: {

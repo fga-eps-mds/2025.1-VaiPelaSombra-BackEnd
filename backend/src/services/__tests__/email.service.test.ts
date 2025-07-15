@@ -1,4 +1,3 @@
-import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt';
 import { UserService } from '../user.service';
 import { EmailService } from '../email.service';
