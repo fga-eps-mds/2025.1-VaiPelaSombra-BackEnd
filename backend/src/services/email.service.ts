@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 const userService = new UserService();
 
-class EmailService {
+export class EmailService {
   public async sendRecoveryEmail(userEmail: string): Promise<void> {
     const transporter = nodemailer.createTransport({
       service: 'gmail',

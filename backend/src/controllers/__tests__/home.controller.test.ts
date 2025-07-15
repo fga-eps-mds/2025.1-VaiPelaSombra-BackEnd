@@ -1,7 +1,7 @@
 import { Prisma } from '@prisma/client';
 import request from 'supertest';
-import app from '../app';
-import { HomeService } from '../services/home.service';
+import app from '../../app';
+import { HomeService } from '../../services/home.service';
 
 describe('Testes de integração para HomeController', () => {
   afterEach(() => {
@@ -43,6 +43,7 @@ describe('Testes de integração para HomeController', () => {
       const mockServiceResponse = {
         id: 4,
         title: 'Brasilia',
+        locationName: 'Brasil',
         description: 'A capital do Brasil',
         latitude: new Prisma.Decimal(51.503),
         longitude: new Prisma.Decimal(17.122),
@@ -64,6 +65,7 @@ describe('Testes de integração para HomeController', () => {
       const mockApiResponse = {
         id: 4,
         title: 'Brasilia',
+        locationName: 'Brasil',
         description: 'A capital do Brasil',
         latitude: '51.503',
         longitude: '17.122',
