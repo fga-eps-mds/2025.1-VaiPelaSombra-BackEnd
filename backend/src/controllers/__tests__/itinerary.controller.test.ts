@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ItineraryController } from '../../controllers/itinerary.controller';
+import { ItineraryController } from '../itinerary.controller';
 import { ItineraryService } from '../../services/itinerary.service';
 import { BadRequestError } from '../../errors/httpError';
 import { AuthRequest } from '../../middlewares/auth.middleware';

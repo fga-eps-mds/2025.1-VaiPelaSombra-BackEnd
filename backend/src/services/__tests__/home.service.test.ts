@@ -11,6 +11,7 @@ describe('Testes para HomeService', () => {
         {
           id: 1,
           title: 'Paris',
+          locationName: 'France',
           description: 'City of Light',
           latitude: new Prisma.Decimal(48.8566),
           longitude: new Prisma.Decimal(2.3522),
@@ -21,6 +22,7 @@ describe('Testes para HomeService', () => {
         {
           id: 2,
           title: 'Rio de Janeiro',
+          locationName: 'Brasil',
           description: 'Marvelous City',
           latitude: new Prisma.Decimal(-22.9068),
           longitude: new Prisma.Decimal(-43.1729),
@@ -62,6 +64,7 @@ describe('Testes para HomeService', () => {
         {
           id: 1,
           title: 'Paris',
+          locationName: 'França',
           description: 'City of Light',
           latitude: new Prisma.Decimal(48.8566),
           longitude: new Prisma.Decimal(2.3522),
@@ -72,6 +75,7 @@ describe('Testes para HomeService', () => {
         {
           id: 3,
           title: 'Porto',
+          locationName: 'Portugal',
           description: 'Beautiful Portuguese city',
           latitude: new Prisma.Decimal(41.1579),
           longitude: new Prisma.Decimal(-8.6291),
@@ -123,6 +127,7 @@ describe('Testes para HomeService', () => {
         {
           id: 1,
           title: 'Paris',
+          locationName: 'France',
           description: 'City of Light',
           latitude: new Prisma.Decimal(48.8566),
           longitude: new Prisma.Decimal(2.3522),
@@ -156,6 +161,7 @@ describe('Testes para HomeService', () => {
         {
           id: 1,
           title: 'Paris',
+          locationName: 'France',
           description: 'City of Light',
           latitude: new Prisma.Decimal(48.8566),
           longitude: new Prisma.Decimal(2.3522),
@@ -166,6 +172,7 @@ describe('Testes para HomeService', () => {
         {
           id: 2,
           title: 'Rio de Janeiro',
+          locationName: 'Brasil',
           description: 'Marvelous City',
           latitude: new Prisma.Decimal(-22.9068),
           longitude: new Prisma.Decimal(-43.1729),
@@ -190,6 +197,7 @@ describe('Testes para HomeService', () => {
       const mockDestination = {
         id: 4,
         title: 'Brasilia',
+        locationName: 'Brasil',
         description: 'A capital do Brasil.',
         latitude: new Prisma.Decimal(51.503),
         longitude: new Prisma.Decimal(17.122),

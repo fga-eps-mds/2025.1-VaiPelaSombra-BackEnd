@@ -6,7 +6,7 @@ import { destinationImageSchema } from '../../dtos/destinationImage.dto';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../../dtos/destination.dto';
 import { validateMIMEType } from 'validate-image-type';
 import { ZodError } from 'zod';
-import { DestinationController } from '../../controllers/destination.controller';
+import { DestinationController } from '../destination.controller';
 
 jest.mock('../../dtos/destination.dto', () => ({
   CreateDestinationSchema: { parse: jest.fn() },
@@ -53,6 +53,7 @@ describe('Destination Controller', () => {
         {
           id: 1,
           title: 'Test Destination',
+          locationName: 'A test location',
           description: 'A test destination',
           longitude: new Decimal(0),
           latitude: new Decimal(0),
@@ -86,6 +87,7 @@ describe('Destination Controller', () => {
       const mockDestination = {
         id: 1,
         title: 'Test Destination',
+        locationName: 'A test location',
         description: 'A test destination',
         longitude: new Decimal(0),
         latitude: new Decimal(0),
@@ -149,6 +151,7 @@ describe('Destination Controller', () => {
       const mockDestination = {
         id: 1,
         title: 'New Destination',
+        locationName: 'A new location',
         description: 'A new destination',
         longitude: new Decimal(0),
         latitude: new Decimal(0),
@@ -157,6 +160,7 @@ describe('Destination Controller', () => {
       };
       req.body = {
         title: 'New Destination',
+        locationName: 'A new location',
         description: 'A new destination',
         longitude: 0,
         latitude: 0,
@@ -191,6 +195,7 @@ describe('Destination Controller', () => {
       const mockDestination = {
         id: 1,
         title: 'Updated Destination',
+        locationName: 'Updated location',
         description: 'Updated description',
         longitude: new Decimal(1),
         latitude: new Decimal(1),
@@ -200,6 +205,7 @@ describe('Destination Controller', () => {
       req.params = { destinationId: '1' };
       req.body = {
         title: 'Updated Destination',
+        locationName: 'Updated location',
         description: 'Updated description',
         longitude: 1,
         latitude: 1,
@@ -259,6 +265,7 @@ describe('Destination Controller', () => {
       const mockDeletedDestination = {
         id: 1,
         title: 'Deleted Destination',
+        locationName: 'A deleted location',
         description: 'A deleted destination',
         longitude: new Decimal(0),
         latitude: new Decimal(0),

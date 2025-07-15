@@ -18,6 +18,7 @@ describe('DestinationService', () => {
       const createDestinationData: CreateDestinationDTO = {
         title: 'Test Destination',
         description: 'A beautiful test destination',
+        locationName: 'Test Location',
         longitude: -122.4194,
         latitude: 37.7749,
         localClimate: 'Mediterranean',
@@ -28,6 +29,7 @@ describe('DestinationService', () => {
         id: 1,
         title: createDestinationData.title,
         description: createDestinationData.description,
+        locationName: createDestinationData.locationName,
         longitude: new Decimal(createDestinationData.longitude),
         latitude: new Decimal(createDestinationData.latitude),
         localClimate: createDestinationData.localClimate || null,
@@ -43,6 +45,7 @@ describe('DestinationService', () => {
         data: {
           title: createDestinationData.title,
           description: createDestinationData.description,
+          locationName: createDestinationData.locationName,
           longitude: createDestinationData.longitude,
           latitude: createDestinationData.latitude,
           localClimate: createDestinationData.localClimate,
@@ -64,6 +67,7 @@ describe('DestinationService', () => {
         id: destinationId,
         title: 'Test Destination',
         description: 'A beautiful test destination',
+        locationName: 'Test Location',
         longitude: new Decimal(-122.4194),
         latitude: new Decimal(37.7749),
         localClimate: 'Mediterranean',
@@ -80,6 +84,7 @@ describe('DestinationService', () => {
       });
     });
   });
+
   describe('getDestinationById', () => {
     it('should retrieve a destination by ID successfully', async () => {
       const destinationId = 1;
@@ -87,6 +92,7 @@ describe('DestinationService', () => {
         id: destinationId,
         title: 'Test Destination',
         description: 'A beautiful test destination',
+        locationName: 'Test Location',
         longitude: new Decimal(-122.4194),
         latitude: new Decimal(37.7749),
         localClimate: 'Mediterranean',
@@ -103,6 +109,7 @@ describe('DestinationService', () => {
       });
     });
   });
+
   describe('getAllDestinations', () => {
     it('should retrieve all destinations successfully', async () => {
       const mockDestinations: Destination[] = [
@@ -110,6 +117,7 @@ describe('DestinationService', () => {
           id: 1,
           title: 'Test Destination 1',
           description: 'A beautiful test destination 1',
+          locationName: 'Location 1',
           longitude: new Decimal(-122.4194),
           latitude: new Decimal(37.7749),
           localClimate: 'Mediterranean',
@@ -119,6 +127,7 @@ describe('DestinationService', () => {
           id: 2,
           title: 'Test Destination 2',
           description: 'A beautiful test destination 2',
+          locationName: 'Location 2',
           longitude: new Decimal(-73.935242),
           latitude: new Decimal(40.73061),
           localClimate: 'Continental',
@@ -134,12 +143,14 @@ describe('DestinationService', () => {
       expect(prismaMock.destination.findMany).toHaveBeenCalled();
     });
   });
+
   describe('updateDestination', () => {
     it('should update a destination successfully', async () => {
       const destinationId = 1;
       const updateData: UpdateDestinationDTO = {
         title: 'Updated Destination',
         description: 'An updated beautiful destination',
+        locationName: 'Updated Location',
         longitude: -122.4194,
         latitude: 37.7749,
         localClimate: 'Mediterranean',
@@ -150,6 +161,7 @@ describe('DestinationService', () => {
         id: destinationId,
         title: updateData.title!,
         description: updateData.description!,
+        locationName: updateData.locationName!,
         longitude: new Decimal(updateData.longitude!),
         latitude: new Decimal(updateData.latitude!),
         localClimate: updateData.localClimate || null,
@@ -166,6 +178,7 @@ describe('DestinationService', () => {
         data: {
           title: updateData.title,
           description: updateData.description,
+          locationName: updateData.locationName,
           longitude: updateData.longitude,
           latitude: updateData.latitude,
           localClimate: updateData.localClimate,
