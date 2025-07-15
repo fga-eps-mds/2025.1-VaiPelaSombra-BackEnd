@@ -1,5 +1,7 @@
 import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
 import { Itinerary } from '@prisma/client';
+// OU se não funcionar:
+// type Itinerary = Awaited<ReturnType<typeof prisma.itinerary.findFirst>>;
 import { prisma } from '../data/prismaClient';
 import { BadRequestError, NotFoundError } from '../errors/httpError';
 import { Decimal } from '@prisma/client/runtime/library';
@@ -16,9 +18,7 @@ export class ItineraryService {
       foodBudget: data.foodBudget ? new Decimal(data.foodBudget) : undefined,
       lodgingBudget: data.lodgingBudget ? new Decimal(data.lodgingBudget) : undefined,
       totalBudget: data.totalBudget ? new Decimal(data.totalBudget) : undefined,
-      createdBy: {
-        connect: { id: userId },
-      },
+      ownerId: userId,
       users: {
         connect: usersIds.map((id) => ({ id })),
       },
@@ -56,9 +56,6 @@ export class ItineraryService {
       foodBudget: data.foodBudget ? new Decimal(data.foodBudget) : undefined,
       lodgingBudget: data.lodgingBudget ? new Decimal(data.lodgingBudget) : undefined,
       totalBudget: data.totalBudget ? new Decimal(data.totalBudget) : undefined,
-      createdBy: {
-        connect: { id: userId },
-      },
       users: {
         connect: usersIds.map((id) => ({ id })),
       },

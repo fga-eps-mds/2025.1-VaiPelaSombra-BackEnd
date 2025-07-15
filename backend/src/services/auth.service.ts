@@ -43,7 +43,7 @@ export class AuthService {
     const accessToken = generateAccessToken({
       id: decoded.id,
       name: user.name,
-      email: decoded.email,
+      email: user.email, // ✅ Corrigido: usar user.email
     });
     return {
       accessToken,
