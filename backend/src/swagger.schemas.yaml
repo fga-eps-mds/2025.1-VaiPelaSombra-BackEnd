@@ -408,6 +408,9 @@ components:
         title:
           type: string
           example: Brasília
+        locationName:
+          type: string
+          example: Brasil
         description:
           type: string
           example: A capital do Brasil

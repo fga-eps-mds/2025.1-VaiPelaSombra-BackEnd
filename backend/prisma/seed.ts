@@ -1,4 +1,4 @@
-import { PrismaClient, ItineraryStatus } from '../src/generated/prisma';
+import { PrismaClient, ItineraryStatus } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();

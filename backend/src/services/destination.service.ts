@@ -6,6 +6,7 @@ export class DestinationService {
   async create(data: CreateDestinationDTO): Promise<Destination> {
     const prismaData: Prisma.DestinationCreateInput = {
       title: data.title,
+      locationName: data.locationName,
       description: data.description,
       longitude: data.longitude,
       latitude: data.latitude,
@@ -36,6 +37,7 @@ export class DestinationService {
   async update(destinationId: number, data: UpdateDestinationDTO): Promise<Destination> {
     const prismaData: Prisma.DestinationUpdateInput = {
       title: data.title,
+      locationName: data.locationName,
       description: data.description,
       longitude: data.longitude,
       latitude: data.latitude,
