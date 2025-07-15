@@ -1,5 +1,5 @@
 import { CreateItineraryDTO, UpdateItineraryDTO } from '../dtos/itinerary.dto';
-import { Itinerary } from '../generated/prisma'; // ✅ Usar o mesmo caminho do seed
+import { Itinerary } from '@prisma/client';
 // OU se não funcionar:
 // type Itinerary = Awaited<ReturnType<typeof prisma.itinerary.findFirst>>;
 import { prisma } from '../data/prismaClient';
