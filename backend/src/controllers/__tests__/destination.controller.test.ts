@@ -6,7 +6,7 @@ import { destinationImageSchema } from '../../dtos/destinationImage.dto';
 import { CreateDestinationSchema, UpdateDestinationSchema } from '../../dtos/destination.dto';
 import { validateMIMEType } from 'validate-image-type';
 import { ZodError } from 'zod';
-import { DestinationController } from '../destination.controller';
+import { DestinationController } from '../../controllers/destination.controller';
 
 jest.mock('../../dtos/destination.dto', () => ({
   CreateDestinationSchema: { parse: jest.fn() },

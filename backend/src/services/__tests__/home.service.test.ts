@@ -1,5 +1,5 @@
-import { prismaMock } from '../data/prismaMock';
-import { HomeService } from '../services/home.service';
+import { prismaMock } from '../../data/prismaMock';
+import { HomeService } from '../home.service';
 import { Prisma } from '@prisma/client';
 
 const homeService = new HomeService();
